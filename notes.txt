@@ -1,0 +1,1 @@
+To allow logins via Gmail, allow "less secure apps" under "Connected apps & sites" on myaccount.google.com.
