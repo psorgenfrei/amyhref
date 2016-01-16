@@ -39,5 +39,5 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'mysql2'
-gem 'fetcher'
-gem 'lockfile'
+gem 'mailman'
+gem 'mailman-rails'
