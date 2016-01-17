@@ -35,5 +35,5 @@ bower.json
 # Ignore pow environment settings
 .powenv
 
-# Ignore MailMan config
-config/initializers/mailman.rb
+# Ignore Mail config
+config/initializers/mail.rb

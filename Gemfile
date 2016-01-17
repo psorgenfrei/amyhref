@@ -38,6 +38,6 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'mail'
 gem 'mysql2'
-gem 'mailman'
-gem 'mailman-rails'
+gem 'redirect_follower'
