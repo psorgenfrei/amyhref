@@ -41,3 +41,5 @@ gem 'spring',        group: :development
 gem 'mail'
 gem 'mysql2', '~> 0.3.18' # Rails 4 fix
 gem 'redirect_follower'
+gem 'classifier'
+gem 'madeleine'
