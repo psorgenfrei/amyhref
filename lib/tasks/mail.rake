@@ -17,20 +17,25 @@ namespace :mail do
       sender = email.from.first rescue next
       newsletter = Newsletter.find_or_create_by(:email => sender)
 
-      all_urls = []
       body = email.body.decoded.encode('UTF-8') rescue email.body.decoded
+
+      all_urls = []
       urls = URI.extract(body, ['http', 'https'])
+
       urls.each do |url|
-        href = Href.create(:url => url, :newsletter => newsletter).follow_simple_redirects rescue next 
-        m.system.train_bad(href.url)
-        all_urls << href.url
+        href = Href.new(:url => RedirectFollower(url), :newsletter => newsletter) rescue next 
+
+        if href.valid?
+          href.save
+          m.system.train_bad(href.url)
+          all_urls << href.url
+        end
       end
       puts all_urls.inspect
       puts "---"
 
-      if index >= 9
+      if index >= 10
         m.take_snapshot
-        exit(0)
       end
     end
   end

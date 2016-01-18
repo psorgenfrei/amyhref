@@ -1,6 +1,6 @@
 class Href < ActiveRecord::Base
   validates_presence_of :url
-  validates_uniqueness_of :url
+  validates_uniqueness_of :url, :scope => :newsletter
 
   belongs_to :newsletter
 
@@ -16,8 +16,8 @@ class Href < ActiveRecord::Base
     self.url = RedirectFollower(self.url)
   end
 
-  def self.follow_simple_redirects(url)
-    RedirectFollower(url)
+  def follow_simple_redirects
+    RedirectFollower(self.url)
   end
 
   def self.follow_complex_redirects(url)
