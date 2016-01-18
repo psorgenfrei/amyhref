@@ -1,16 +1,17 @@
 h1 Amy Href // Hrefs
 
-table border='1' width='80%'
+table border='1'
   tr
-    td Url
-    td Classification
     td colspan='2' Actions
+    td Classification
+    td Url
+
   - @hrefs.each do |href|
     tr
-      td= link_to href.url, href.url
-      td= @m.system.classify(href.url)
       td= link_to 'train good', '/admin/hrefs/' + href.id.to_s + '/train_good', :method => :post
       td= link_to 'train bad', '/admin/hrefs/' + href.id.to_s + '/train_bad', :method => :post
+      td= @m.system.classify(href.url)
+      td= link_to href.url, href.url
 
 p= "#{@hrefs.count} hrefs"
 p= will_paginate @hrefs
