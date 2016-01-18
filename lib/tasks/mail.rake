@@ -16,9 +16,23 @@ namespace :mail do
       newsletter = Newsletter.find_or_create_by(:email => sender)
 
       all_urls = []
-      body = email.body.decoded.force_encoding('utf-8').encode('UTF-8') rescue email.body.decoded.force_encoding('utf-8')
+      #body = email.body.decoded.force_encoding('utf-8').encode('UTF-8') rescue email.body.decoded.force_encoding('utf-8')
+      body = begin
+        email.parts[1].body.decoded
+      rescue
+        puts "oi"
+        puts email.parts.first.content_transfer_encoding.to_s
+        puts email.body.decoded
+        puts 'aaa'
+        puts email.body.unpack("M*")
+        puts "bbb"
+        puts email.body.decoded.force_encoding("ISO-8859-1").encode("UTF-8")
+        puts "ccc"
+        puts Mail::Encodings.unquote_and_convert_to( email.body, 'utf-8' )
+      end
 
       doc = Nokogiri::HTML(body)
+      doc.encoding = 'utf-8'
       links = doc.css('a')
       urls = links.map {|link| link.attribute('href').to_s}.uniq.sort.delete_if {|href| href.empty?}
       #urls = URI.extract(body, ['http', 'https'])
