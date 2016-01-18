@@ -20,15 +20,16 @@ namespace :mail do
       body = begin
         email.parts[1].body.decoded
       rescue
-        puts "oi"
-        puts email.parts.first.content_transfer_encoding.to_s
-        puts email.body.decoded
-        puts 'aaa'
-        puts email.body.unpack("M*")
-        puts "bbb"
-        puts email.body.decoded.force_encoding("ISO-8859-1").encode("UTF-8")
-        puts "ccc"
-        puts Mail::Encodings.unquote_and_convert_to( email.body, 'utf-8' )
+        #puts "oi"
+        #puts email.parts.first.content_transfer_encoding.to_s
+        #puts email.body.decoded
+        #puts 'aaa'
+        #puts email.body.decoded.unpack("M*")
+        #puts "bbb"
+        #puts email.body.decoded.force_encoding("ISO-8859-1").encode("UTF-8")
+        #puts "ccc"
+        #puts Mail::Encodings.unquote_and_convert_to( email.body.decoded, 'utf-8' )
+        Mail::Encodings.unquote_and_convert_to( email.body.decoded, 'utf-8' )
       end
 
       doc = Nokogiri::HTML(body)
