@@ -14,19 +14,25 @@
 ActiveRecord::Schema.define(version: 20160118115227) do
 
   create_table "hrefs", force: true do |t|
-    t.text    "url"
-    t.string  "domain"
-    t.integer "newsletter_id"
+    t.text     "url"
+    t.string   "domain"
+    t.integer  "newsletter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
+  add_index "hrefs", ["created_at"], name: "index_hrefs_on_created_at", using: :btree
   add_index "hrefs", ["domain"], name: "index_hrefs_on_domain", using: :btree
   add_index "hrefs", ["newsletter_id"], name: "index_hrefs_on_newsletter_id", using: :btree
 
   create_table "newsletters", force: true do |t|
-    t.string "title"
-    t.string "email"
+    t.string   "title"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
+  add_index "newsletters", ["created_at"], name: "index_newsletters_on_created_at", using: :btree
   add_index "newsletters", ["email"], name: "index_newsletters_on_email", using: :btree
 
 end

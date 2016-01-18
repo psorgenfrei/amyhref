@@ -43,3 +43,5 @@ gem 'mysql2', '~> 0.3.18' # Rails 4 fix
 gem 'redirect_follower'
 gem 'classifier'
 gem 'madeleine'
+gem 'will_paginate'
+gem 'slim-rails'

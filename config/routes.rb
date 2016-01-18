@@ -53,4 +53,11 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  #
+  namespace :admin do
+    resources :hrefs do
+      post 'train_good', :as => :train_good_path
+      post 'train_bad', :as => :train_bad_path
+    end
+  end
 end

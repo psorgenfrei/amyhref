@@ -3,8 +3,10 @@ class CreateNewsletters < ActiveRecord::Migration
     create_table :newsletters do |t|
       t.string :title
       t.string :email
+      t.timestamps
     end
 
-    add_index :newsletters, :emai]
+    add_index :newsletters, :email
+    add_index :newsletters, :created_at
   end
 end

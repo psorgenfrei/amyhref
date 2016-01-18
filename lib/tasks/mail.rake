@@ -6,6 +6,10 @@ namespace :mail do
     emails = Mail.all
     puts emails.length
 
+    m = SnapshotMadeleine.new('bayes_data') {
+      Classifier::Bayes.new 'good', 'bad'
+    }
+
     emails.each_with_index do |email, index|
       puts email.subject.inspect
       puts email.from.inspect
@@ -17,12 +21,17 @@ namespace :mail do
       body = email.body.decoded.encode('UTF-8') rescue email.body.decoded
       urls = URI.extract(body, ['http', 'https'])
       urls.each do |url|
-        all_urls << Href.create(:url => url, :newsletter => newsletter).follow_simple_redirects rescue next 
+        href = Href.create(:url => url, :newsletter => newsletter).follow_simple_redirects rescue next 
+        m.system.train_bad(href.url)
+        all_urls << href.url
       end
       puts all_urls.inspect
       puts "---"
 
-      exit(0) #if index >= 9
+      if index >= 9
+        m.take_snapshot
+        exit(0)
+      end
     end
   end
 end
