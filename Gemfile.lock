@@ -52,7 +52,7 @@ GEM
     mime-types (2.99)
     minitest (5.8.3)
     multi_json (1.11.2)
-    mysql2 (0.4.2)
+    mysql2 (0.3.20)
     rack (1.5.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -114,7 +114,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mail
-  mysql2
+  mysql2 (~> 0.3.18)
   rails (= 4.1.8)
   redirect_follower
   sass-rails (~> 4.0.3)

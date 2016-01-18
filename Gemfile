@@ -39,5 +39,5 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'mail'
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18' # Rails 4 fix
 gem 'redirect_follower'

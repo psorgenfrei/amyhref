@@ -6,18 +6,23 @@ namespace :mail do
     emails = Mail.all
     puts emails.length
 
-    emails.each do |email|
+    emails.each_with_index do |email, index|
       puts email.subject.inspect
+      puts email.from.inspect
 
-      hrefs = URI.extract(email.body.decoded, ['http', 'https'])
+      sender = email.from.first rescue next
+      newsletter = Newsletter.find_or_create_by(:email => sender)
 
-      valid_urls = []
-      hrefs.each do |url|
-        valid_urls << RedirectFollower(url) rescue next
+      all_urls = []
+      body = email.body.decoded.encode('UTF-8') rescue email.body.decoded
+      urls = URI.extract(body, ['http', 'https'])
+      urls.each do |url|
+        all_urls << Href.create(:url => url, :newsletter => newsletter).follow_simple_redirects rescue next 
       end
-      puts valid_urls.inspect
+      puts all_urls.inspect
       puts "---"
-      exit(0)
+
+      exit(0) #if index >= 9
     end
   end
 end
