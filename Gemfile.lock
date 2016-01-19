@@ -42,6 +42,7 @@ GEM
     execjs (2.6.0)
     fast-stemmer (1.0.2)
     hike (1.2.3)
+    htmlentities (4.3.4)
     i18n (0.7.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -54,9 +55,12 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.99)
+    mini_portile (0.6.0)
     minitest (5.8.3)
     multi_json (1.11.2)
     mysql2 (0.3.20)
+    nokogiri (1.6.3.1)
+      mini_portile (= 0.6.0)
     rack (1.5.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -126,11 +130,13 @@ PLATFORMS
 DEPENDENCIES
   classifier
   coffee-rails (~> 4.0.0)
+  htmlentities
   jbuilder (~> 2.0)
   jquery-rails
   madeleine
   mail
   mysql2 (~> 0.3.18)
+  nokogiri
   rails (= 4.1.8)
   redirect_follower
   sass-rails (~> 4.0.3)
