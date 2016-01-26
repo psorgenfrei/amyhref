@@ -5,7 +5,7 @@ namespace :mail do
 
     UrlRegex = /\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/?)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s\`!()\[\]{};:\'\".,<>?«»“”‘’]))/i
 
-    emails = Mail.all
+    emails = Mail.find(keys: ['NOT', 'SEEN'], order: :asc)
     puts emails.length
 
     emails.each_with_index do |email, index|
@@ -42,7 +42,7 @@ namespace :mail do
       puts "~~~"
 
       urls.each do |url|
-        href = Href.new(:url => RedirectFollower(url), :newsletter => newsletter) rescue next 
+        (href = Href.new(:url => RedirectFollower(url), :newsletter => newsletter) rescue next)
 
         if href.valid?
           href.save
