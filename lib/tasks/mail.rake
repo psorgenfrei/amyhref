@@ -40,9 +40,9 @@ namespace :mail do
           stdin, stdout, stderr = Open3.popen3(Rails.root.to_s + '/./phantomjs scraper.js ' + href.url) 
           responses = stdout.read.split("\n")
           responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
-          puts responses.first
-          if responses && responses.first && responses.first != href.url
-            href.url = responses.first
+          puts responses.last
+          if responses && responses.last && responses.last != href.url
+            href.url = responses.last
           end
 
           if href.valid?
