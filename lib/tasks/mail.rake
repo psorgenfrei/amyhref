@@ -2,6 +2,7 @@ namespace :mail do
   desc "Fetch new email and parse"
   task fetch: :environment do
     require 'uri'
+    require 'open3'
 
     emails = Mail.find(keys: ['NOT', 'SEEN'], order: :asc)
     puts emails.length
@@ -26,6 +27,14 @@ namespace :mail do
 
       urls.each do |url|
         (href = Href.new(:url => RedirectFollower(url), :newsletter => newsletter) rescue next)
+
+        puts 'scraping w/ phantomjs'
+        stdin, stdout, stderr = Open3.popen3(Rails.root.to_s + '/./phantomjs scraper.js ' + href.url) 
+        responses = stdout.read.split("\n")
+        puts responses.first
+        if responses.first && responses.first <> href.url
+          href.url = responses.first
+        end
 
         if href.valid?
           href.save
