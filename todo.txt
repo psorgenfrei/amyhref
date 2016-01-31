@@ -1,7 +1,5 @@
 #TODO
 Pagination
 Add +/- buttons underneath each card
-
-Follow Javascript redirects
-Better Quoted-Printable handling
+>> More granular ratings - ignore domain and train good/bad on the params
 Think about per-domain stats of newsletter links shared
