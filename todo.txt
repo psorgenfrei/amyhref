@@ -1,3 +1,7 @@
+Homepage - random bunch of 'good' links
+Homepage - auto generated flat html each day
+Homepage - get page title
+
 Better Quoted-Printable handling
 Follow Javascript redirects
 Create a top 100 links per day in .html and archive

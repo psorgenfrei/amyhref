@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160129191607) do
+ActiveRecord::Schema.define(version: 20160131085552) do
 
   create_table "hrefs", force: true do |t|
     t.text     "url"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20160129191607) do
     t.integer  "newsletter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "good",          default: false
   end
 
   add_index "hrefs", ["domain"], name: "index_hrefs_on_domain", using: :btree
