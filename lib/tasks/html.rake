@@ -1,9 +1,11 @@
 namespace :html do
   desc "Generate a new homepage with links from the last 24 hours"
   task generate_homepage: :environment do
-    hrefs = Href.where(['created_at > ?', 1.day.ago.at_beginning_of_day]).order('RAND()').limit(24)
+    require 'fileutils'
 
-    # TODO move the old page to a date-stamped page before creating this page
+    # Backup the existing homepage
+    FileUtils.cp(Rails.root + 'app/views/home/index.html.slim', Rails.root + "app/views/home/index-#{Date.yesterday}.html.slim")
+
     page = Rails.root + 'public/homepage-template.html.slim'
     doc = Nokogiri::HTML(open(page))
     doc.encoding = 'utf-8'
@@ -14,7 +16,7 @@ namespace :html do
     div = doc.css('div#links')[0]
 
     # get page title and create an embed.ly card for each href
-    hrefs.each do |href|
+    Href.where(['created_at > ?', 1.day.ago.at_beginning_of_day]).order('RAND()').limit(24).each do |href|
       title = Mechanize.new.get(href.url).title rescue next
       card = "<a id='#{href.id}' class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href='#{href.url}'>#{title}</a><p id='break'></p>"
       div.add_child(card)
