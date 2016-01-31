@@ -2,7 +2,7 @@ class Admin::HrefsController < ApplicationController
   before_filter :setup_madeleine
 
   def index
-    @hrefs = Href.order('created_at DESC').paginate(:page => params[:page], :per_page => 10)
+    @hrefs = Href.order('created_at DESC').paginate(:page => params[:page], :per_page => 25)
   end
 
   def train_good
@@ -12,7 +12,7 @@ class Admin::HrefsController < ApplicationController
     @m.system.train_good(href.url)
     @m.take_snapshot
 
-    redirect_to :action => :index
+    redirect_to :back
   end
 
   def train_bad
@@ -22,7 +22,7 @@ class Admin::HrefsController < ApplicationController
     @m.system.train_bad(href.url)
     @m.take_snapshot
 
-    redirect_to :action => :index
+    redirect_to :back
   end
 
   protected

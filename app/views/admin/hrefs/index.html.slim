@@ -1,11 +1,12 @@
 h1 Amy Href // Hrefs
 
-table border='1'
+table border='1' align='center'
   tr
     td colspan='2' Actions
     td Classification
     td Boolean
     td Url
+    td Date
 
   - @hrefs.each do |href|
     tr
@@ -18,6 +19,7 @@ table border='1'
       td= href.good
 
       td= link_to href.url, href.url
+      td= href.created_at.strftime('%b %e %Y ')
 
 p= "#{@hrefs.count} hrefs"
 p= will_paginate @hrefs
