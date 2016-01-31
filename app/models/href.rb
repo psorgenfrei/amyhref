@@ -5,17 +5,18 @@ class Href < ActiveRecord::Base
   belongs_to :newsletter
 
   def classify_with_madeleine 
-    m = SnapshotMadeleine.new('bayes_data') {
-      Classifier::Bayes.new 'good', 'bad'
-    }
-
+    m = setup_madeleine
     self.classify(m.system.classify(self.url))
   end
 
   def classify(status)
+    m = setup_madeleine
+
     if status.downcase == 'good'
+      m.system.train_good(self.url)
       self.update_column(:good, true)
     else
+      m.system.train_bad(self.url)
       self.update_column(:good, false)
     end
   end
@@ -28,7 +29,10 @@ class Href < ActiveRecord::Base
     RedirectFollower(self.url)
   end
 
-  def self.follow_complex_redirects(url)
-    # use something like Selenium to follow javascript redirects etc?
+  protected
+  def setup_madeleine
+    SnapshotMadeleine.new('bayes_data') {
+      Classifier::Bayes.new 'good', 'bad'
+    }
   end
 end

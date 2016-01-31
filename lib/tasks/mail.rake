@@ -37,7 +37,7 @@ namespace :mail do
 
           puts 'scraping w/ phantomjs'
           puts href.url
-          stdin, stdout, stderr = Open3.popen3(Rails.root.to_s + '/./phantomjs scraper.js ' + href.url) 
+          stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{href.url}\" ") 
           responses = stdout.read.split("\n")
           responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
           puts responses.last
