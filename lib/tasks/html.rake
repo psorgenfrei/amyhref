@@ -9,14 +9,14 @@ namespace :html do
     doc.encoding = 'utf-8'
 
     h1 = doc.at_css('h1')
-    h1.content = "Amy Href's links of the day for " + Time.now.strftime("%A, %b %d %Y").to_s
+    h1.content = "Amy Href's links of the day for " + Time.now.strftime("%A, %b %d %Y").to_s + ' 😎'
 
     div = doc.css('div#links')[0]
 
     # get page title and create an embed.ly card for each href
     hrefs.each do |href|
       title = Mechanize.new.get(href.url).title rescue next
-      card = "<a id='#{href.id}' class='embedly-card' data-card-via='amyhref.com' href='#{href.url}'>#{title}</a><p id='break'></p>"
+      card = "<a id='#{href.id}' class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href='#{href.url}'>#{title}</a><p id='break'></p>"
       div.add_child(card)
     end
 
