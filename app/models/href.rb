@@ -4,16 +4,24 @@ class Href < ActiveRecord::Base
 
   belongs_to :newsletter
 
-  before_save :unshorten_and_classify
-
-  def unshorten_and_classify
-    self.url = RedirectFollower(self.url)
-
+  def classify_with_madeleine 
     m = SnapshotMadeleine.new('bayes_data') {
       Classifier::Bayes.new 'good', 'bad'
     }
 
-    self.update_attribute(:good, true) if m.system.classify(self.url).downcase == 'good'
+    self.classify(m.system.classify(self.url))
+  end
+
+  def classify(status)
+    if status.downcase == 'good'
+      self.update_column(:good, true)
+    else
+      self.update_column(:good, false)
+    end
+  end
+
+  def unshorten
+    self.url = RedirectFollower(self.url)
   end
 
   def follow_simple_redirects

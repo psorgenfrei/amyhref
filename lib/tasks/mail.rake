@@ -13,7 +13,6 @@ namespace :mail do
       sender = email.from.first rescue next
       newsletter = Newsletter.find_or_create_by(:email => sender)
 
-      all_urls = []
       body = begin
         email.parts[1].body.decoded
       rescue
@@ -30,7 +29,7 @@ namespace :mail do
 
         if href.valid?
           href.save
-          all_urls << href.url
+          href.classify_with_madeline
         end
       end
     end

@@ -4,13 +4,19 @@ table border='1'
   tr
     td colspan='2' Actions
     td Classification
+    td Boolean
     td Url
 
   - @hrefs.each do |href|
     tr
       td= link_to 'train good', '/admin/hrefs/' + href.id.to_s + '/train_good', :method => :post
       td= link_to 'train bad', '/admin/hrefs/' + href.id.to_s + '/train_bad', :method => :post
-      td= @m.system.classify(href.url)
+
+      - status = @m.system.classify(href.url)
+      - href.classify(status)
+      td= status
+      td= href.good
+
       td= link_to href.url, href.url
 
 p= "#{@hrefs.count} hrefs"
