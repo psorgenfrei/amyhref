@@ -1,7 +1,7 @@
 #TODO
 Pagination
+Add +/- buttons underneath each card
 
-Better Quoted-Printable handling
 Follow Javascript redirects
-Create a top 100 links per day in .html and archive
+Better Quoted-Printable handling
 Think about per-domain stats of newsletter links shared
