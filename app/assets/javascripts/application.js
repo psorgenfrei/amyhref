@@ -15,4 +15,6 @@
 //= require turbolinks
 //= require_tree .
 
-$('#links a').embedly({ key: '6863f842d9c241e192dad41cab69138c' });
+$(document).ready(function(){
+  //$('#links a').embedly({ key: '6863f842d9c241e192dad41cab69138c' });
+});

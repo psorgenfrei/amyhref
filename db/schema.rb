@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160131085552) do
     t.boolean  "good",          default: false
   end
 
+  add_index "hrefs", ["created_at"], name: "index_hrefs_on_created_at", using: :btree
   add_index "hrefs", ["domain"], name: "index_hrefs_on_domain", using: :btree
   add_index "hrefs", ["newsletter_id"], name: "index_hrefs_on_newsletter_id", using: :btree
 
@@ -32,6 +33,7 @@ ActiveRecord::Schema.define(version: 20160131085552) do
     t.datetime "updated_at"
   end
 
+  add_index "newsletters", ["created_at"], name: "index_newsletters_on_created_at", using: :btree
   add_index "newsletters", ["email"], name: "index_newsletters_on_email", using: :btree
 
 end
