@@ -5,6 +5,12 @@ class Admin::HrefsController < ApplicationController
     @hrefs = Href.order('created_at DESC').paginate(:page => params[:page], :per_page => 25)
   end
 
+  def yesterday
+    @hrefs = Href.where(['created_at > ? AND created_at < ?', 1.day.ago.at_beginning_of_day, 1.day.ago.at_end_of_day]).paginate(:page => params[:page], :per_page => 10)
+
+    render :action => :index
+  end
+
   def train
     href = Href.find(params[:href_id])
 

@@ -5,3 +5,6 @@
 
 Add +/- buttons underneath each card
 Think about per-domain stats of newsletter links shared
+
+#Misc
+RAILS_ENV=production bin/rake assets:precompile

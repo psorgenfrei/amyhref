@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :hrefs do
       post :train, :as => :train_path
+      collection do
+        get :yesterday
+      end
     end
   end
 end
