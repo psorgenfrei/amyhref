@@ -22,7 +22,7 @@ class Href < ActiveRecord::Base
     self.parse.query
   end
 
-  def classify_with_madeleine 
+  def classify_with_madeleine
     m = setup_madeleine
     self.classify(m.system.classify(self.url))
   end
@@ -32,10 +32,20 @@ class Href < ActiveRecord::Base
 
     if status.downcase == 'good'
       m.system.train_good(self.url)
+      m.system.train_good_host(self.host)
+      m.system.train_good_path(self.path)
+
       self.update_column(:good, true)
+      self.update_column(:good_host, true)
+      self.update_column(:good_path, true)
     else
       m.system.train_bad(self.url)
+      m.system.train_bad_host(self.host)
+      m.system.train_bad_path(self.path)
+
       self.update_column(:good, false)
+      self.update_column(:good_host, false)
+      self.update_column(:good_path, false)
     end
   end
 
@@ -50,7 +60,7 @@ class Href < ActiveRecord::Base
   protected
   def setup_madeleine
     SnapshotMadeleine.new('bayes_data') {
-      Classifier::Bayes.new 'good', 'bad'
+      Classifier::Bayes.new 'good', 'good_host', 'good_path', 'bad', 'bad_host', 'bad_path'
     }
   end
 end

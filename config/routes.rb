@@ -3,8 +3,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :hrefs do
-      post 'train_good', :as => :train_good_path
-      post 'train_bad', :as => :train_bad_path
+      post :train, :as => :train_path
     end
   end
 end

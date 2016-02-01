@@ -25,26 +25,26 @@ table border='1' align='center'
         = href.host
         div.actions
           span style='display:table;margin:0 auto;'
-            = link_to '/admin/hrefs/' + href.id.to_s + '/train_good', :method => :post, :remote => true do
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=good_host', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-up"
             ' &nbsp;&nbsp;&nbsp
             ' &nbsp;&nbsp;&nbsp
             ' &nbsp;&nbsp;&nbsp
             ' &nbsp;&nbsp;&nbsp
-            = link_to '/admin/hrefs/' + href.id.to_s + '/train_bad', :method => :post, :remote => true do
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=bad_host', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-down"
 
       td.actions
         = href.path
         div.actions
           span style='display:table;margin:0 auto;'
-            = link_to '/admin/hrefs/' + href.id.to_s + '/train_good', :method => :post, :remote => true do
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=good_path', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-up"
             ' &nbsp;&nbsp;&nbsp
             ' &nbsp;&nbsp;&nbsp
             ' &nbsp;&nbsp;&nbsp
             ' &nbsp;&nbsp;&nbsp
-            = link_to '/admin/hrefs/' + href.id.to_s + '/train_bad', :method => :post, :remote => true do
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=bad_path', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-down"
 
       td
