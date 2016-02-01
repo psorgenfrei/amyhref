@@ -47,7 +47,6 @@ namespace :mail do
 
           if href.valid?
             href.save
-            href.classify_with_madeleine
           end
         end
       end

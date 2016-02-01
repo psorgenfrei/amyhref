@@ -8,51 +8,28 @@ class Admin::HrefsController < ApplicationController
   def train
     href = Href.find(params[:href_id])
 
-    if params[:q] == 'good_host'
-      flash[:notice] = 'Upvoted host'
-      href.update_column(:good_host, true)
-      @m.system.train_good_host(href.parse.host)
-    elsif params[:q] == 'bad_host'
-      flash[:notice] = 'Downvoted host'
-      href.update_column(:good_host, false)
-      @m.system.train_bad_host(href.parse.host)
-    elsif params[:q] == 'good_path'
-      flash[:notice] = 'Upvoted path'
-      href.update_column(:good_path, true)
-      @m.system.train_good_path(href.parse.path)
-    elsif params[:q] == 'bad_path'
-      flash[:notice] = 'Downvoted path'
-      href.update_column(:good_path, false)
-      @m.system.train_bad_path(href.parse.path)
+    @m.system.train params[:q].to_sym, href.url
+    @m.system.train params[:q].to_sym, href.send(params[:s].to_sym)
+
+    flash[:notice] = @m.system.classify(href.url)
+    #flash[:notice] = @m.system.classifications(href.url).sort_by { |a| -a[1] }.to_s
+
+    @m.take_snapshot
+
+    if params[:q] == 'up'
+      if params[:s] == 'host'
+        href.update_column(:good_host, true)
+      elsif params[:s] == 'path'
+        href.update_column(:good_path, true)
+      end
+    elsif params[:q] == 'down'
+      if params[:s] == 'host'
+        href.update_column(:good_host, false)
+      elsif params[:s] == 'path'
+        href.update_column(:good_path, false)
+      end
     end
-
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.js
-    end
-  end
-
-  def train_good
-    href = Href.find(params[:href_id])
-    href.update_column(:good, true)
-
-    @m.system.train_good(href.url)
-
-    flash[:notice] = 'Upvoted'
-
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.js
-    end
-  end
-
-  def train_bad
-    href = Href.find(params[:href_id])
-    href.update_column(:good, false)
-
-    @m.system.train_bad(href.url)
-
-    flash[:notice] = 'Downvoted'
+    set_good_or_bad(href)
 
     respond_to do |format|
       format.html { redirect_to :back }
@@ -63,7 +40,11 @@ class Admin::HrefsController < ApplicationController
   protected
   def setup_madeleine
     @m = SnapshotMadeleine.new('bayes_data') {
-      Classifier::Bayes.new 'good', 'good_host', 'good_path', 'bad', 'bad_host', 'bad_path'
+      Classifier::Bayes.new 'up', 'down'
     }
+  end
+
+  def set_good_or_bad(href)
+    href.update_column(:good, (href.good_host? && href.good_path?))
   end
 end
