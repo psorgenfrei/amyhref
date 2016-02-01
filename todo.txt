@@ -1,5 +1,7 @@
 #TODO
-Pagination
+1. More granular ratings - ignore domain and train good/bad on the params
+2. Take daily snapshots, no more
+3. Pagination
+
 Add +/- buttons underneath each card
->> More granular ratings - ignore domain and train good/bad on the params
 Think about per-domain stats of newsletter links shared

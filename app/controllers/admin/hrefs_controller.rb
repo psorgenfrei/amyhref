@@ -10,7 +10,6 @@ class Admin::HrefsController < ApplicationController
     href.update_column(:good, true)
 
     @m.system.train_good(href.url)
-    @m.take_snapshot
 
     flash[:notice] = '+1'
 
@@ -25,7 +24,6 @@ class Admin::HrefsController < ApplicationController
     href.update_column(:good, false)
 
     @m.system.train_bad(href.url)
-    @m.take_snapshot
 
     flash[:notice] = '-1'
 
