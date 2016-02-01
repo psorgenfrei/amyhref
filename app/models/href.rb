@@ -4,6 +4,24 @@ class Href < ActiveRecord::Base
 
   belongs_to :newsletter
 
+  require 'uri'
+
+  def parse
+    URI.parse(self.url)
+  end
+
+  def host
+    self.parse.host
+  end
+
+  def path
+    self.parse.path
+  end
+
+  def query_string
+    self.parse.query
+  end
+
   def classify_with_madeleine 
     m = setup_madeleine
     self.classify(m.system.classify(self.url))

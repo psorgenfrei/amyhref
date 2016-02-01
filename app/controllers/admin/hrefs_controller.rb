@@ -12,7 +12,12 @@ class Admin::HrefsController < ApplicationController
     @m.system.train_good(href.url)
     @m.take_snapshot
 
-    redirect_to :back
+    flash[:success] = '+1'
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
   end
 
   def train_bad
@@ -22,7 +27,12 @@ class Admin::HrefsController < ApplicationController
     @m.system.train_bad(href.url)
     @m.take_snapshot
 
-    redirect_to :back
+    flash[:success] = '-1'
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
   end
 
   protected

@@ -1,0 +1,7 @@
+<% unless flash[:success].blank? %>
+    $("div .success").html("<%= escape_javascript (raw(flash[:success])) %>");
+    $("div .success").show(200);
+    $("div .success").click(function(){
+        $("div .success").hide(200);
+    });
+<% end %>
