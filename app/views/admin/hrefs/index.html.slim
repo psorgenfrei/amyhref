@@ -1,34 +1,65 @@
+link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+
 h1 Amy Href // Hrefs
 
 table border='1' align='center'
   tr
     td Classification
     td Boolean
+    td Link
     td Host
     td Path
     td Query string
     td Date
 
   - @hrefs.each do |href|
-    - status = @m.system.classify(href.url)
-    - href.classify(status)
-
     tr
-      td= status
+      td= @m.system.classify(href.url)
       td= href.good
 
+      td style='text-align: center;'
+        = link_to href.url, :target => '_blank' do
+          i class="fa fa-external-link"
+
+      td.actions
+        = href.host
+        div.actions
+          span style='display:table;margin:0 auto;'
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train_good', :method => :post, :remote => true do
+              i class="fa fa-thumbs-o-up"
+            ' &nbsp;&nbsp;&nbsp
+            ' &nbsp;&nbsp;&nbsp
+            ' &nbsp;&nbsp;&nbsp
+            ' &nbsp;&nbsp;&nbsp
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train_bad', :method => :post, :remote => true do
+              i class="fa fa-thumbs-o-down"
+
+      td.actions
+        = href.path
+        div.actions
+          span style='display:table;margin:0 auto;'
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train_good', :method => :post, :remote => true do
+              i class="fa fa-thumbs-o-up"
+            ' &nbsp;&nbsp;&nbsp
+            ' &nbsp;&nbsp;&nbsp
+            ' &nbsp;&nbsp;&nbsp
+            ' &nbsp;&nbsp;&nbsp
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train_bad', :method => :post, :remote => true do
+              i class="fa fa-thumbs-o-down"
+
       td
-        = link_to href.host, href.url
-        br
-        = link_to '+1', '/admin/hrefs/' + href.id.to_s + '/train_good', :method => :post, :remote => true
-        ' &nbsp;&nbsp;
-        = link_to '-1', '/admin/hrefs/' + href.id.to_s + '/train_good', :method => :post, :remote => true
-      td
-        = link_to href.path, href.url if href.path
-      td
-        = link_to href.query_string, href.url if href.query_string
+        = href.query_string
 
       td= href.created_at.strftime('%b %e %Y ')
 
 p= "#{@hrefs.count} hrefs"
 p= will_paginate @hrefs
+
+css:
+  div.actions{
+    display: none;
+  }
+
+  td.actions:hover .actions {
+      display: block;
+  }

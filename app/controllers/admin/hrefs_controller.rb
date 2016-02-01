@@ -11,7 +11,7 @@ class Admin::HrefsController < ApplicationController
 
     @m.system.train_good(href.url)
 
-    flash[:notice] = '+1'
+    flash[:notice] = 'Upvoted'
 
     respond_to do |format|
       format.html { redirect_to :back }
@@ -25,7 +25,7 @@ class Admin::HrefsController < ApplicationController
 
     @m.system.train_bad(href.url)
 
-    flash[:notice] = '-1'
+    flash[:notice] = 'Downvoted'
 
     respond_to do |format|
       format.html { redirect_to :back }

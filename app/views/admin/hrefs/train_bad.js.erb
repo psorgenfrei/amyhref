@@ -1,7 +1,10 @@
-<% unless flash[:success].blank? %>
-    $("div .success").html("<%= escape_javascript (raw(flash[:success])) %>");
-    $("div .success").show(200);
-    $("div .success").click(function(){
-        $("div .success").hide(200);
+<% unless flash[:notice].blank? %>
+    $("div.flash").html("<%= escape_javascript (raw(flash[:notice])) %>");
+    $("div.flash").show(100);
+    $("div.flash").click(function(){
+        $("div.flash").hide(100);
     });
+    setTimeout(function(){
+      $('div.flash').hide(100);
+    }, 1000);
 <% end %>
