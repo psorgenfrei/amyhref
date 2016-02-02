@@ -46,6 +46,7 @@ class Href < ActiveRecord::Base
     m = setup_madeleine
     m.system.train(key.to_sym, value)
     self.reclassify
+    m.take_snapshot
     m.system.classifications(value)
   end
 
