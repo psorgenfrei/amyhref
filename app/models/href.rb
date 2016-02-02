@@ -38,7 +38,6 @@ class Href < ActiveRecord::Base
   end
 
   def reclassify
-    puts self.url
     initial_classification
     self.save
   end
