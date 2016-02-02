@@ -45,6 +45,13 @@ class Href < ActiveRecord::Base
     @m.system.classifications(value)
   end
 
+  def untrain(key, value)
+    @m ||= setup_madeleine
+    @m.system.untrain(key.to_sym, value)
+    @m.take_snapshot
+    @m.system.classifications(value)
+  end
+
   protected
   def setup_madeleine
     SnapshotMadeleine.new('bayes_data') {

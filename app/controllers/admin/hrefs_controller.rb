@@ -46,6 +46,24 @@ class Admin::HrefsController < ApplicationController
     end
   end
 
+  def untrain
+    href = Href.find(params[:href_id])
+
+    @m.system.untrain 'up', href.url
+    @m.system.untrain 'down', href.url
+
+    flash[:notice] = @m.system.classify(href.url)
+
+    href.update_column(:good, false)
+    href.update_column(:good_host, false)
+    href.update_column(:good_path, false)
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render :template => 'admin/hrefs/train.js.erb' }
+    end
+  end
+
   protected
   def setup_madeleine
     @m = SnapshotMadeleine.new('bayes_data') {
