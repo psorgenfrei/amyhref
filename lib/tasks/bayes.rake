@@ -24,4 +24,14 @@ namespace :bayes do
   task reclassify_today: :environment do
     Href.where(['created_at > ?', 1.day.ago.at_beginning_of_day]).find_each.collect{ |h| h.reclassify }
   end
+
+  desc "Get the classifications for a single Href"
+  task classifications: :environment do
+    m = SnapshotMadeleine.new('bayes_data') {
+      Classifier::Bayes.new 'up', 'down'
+    }
+
+    href = Href.find(16221)
+    puts m.system.classifications(href.url).inspect
+  end
 end

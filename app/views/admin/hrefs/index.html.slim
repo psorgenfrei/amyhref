@@ -12,13 +12,12 @@ table border='1' align='center' cellpadding='5'
     td -
     td Query string
     td Date
+    td Id
 
   - @hrefs.each do |href|
     tr
-      td style="width: 10px; #{href.good ? 'background-color: green;' : 'background-color: red;'}"
-        = href.id
-        ' // 
-        = @m.system.classify(href.url)
+      td style= "#{@m.system.classify(href.url).downcase == 'up' ? 'background-color: green;' : 'background-color: red;'}"
+        i class="fa fa-cloud"
 
       td style='text-align: center;'
         = link_to href.url, :target => '_blank' do
@@ -33,7 +32,7 @@ table border='1' align='center' cellpadding='5'
             = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=down&s=host', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-down"
 
-      td style='background-color: #ddd;'
+      td style= "#{href.good_host ? 'background-color: green;' : 'background-color: red;'}"
         - if href.good_host
           i class="fa fa-angle-double-up"
         - else
@@ -48,7 +47,7 @@ table border='1' align='center' cellpadding='5'
             = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=down&s=path', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-down"
 
-      td style='background-color: #ddd;'
+      td style= "#{href.good_path ? 'background-color: green;' : 'background-color: red;'}"
         - if href.good_path
           i class="fa fa-angle-double-up"
         - else
@@ -58,6 +57,8 @@ table border='1' align='center' cellpadding='5'
         = href.query_string
 
       td= href.created_at.strftime('%b %e %Y ')
+
+      td= href.id
 
 p= "#{@hrefs.count} hrefs"
 p= will_paginate @hrefs
