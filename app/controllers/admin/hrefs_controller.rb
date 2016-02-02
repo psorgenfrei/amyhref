@@ -3,19 +3,19 @@ class Admin::HrefsController < ApplicationController
 
   def index
     @hrefs = Href.order('created_at DESC').paginate(:page => params[:page], :per_page => 25)
-    @hrefs.collect{ |h| h.reclassify }
+    #@hrefs.collect{ |h| h.reclassify }
   end
 
   def today
     @hrefs = Href.where(['created_at > ? AND created_at < ?', 1.day.ago.at_end_of_day, Time.now]).paginate(:page => params[:page], :per_page => 10)
-    @hrefs.collect{ |h| h.reclassify }
+    #@hrefs.collect{ |h| h.reclassify }
 
     render :action => :index
   end
 
   def yesterday
     @hrefs = Href.where(['created_at > ? AND created_at < ?', 1.day.ago.at_beginning_of_day, 1.day.ago.at_end_of_day]).paginate(:page => params[:page], :per_page => 10)
-    @hrefs.collect{ |h| h.reclassify }
+    #@hrefs.collect{ |h| h.reclassify }
 
     render :action => :index
   end
