@@ -34,6 +34,11 @@ namespace :mail do
 
         urls.each do |url|
           (href = Href.new(:url => url, :newsletter => newsletter) rescue next)
+          host = href.host
+          next if host =~ /twitter.com/ 
+          next if host =~ /facebook.com/
+          next if host =~ /linkedin.com/
+          next if host =~ /instapaper.com/
 
           puts 'scraping w/ phantomjs'
           puts href.url
