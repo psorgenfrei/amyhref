@@ -24,11 +24,6 @@ class Href < ActiveRecord::Base
     self.parse.query
   end
 
-  def classify(status)
-    m = setup_madeleine
-    m.system.train status.to_sym, self.url
-  end
-
   def unshorten
     self.url = RedirectFollower(self.url)
   end
@@ -43,11 +38,11 @@ class Href < ActiveRecord::Base
   end
 
   def train(key, value)
-    m = setup_madeleine
-    m.system.train(key.to_sym, value)
+    @m ||= setup_madeleine
+    @m.system.train(key.to_sym, value)
     self.reclassify
-    m.take_snapshot
-    m.system.classifications(value)
+    @m.take_snapshot
+    @m.system.classifications(value)
   end
 
   protected
@@ -64,11 +59,11 @@ class Href < ActiveRecord::Base
       Timeout::timeout(10) do
         self.url.strip!
 
-        m = setup_madeleine
+        @m ||= setup_madeleine
 
-        url_status = m.system.classify(self.url).downcase rescue 'down'
-        host_status = m.system.classify(self.host).downcase rescue 'down'
-        path_status= m.system.classify(self.path).downcase rescue 'down'
+        url_status = @m.system.classify(self.url).downcase rescue 'down'
+        host_status = @m.system.classify(self.host).downcase rescue 'down'
+        path_status= @m.system.classify(self.path).downcase rescue 'down'
 
         self.good_host = true if host_status == 'up'
         self.good_path = true if path_status == 'up'
