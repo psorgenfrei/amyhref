@@ -55,6 +55,8 @@ class Href < ActiveRecord::Base
   def initial_classification
     begin
       Timeout::timeout(10) do
+        self.url.strip!
+
         m = setup_madeleine
 
         url_status = m.system.classify(self.url).downcase rescue 'down'
@@ -71,8 +73,7 @@ class Href < ActiveRecord::Base
         end
       end
     rescue Timeout::Error
-      self.destroy
-      # delete this Href model for safety??
+      self.destroy # delete this Href model as it's wonky
     end
   end
 end
