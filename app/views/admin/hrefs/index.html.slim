@@ -20,7 +20,7 @@ table border='1' align='center' cellpadding='5'
       td style= "#{@m.system.classify(href.url).downcase == 'up' ? 'background-color: green;' : 'background-color: red;'}"
         i class="fa fa-cloud"
 
-      td
+      td style= "#{href.good ? 'background-color: green;' : 'background-color: red;'}"
         - if href.good?
           i class="fa fa-thumbs-o-up"
         - else
