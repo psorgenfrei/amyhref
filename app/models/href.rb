@@ -47,12 +47,14 @@ class Href < ActiveRecord::Base
   # Callback to set the initial classification
   def initial_classification
     m = setup_madeleine
+
+    url_status = m.system.classify(self.url).downcase
     host_status = m.system.classify(self.host).downcase
     path_status= m.system.classify(self.path).downcase
 
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'
 
-    self.good = true if self.good_host? && self.good_path?
+    self.good = true if (self.good_host? && self.good_path?) || url_status == 'up'
   end
 end
