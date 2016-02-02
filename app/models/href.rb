@@ -51,6 +51,8 @@ class Href < ActiveRecord::Base
 
   # Callback to set the initial classification
   def initial_classification
+    self.url.strip!
+
     m = setup_madeleine
 
     url_status = m.system.classify(self.url).downcase
