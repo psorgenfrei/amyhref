@@ -16,7 +16,7 @@ namespace :html do
     div = doc.css('div#links')[0]
 
     # get page title and create an embed.ly card for each href
-    Href.where(['created_at > ? AND created_at < ?', 1.day.ago.at_beginning_of_day, 1.day.ago.at_end_of_day]).where(:good => true).order('RAND()').limit(24).each do |href|
+    Href.where(['created_at > ? AND created_at < ?', 1.day.ago.at_beginning_of_day, 1.day.ago.at_end_of_day]).where(:good => true).order('RAND()').limit(22).each do |href|
       title = Mechanize.new.get(href.url).title.strip rescue next
       card = "<a id='#{href.id}' class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href='#{href.url}'>#{title}</a><p id='break'></p>"
       div.add_child(card)

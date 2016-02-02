@@ -38,6 +38,7 @@ class Href < ActiveRecord::Base
   end
 
   def reclassify
+    puts self.url
     initial_classification
     self.save
   end
@@ -50,20 +51,28 @@ class Href < ActiveRecord::Base
   end
 
   # Callback to set the initial classification
+  # - use a timeout because sometimes we get stack level errors
   def initial_classification
-    m = setup_madeleine
+    begin
+      Timeout::timeout(10) do
+        m = setup_madeleine
 
-    url_status = m.system.classify(self.url).downcase
-    host_status = m.system.classify(self.host).downcase
-    path_status= m.system.classify(self.path).downcase
+        url_status = m.system.classify(self.url).downcase rescue 'down'
+        host_status = m.system.classify(self.host).downcase rescue 'down'
+        path_status= m.system.classify(self.path).downcase rescue 'down'
 
-    self.good_host = true if host_status == 'up'
-    self.good_path = true if path_status == 'up'
+        self.good_host = true if host_status == 'up'
+        self.good_path = true if path_status == 'up'
 
-    if (self.good_host? && self.good_path?) || url_status == 'up'
-      self.good = true
-    else
-      self.good = false
+        if (self.good_host? && self.good_path?) || url_status == 'up'
+          self.good = true
+        else
+          self.good = false
+        end
+      end
+    rescue Timeout::Error
+      self.destroy
+      # delete this Href model for safety??
     end
   end
 end
