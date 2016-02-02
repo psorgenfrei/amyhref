@@ -28,8 +28,8 @@ class Admin::HrefsController < ApplicationController
 
     if params[:q] == 'up'
       # boost the upvote by training down too
-      @m.system.untrain 'down', href.url
-      @m.system.untrain 'down', href.send(params[:s].to_sym)
+      @m.system.untrain 'down', href.url rescue false
+      @m.system.untrain 'down', href.send(params[:s].to_sym) rescue false
 
       if params[:s] == 'host'
         href.update_column(:good_host, true)
@@ -38,8 +38,8 @@ class Admin::HrefsController < ApplicationController
       end
     elsif params[:q] == 'down'
       # boost the downvote by training up too
-      @m.system.untrain 'up', href.url
-      @m.system.untrain 'up', href.send(params[:s].to_sym)
+      @m.system.untrain 'up', href.url rescue false
+      @m.system.untrain 'up', href.send(params[:s].to_sym) rescue false
 
       if params[:s] == 'host'
         href.update_column(:good_host, false)
