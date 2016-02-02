@@ -65,13 +65,15 @@ class Href < ActiveRecord::Base
         host_status = @m.system.classify(self.host).downcase rescue 'down'
         url_status = @m.system.classify(self.url).downcase rescue 'down'
 
-        self.good_host = true if host_status == 'up'
-        self.good_path = true if path_status == 'up'
+        unless destroyed?
+          self.good_host = true if host_status == 'up'
+          self.good_path = true if path_status == 'up'
 
-        if (self.good_host? && self.good_path?) || url_status == 'up'
-          self.good = true
-        else
-          self.good = false
+          if (self.good_host? && self.good_path?) || url_status == 'up'
+            self.good = true
+          else
+            self.good = false
+          end
         end
       end
     rescue Timeout::Error

@@ -17,6 +17,8 @@ table border='1' align='center' cellpadding='5'
     tr
       td style="width: 10px; #{href.good ? 'background-color: green;' : 'background-color: red;'}"
         = href.id
+        ' // 
+        = @m.system.classify(href.url)
 
       td style='text-align: center;'
         = link_to href.url, :target => '_blank' do
