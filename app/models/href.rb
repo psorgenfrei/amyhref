@@ -69,7 +69,7 @@ class Href < ActiveRecord::Base
           self.good_host = true if host_status == 'up'
           self.good_path = true if path_status == 'up'
 
-          if (self.good_host? && self.good_path?) || url_status == 'up'
+          if (self.good_host? && self.good_path?) || (url_status == 'up' && (self.good_host? || self.good_path?))
             self.good = true
           else
             self.good = false
