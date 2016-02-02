@@ -9,7 +9,7 @@ class Href < ActiveRecord::Base
   require 'uri'
 
   def parse
-    URI.parse(self.url)
+    URI.parse(self.url) rescue self.destroy
   end
 
   def host
