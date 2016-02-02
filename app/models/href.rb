@@ -37,6 +37,11 @@ class Href < ActiveRecord::Base
     RedirectFollower(self.url)
   end
 
+  def reclassify
+    initial_classification
+    self.save
+  end
+
   protected
   def setup_madeleine
     SnapshotMadeleine.new('bayes_data') {
@@ -55,6 +60,10 @@ class Href < ActiveRecord::Base
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'
 
-    self.good = true if (self.good_host? && self.good_path?) || url_status == 'up'
+    if (self.good_host? && self.good_path?) || url_status == 'up'
+      self.good = true
+    else
+      self.good = false
+    end
   end
 end

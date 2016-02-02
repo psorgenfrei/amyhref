@@ -3,10 +3,12 @@ class Admin::HrefsController < ApplicationController
 
   def index
     @hrefs = Href.order('created_at DESC').paginate(:page => params[:page], :per_page => 25)
+    @hrefs.collect{ |h| h.reclassify }
   end
 
   def yesterday
     @hrefs = Href.where(['created_at > ? AND created_at < ?', 1.day.ago.at_beginning_of_day, 1.day.ago.at_end_of_day]).paginate(:page => params[:page], :per_page => 10)
+    @hrefs.collect{ |h| h.reclassify }
 
     render :action => :index
   end
@@ -18,7 +20,6 @@ class Admin::HrefsController < ApplicationController
     @m.system.train params[:q].to_sym, href.send(params[:s].to_sym)
 
     flash[:notice] = @m.system.classify(href.url)
-    #flash[:notice] = @m.system.classifications(href.url).sort_by { |a| -a[1] }.to_s
 
     @m.take_snapshot
 
@@ -36,6 +37,8 @@ class Admin::HrefsController < ApplicationController
       end
     end
     set_good_or_bad(href)
+
+    href.reclassify
 
     respond_to do |format|
       format.html { redirect_to :back }
