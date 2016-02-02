@@ -49,18 +49,20 @@ class Admin::HrefsController < ApplicationController
   def untrain
     href = Href.find(params[:href_id])
 
-    @m.system.untrain 'up', href.url
-    @m.system.untrain 'down', href.url
-
-    flash[:notice] = @m.system.classify(href.url)
+    [href.url, href.host, href.path].each do |component|
+      @m.system.untrain 'up', component rescue false
+      @m.system.untrain 'down', component rescue false
+    end
 
     href.update_column(:good, false)
     href.update_column(:good_host, false)
     href.update_column(:good_path, false)
 
+    flash[:notice] = 'Untrained'
+
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js { render :template => 'admin/hrefs/train.js.erb' }
+      format.js
     end
   end
 
