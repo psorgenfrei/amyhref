@@ -1,7 +1,13 @@
 #TODO
-1. More granular ratings - ignore domain and train good/bad on the params
-2. Take daily snapshots, no more
-3. Pagination
+
+
+train and untrain at once, and vice versa
+clear out brain
+train on yesterdays links
+check what the importer does and replicate in a rake task
+
+1. Take daily snapshots, no more
+2. Pagination
 
 Add +/- buttons underneath each card
 Think about per-domain stats of newsletter links shared

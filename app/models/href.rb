@@ -45,13 +45,6 @@ class Href < ActiveRecord::Base
     @m.system.classifications(value)
   end
 
-  def untrain(key, value)
-    @m ||= setup_madeleine
-    @m.system.untrain(key.to_sym, value)
-    @m.take_snapshot
-    @m.system.classifications(value)
-  end
-
   protected
   def setup_madeleine
     SnapshotMadeleine.new('bayes_data') {
@@ -68,9 +61,9 @@ class Href < ActiveRecord::Base
 
         @m ||= setup_madeleine
 
-        url_status = @m.system.classify(self.url).downcase rescue 'down'
-        host_status = @m.system.classify(self.host).downcase rescue 'down'
         path_status= @m.system.classify(self.path).downcase rescue 'down'
+        host_status = @m.system.classify(self.host).downcase rescue 'down'
+        url_status = @m.system.classify(self.url).downcase rescue 'down'
 
         self.good_host = true if host_status == 'up'
         self.good_path = true if path_status == 'up'

@@ -6,6 +6,13 @@ class Admin::HrefsController < ApplicationController
     @hrefs.collect{ |h| h.reclassify }
   end
 
+  def today
+    @hrefs = Href.where(['created_at > ? AND created_at < ?', 1.day.ago.at_end_of_day, Time.now]).paginate(:page => params[:page], :per_page => 10)
+    @hrefs.collect{ |h| h.reclassify }
+
+    render :action => :index
+  end
+
   def yesterday
     @hrefs = Href.where(['created_at > ? AND created_at < ?', 1.day.ago.at_beginning_of_day, 1.day.ago.at_end_of_day]).paginate(:page => params[:page], :per_page => 10)
     @hrefs.collect{ |h| h.reclassify }
@@ -19,17 +26,21 @@ class Admin::HrefsController < ApplicationController
     @m.system.train params[:q].to_sym, href.url
     @m.system.train params[:q].to_sym, href.send(params[:s].to_sym)
 
-    flash[:notice] = @m.system.classify(href.url)
-
-    @m.take_snapshot
-
     if params[:q] == 'up'
+      # boost the upvote by training down too
+      @m.system.untrain 'down', href.url
+      @m.system.untrain 'down', href.send(params[:s].to_sym)
+
       if params[:s] == 'host'
         href.update_column(:good_host, true)
       elsif params[:s] == 'path'
         href.update_column(:good_path, true)
       end
     elsif params[:q] == 'down'
+      # boost the downvote by training up too
+      @m.system.untrain 'up', href.url
+      @m.system.untrain 'up', href.send(params[:s].to_sym)
+
       if params[:s] == 'host'
         href.update_column(:good_host, false)
       elsif params[:s] == 'path'
@@ -40,25 +51,8 @@ class Admin::HrefsController < ApplicationController
 
     href.reclassify
 
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.js
-    end
-  end
-
-  def untrain
-    href = Href.find(params[:href_id])
-
-    [href.url, href.host, href.path].each do |component|
-      @m.system.untrain 'up', component rescue false
-      @m.system.untrain 'down', component rescue false
-    end
-
-    href.update_column(:good, false)
-    href.update_column(:good_host, false)
-    href.update_column(:good_path, false)
-
-    flash[:notice] = 'Untrained'
+    flash[:notice] = @m.system.classify(href.url)
+    @m.take_snapshot
 
     respond_to do |format|
       format.html { redirect_to :back }

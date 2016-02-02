@@ -28,8 +28,6 @@ table border='1' align='center' cellpadding='5'
           span style='display:table;margin:0 auto;'
             = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=up&s=host', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-up" style='margin-right: 4em;'
-            = link_to '/admin/hrefs/' + href.id.to_s + '/untrain', :method => :post, :remote => true do
-              i class="fa fa-ban" style='margin-right: 4em;'
             = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=down&s=host', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-down"
 

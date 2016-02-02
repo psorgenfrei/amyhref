@@ -20,8 +20,8 @@ namespace :bayes do
     Href.where(['created_at > ? AND created_at < ?', 1.day.ago.at_beginning_of_day, 1.day.ago.at_end_of_day]).find_each.collect{ |h| h.reclassify }
   end
 
-  desc "Reclassify urls"
-  task reclassify: :environment do
+  desc "Reclassify urls from today"
+  task reclassify_today: :environment do
     Href.where(['created_at > ?', 1.day.ago.at_beginning_of_day]).find_each.collect{ |h| h.reclassify }
   end
 end
