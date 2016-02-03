@@ -44,6 +44,7 @@ namespace :mail do
           next if host =~ /facebook.com/
           next if host =~ /linkedin.com/
           next if host =~ /instapaper.com/
+          next if host =~ /forward-to-friend.com/
 
           puts 'scraping w/ phantomjs'
           puts href.url
