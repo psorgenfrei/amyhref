@@ -23,7 +23,6 @@ class Admin::HrefsController < ApplicationController
   def train
     href = Href.find(params[:href_id])
 
-    @m.system.train params[:q].to_sym, href.url
     @m.system.train params[:q].to_sym, href.send(params[:s].to_sym)
 
     if params[:q] == 'up'

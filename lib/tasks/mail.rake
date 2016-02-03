@@ -42,16 +42,20 @@ namespace :mail do
 
           puts 'scraping w/ phantomjs'
           puts href.url
-          stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{href.url}\" ") 
-          responses = stdout.read.split("\n")
-          responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
-          puts responses.last
-          if responses && responses.last && responses.last != href.url
-            href.url = responses.last
-          end
+          Timeout::timeout(10) do
+            stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{href.url}\" ") 
+            responses = stdout.read.split("\n")
+            responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
+            puts responses.last
+            if responses && responses.last && responses.last != href.url
+              href.url = responses.last
+            end
 
-          if href.valid?
-            href.save
+            if href.valid?
+              href.save
+            end
+          rescue Timeout::Error
+            puts "Timed out, skipping..."
           end
         end
       end
