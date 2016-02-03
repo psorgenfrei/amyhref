@@ -6,6 +6,7 @@ var system = require('system');
 var myurl = system.args[1];
 
 var renderPage = function (url) {
+    url = url.trim();
     page = require('webpage').create();
 
     page.onNavigationRequested = function(url, type, willNavigate, main) {
