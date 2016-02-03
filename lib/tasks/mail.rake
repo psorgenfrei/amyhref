@@ -36,6 +36,7 @@ namespace :mail do
           host = '' 
           href = nil
           url.strip!
+          url = url.gsub(/^\s+/, '')
 
           href = Href.new(:url => url, :newsletter_id => newsletter.id) rescue next
           host = href.host.downcase rescue next
