@@ -17,7 +17,7 @@ table border='1' align='center' cellpadding='5'
 
   - @hrefs.each do |href|
     tr
-      td style= "#{@m.system.classify(href.url).downcase == 'up' ? 'background-color: green;' : 'background-color: red;'}"
+      td style= "#{@m.system.classify(href.host).downcase == 'up' && @m.system.classify(href.path) == 'up' ? 'background-color: green;' : 'background-color: red;'}"
         i class="fa fa-cloud"
 
       td style= "#{href.good ? 'background-color: green;' : 'background-color: red;'}"
