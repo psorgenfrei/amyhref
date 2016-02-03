@@ -33,8 +33,13 @@ namespace :mail do
         urls = links.map {|link| link.attribute('href').to_s}.uniq.sort.delete_if {|href| href.empty?}
 
         urls.each do |url|
-          (href = Href.new(:url => url, :newsletter => newsletter) rescue next)
-          host = href.host
+          host = '' 
+          href = nil
+          url.strip!
+
+          href = Href.new(:url => url, :newsletter_id => newsletter.id) rescue next
+          host = href.host.downcase rescue next
+
           next if host =~ /twitter.com/ 
           next if host =~ /facebook.com/
           next if host =~ /linkedin.com/
@@ -42,16 +47,30 @@ namespace :mail do
 
           puts 'scraping w/ phantomjs'
           puts href.url
-          stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{href.url}\" ") 
-          responses = stdout.read.split("\n")
-          responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
-          puts responses.last
-          if responses && responses.last && responses.last != href.url
-            href.url = responses.last
-          end
+          begin
+            Timeout::timeout(10) do
+              stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{href.url}\" ") 
+              responses = stdout.read.split("\n")
+              responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
+              puts responses.last.inspect
+              puts "----1"
+              if responses && responses.last && responses.last != href.url
+                href.url = responses.last
+              end
 
-          if href.valid?
-            href.save
+              puts href.inspect
+              puts "----2"
+              begin
+                if href.valid?
+                  href.save
+                end
+              rescue SystemStackError
+                puts $!
+                puts caller[0..500]
+              end
+            end
+          rescue Timeout::Error
+            puts "Timed out, skipping..."
           end
         end
       end
