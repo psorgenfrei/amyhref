@@ -1,3 +1,5 @@
+require 'byebug'
+
 namespace :mail do
   desc "Fetch new email and parse"
   task fetch: :environment do
@@ -33,14 +35,10 @@ namespace :mail do
         urls = links.map {|link| link.attribute('href').to_s}.uniq.sort.delete_if {|href| href.empty?}
 
         urls.each do |url|
-          host = '' 
-          href = nil
-          url.strip!
-          url = url.gsub(/^\s+/, '')
-
           href = Href.new(:url => url, :newsletter_id => newsletter.id) rescue next
-          host = href.host.downcase rescue next
+          href.url = href.url.gsub(/^\s+/, '').strip
 
+          host = href.host.downcase rescue next
           next if host =~ /twitter.com/ 
           next if host =~ /facebook.com/
           next if host =~ /linkedin.com/
@@ -53,19 +51,22 @@ namespace :mail do
           puts href.url
 
           begin
-            Timeout::timeout(10) do
-              stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{href.url}\" ") 
+            Timeout::timeout(20) do
+              stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{href.url.strip}\" ") 
               responses = stdout.read.split("\n")
               responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
-              puts responses.last.inspect
-              puts "----1"
+
               if responses && responses.last && responses.last != href.url
                 href.url = responses.last
               end
+              href.url = href.url.gsub(/^\s+/, '').strip
 
-              puts href.inspect
-              puts "----2"
+              puts href.url
+              puts "^^^ done"
+
               begin
+                #byebug
+
                 if href.valid?
                   href.save
                 end

@@ -1,8 +1,7 @@
 class Href < ActiveRecord::Base
-  validates_presence_of :url
-  validates_uniqueness_of :url, :scope => :newsletter
-
-  belongs_to :newsletter
+  #validates_presence_of :url
+  #validates_uniqueness_of :url, :scope => :newsletter
+  #belongs_to :newsletter
 
   before_create :initial_classification
 
@@ -56,7 +55,7 @@ class Href < ActiveRecord::Base
   # - use a timeout because sometimes we get stack level errors
   def initial_classification
     begin
-      Timeout::timeout(10) do
+      Timeout::timeout(30) do
         self.url.strip!
 
         @m ||= setup_madeleine
@@ -76,7 +75,7 @@ class Href < ActiveRecord::Base
         end
       end
     rescue Timeout::Error
-      self.destroy # delete this Href model as it's wonky
+      #self.destroy # delete this Href model as it's wonky
     end
   end
 end
