@@ -3,6 +3,7 @@ class Href < ActiveRecord::Base
   #validates_uniqueness_of :url, :scope => :newsletter
   #belongs_to :newsletter
 
+  before_save :set_domain
   before_create :initial_classification
 
   require 'uri'
@@ -45,6 +46,10 @@ class Href < ActiveRecord::Base
   end
 
   protected
+  def set_domain
+    self.domain = self.host
+  end
+
   def setup_madeleine
     SnapshotMadeleine.new('bayes_data') {
       Classifier::Bayes.new 'up', 'down'
