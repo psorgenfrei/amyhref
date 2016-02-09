@@ -78,6 +78,7 @@ namespace :mail do
             puts $!
             puts caller[0..500]
           end
+          sleep(5)
         end
       end
     rescue Exception => e
