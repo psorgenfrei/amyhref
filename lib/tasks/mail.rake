@@ -6,7 +6,7 @@ namespace :mail do
     require 'uri'
     require 'open3'
 
-    emails = Mail.find(keys: ['NOT', 'SEEN'], count: 5, order: :asc)
+    emails = Mail.find(keys: ['NOT', 'SEEN'], count: 25, order: :asc)
     puts emails.length
 
     begin
