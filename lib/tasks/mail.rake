@@ -6,7 +6,7 @@ namespace :mail do
     require 'uri'
     require 'open3'
 
-    emails = Mail.find(keys: ['NOT', 'SEEN'], order: :asc)
+    emails = Mail.find(keys: ['NOT', 'SEEN'], count: 5, order: :asc)
     puts emails.length
 
     begin
@@ -35,48 +35,48 @@ namespace :mail do
         urls = links.map {|link| link.attribute('href').to_s}.uniq.sort.delete_if {|href| href.empty?}
 
         urls.each do |url|
-          href = Href.new(:url => url, :newsletter_id => newsletter.id) rescue next
-          href.url = href.url.gsub(/^\s+/, '').strip
-
-          host = href.host.downcase rescue next
-          next if host =~ /twitter.com/ 
-          next if host =~ /facebook.com/
-          next if host =~ /linkedin.com/
-          next if host =~ /instapaper.com/
-          next if host =~ /forward-to-friend\d*.com/
-          next if host =~ /list-manage\d*.com/
-          next if host =~ /campaign-archive\d*.com/
-
           puts 'scraping w/ phantomjs'
-          puts href.url
+          url = url.gsub(/^\s+/, '').strip
+          puts url
+
+          stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{url}\" ") 
+          responses = stdout.read.split("\n")
+          responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
+
+          if responses && responses.last && responses.last != url
+            url = responses.last
+          end
+          url = url.gsub(/^\s+/, '').strip
+
+          puts url
+          puts "^^^ done"
 
           begin
-            Timeout::timeout(20) do
-              stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{href.url.strip}\" ") 
-              responses = stdout.read.split("\n")
-              responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
+            #byebug
+            href = Href.new(:url => url, :newsletter_id => newsletter.id) rescue next
+            host = href.host.downcase rescue next
 
-              if responses && responses.last && responses.last != href.url
-                href.url = responses.last
+            next if host =~ /twitter.com/ 
+            next if host =~ /facebook.com/
+            next if host =~ /linkedin.com/
+            next if host =~ /instapaper.com/
+            next if host =~ /forward-to-friend\d*.com/
+            next if host =~ /list-manage\d*.com/
+            next if host =~ /campaign-archive\d*.com/
+
+            if href.valid?
+              unless ActiveRecord::Base.connected?
+                ActiveRecord::Base.connection.reconnect!
               end
-              href.url = href.url.gsub(/^\s+/, '').strip
 
-              puts href.url
-              puts "^^^ done"
-
-              begin
-                #byebug
-
-                if href.valid?
-                  href.save
-                end
-              rescue SystemStackError
-                puts $!
-                puts caller[0..500]
-              end
+              href.save
+              puts "Saved #{href.url.inspect}"
+            else
+              puts "Skipping invalid url: #{href.url}"
             end
-          rescue Timeout::Error
-            puts "Timed out, skipping..."
+          rescue SystemStackError
+            puts $!
+            puts caller[0..500]
           end
         end
       end
