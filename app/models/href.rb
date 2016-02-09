@@ -1,7 +1,7 @@
 class Href < ActiveRecord::Base
-  #validates_presence_of :url
-  #validates_uniqueness_of :url, :scope => :newsletter
-  #belongs_to :newsletter
+  validates_presence_of :url
+  validates_uniqueness_of :url, :scope => :newsletter
+  belongs_to :newsletter
 
   before_save :set_domain
   before_create :initial_classification
