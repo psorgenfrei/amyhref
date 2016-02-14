@@ -69,7 +69,7 @@ namespace :mail do
                 ActiveRecord::Base.connection.reconnect!
               end
 
-              href.save
+              href.save!
               puts "Saved #{href.url.inspect}"
             else
               puts "Skipping invalid url: #{href.url}"
