@@ -35,6 +35,8 @@ namespace :mail do
         urls = links.map {|link| link.attribute('href').to_s}.uniq.sort.delete_if {|href| href.empty?}
 
         urls.each do |url|
+          next if url =~ /unsubscribe/ 
+
           puts 'scraping w/ phantomjs'
           url = url.gsub(/^\s+/, '').strip
           puts url
