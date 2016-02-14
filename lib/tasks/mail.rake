@@ -63,6 +63,8 @@ namespace :mail do
             next if host =~ /linkedin.com/
             next if host =~ /instapaper.com/
             next if host =~ /forward-to-friend\d*.com/
+            next if host =~ /forwardtomyfriend\d*.com/
+            next if host =~ /updatemyprofile\d*.com/
             next if host =~ /list-manage\d*.com/
             next if host =~ /campaign-archive\d*.com/
 
