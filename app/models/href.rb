@@ -66,11 +66,13 @@ class Href < ActiveRecord::Base
 
     path_status= @m.system.classify(self.path).downcase rescue 'down'
     host_status = @m.system.classify(self.host).downcase rescue 'down'
+    url_status = @m.system.classify(self.url).downcase rescue 'down'
 
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'
 
-    if self.good_host? && self.good_path?
+    #if self.good_host? && self.good_path?
+    if url_status == 'up'
       self.good = true
     else
       self.good = false
