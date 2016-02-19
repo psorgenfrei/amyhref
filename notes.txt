@@ -2,3 +2,6 @@ To allow logins via Gmail, allow "less secure apps" under "Connected apps & site
 
 Crontab line - 
 @hourly (cd /home/suttree/src/amyhref/ && /home/suttree/.rvm/gems/ruby-2.0.0-p598@global/wrappers/bundle exec /home/suttree/.rvm/gems/ruby-2.0.0-p598/wrappers/rake -f /home/suttree/src/amyhref/Rakefile mail:fetch) >> /tmp/cron_debug_log.log 2>&1
+
+Regenerate assets - 
+RAILS_ENV=production bundle exec rake assets:precompile
