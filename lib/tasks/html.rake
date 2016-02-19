@@ -13,6 +13,9 @@ namespace :html do
     h1 = doc.at_css('h1')
     h1.content = "Amy Href's links of the day for " + Time.now.strftime("%A, %b %d %Y").to_s + ' 😎'
 
+    archive = doc.at_css('p.archive')
+    archive.inner_html = "<a href='/index-#{Date.yesterday}'>Yesterday</a>".html_safe
+
     div = doc.css('div#links')[0]
 
     # get page title and create an embed.ly card for each href
@@ -22,6 +25,7 @@ namespace :html do
       card = "<a id='#{href.id}' class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href='#{href.url}'>#{title}</a><p id='break' data-id='#{href.id}'></p>"
       div.add_child(card)
     end
+
 
     File.open(Rails.root + 'app/views/home/index.html.slim', 'w:utf-8') {|f| f.write(doc.to_html) }
     restart_cmd = 'touch ' + Rails.root.to_s + '/tmp/restart.txt'
