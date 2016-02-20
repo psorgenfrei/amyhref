@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   root 'home#index'
-  get '*archives' => 'home#archives'
 
   namespace :admin do
     resources :hrefs do
@@ -13,4 +12,5 @@ Rails.application.routes.draw do
       end
     end
   end
+  get '*archives' => 'home#archives'
 end
