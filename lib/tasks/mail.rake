@@ -67,6 +67,8 @@ namespace :mail do
             next if host =~ /updatemyprofile\d*.com/
             next if host =~ /list-manage\d*.com/
             next if host =~ /campaign-archive\d*.com/
+            next if host =~ /fanbridge.com/
+            next if host =~ /typeform.com/
 
             if href.valid?
               unless ActiveRecord::Base.connected?
