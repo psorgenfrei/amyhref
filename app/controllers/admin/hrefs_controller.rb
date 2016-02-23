@@ -20,10 +20,17 @@ class Admin::HrefsController < ApplicationController
     render :action => :index
   end
 
+  def search
+    @hrefs = Href.where(["LOWER(url) LIKE ?", '%' + params[:q].downcase + '%']).order('id DESC').paginate(:page => params[:page], :per_page => 10)
+
+    render :action => :index
+  end
+
   def train
     href = Href.find(params[:href_id])
 
-    @m.system.train params[:q].to_sym, href.send(params[:s].to_sym)
+    @m.system.train params[:q], href.send(params[:s]) # host or path
+    @m.system.train params[:q], href.url # full url
 
     if params[:q] == 'up'
       if params[:s] == 'host'
@@ -40,10 +47,7 @@ class Admin::HrefsController < ApplicationController
     end
     set_good_or_bad(href)
 
-    href.reclassify
-
     flash[:notice] = @m.system.classify(href.url)
-    @m.take_snapshot
 
     respond_to do |format|
       format.html { redirect_to :back }

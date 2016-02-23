@@ -40,7 +40,7 @@ class Href < ActiveRecord::Base
 
   def train(key, value)
     @m ||= setup_madeleine
-    @m.system.train(key.to_sym, value)
+    @m.system.train(key, value)
     self.reclassify
     @m.take_snapshot
     @m.system.classifications(value)
