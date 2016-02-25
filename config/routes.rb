@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root 'home#index'
 
+  resources :sessions, only: :new
+  get "/auth/:provider/callback" => 'sessions#create'
+
   namespace :admin do
     resources :hrefs do
       post :train, :as => :train_path

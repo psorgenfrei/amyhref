@@ -5,3 +5,7 @@ Crontab line -
 
 Regenerate assets - 
 RAILS_ENV=production bundle exec rake assets:precompile
+
+ngrok
+./ngrok http 3000
+http://localhost:4040 
