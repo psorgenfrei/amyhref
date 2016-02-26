@@ -38,5 +38,9 @@ class SessionsController < ApplicationController
       refresh_token: @auth['refresh_token'],
       expires_at: Time.at(@auth['expires_at']).to_datetime
     )
+
+    imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
+    imap.authenticate('XOAUTH2', @user.email, @auth['token'])
+    @messages_count = imap.status('INBOX', ['MESSAGES'])['MESSAGES']
   end
 end

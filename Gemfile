@@ -51,3 +51,10 @@ gem 'byebug'
 gem 'omniauth', '~> 1.2.2'
 gem 'omniauth-google-oauth2'
 gem 'json'
+gem 'gmail_xoauth'
+
+group :development do
+  #gem 'better_errors'
+  gem 'better_errors', git: 'git@github.com:manafire/better_errors.git', branch: 'allow_domain' # supports ngrok
+  gem 'binding_of_caller'
+end
