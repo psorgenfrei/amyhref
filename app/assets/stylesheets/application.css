@@ -34,3 +34,7 @@
   top: 0;
   right: 0;
 }
+.gmail_signin:hover {
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
