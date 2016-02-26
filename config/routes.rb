@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :sessions, only: :new
   get "/auth/:provider/callback" => 'sessions#create'
 
+  match '/you', :to => 'you#index', :as => 'you'
+
   namespace :admin do
     resources :hrefs do
       post :train, :as => :train_path

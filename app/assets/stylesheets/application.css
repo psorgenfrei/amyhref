@@ -28,3 +28,9 @@
   text-transform: uppercase;
   color: #fff;
 }
+
+.gmail_signin {
+  position: fixed;
+  top: 0;
+  right: 0;
+}

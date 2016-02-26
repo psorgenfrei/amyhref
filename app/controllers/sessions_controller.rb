@@ -42,5 +42,7 @@ class SessionsController < ApplicationController
     imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
     imap.authenticate('XOAUTH2', @user.email, @auth['token'])
     @messages_count = imap.status('INBOX', ['MESSAGES'])['MESSAGES']
+
+    # redirect_to you_path
   end
 end
