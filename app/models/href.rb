@@ -2,6 +2,7 @@ class Href < ActiveRecord::Base
   validates_presence_of :url
   validates_uniqueness_of :url, :scope => :newsletter
 
+  belongs_to :user
   belongs_to :newsletter
 
   before_save :set_domain
