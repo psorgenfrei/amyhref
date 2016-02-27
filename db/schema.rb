@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160227141521) do
+ActiveRecord::Schema.define(version: 20160227155700) do
 
   create_table "hrefs", force: true do |t|
     t.text     "url"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160227141521) do
     t.boolean  "good",          default: false
     t.boolean  "good_host",     default: false
     t.boolean  "good_path",     default: false
+    t.integer  "user_id"
   end
 
   add_index "hrefs", ["created_at"], name: "index_hrefs_on_created_at", using: :btree
