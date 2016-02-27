@@ -2,7 +2,14 @@
   h1= key 
   p= value
 
+hr
+
 = @user.inspect
+br
 = @token.inspect
 
-= "Seeing #{@messages_count} messages in INBOX"
+hr
+
+= "Seeing #{@inbox_messages_count} messages in INBOX"
+br
+= "Seeing #{@all_messages_count} messagas in TOTAL"
