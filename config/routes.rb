@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :sessions
   get "/auth/:provider/callback" => 'sessions#create'
+  delete "/signout" => 'sessions#destroy'
 
   match '/you', :to => 'you#index', :as => 'you', :via => :get
 

@@ -41,11 +41,13 @@ class SessionsController < ApplicationController
 
     imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
     imap.authenticate('XOAUTH2', @user.email, @auth['token'])
+puts @auth['token']
+puts "----1"
     @inbox_messages_count = imap.status('INBOX', ['MESSAGES'])['MESSAGES']
     @all_messages_count = imap.status("[Google Mail]/All Mail", ['MESSAGES'])['MESSAGES']
 
     session[:current_user] = @user.id
-    # redirect_to you_path
+    redirect_to you_path
   end
 
   def destroy
