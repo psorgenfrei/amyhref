@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   root 'home#index'
 
-  resources :sessions, only: :new
+  resources :sessions
   get "/auth/:provider/callback" => 'sessions#create'
 
-  match '/you', :to => 'you#index', :as => 'you'
+  match '/you', :to => 'you#index', :as => 'you', :via => :get
 
   namespace :admin do
     resources :hrefs do

@@ -43,6 +43,12 @@ class SessionsController < ApplicationController
     imap.authenticate('XOAUTH2', @user.email, @auth['token'])
     @messages_count = imap.status('INBOX', ['MESSAGES'])['MESSAGES']
 
+    sessions[:current_user] = @user.id
     # redirect_to you_path
+  end
+
+  def destroy
+    session.delete(:current_user)
+    redirect_to root_path
   end
 end

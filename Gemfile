@@ -54,7 +54,9 @@ gem 'json'
 gem 'gmail_xoauth'
 
 group :development do
-  #gem 'better_errors'
   gem 'better_errors', git: 'git@github.com:manafire/better_errors.git', branch: 'allow_domain' # supports ngrok
   gem 'binding_of_caller'
 end
+
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+

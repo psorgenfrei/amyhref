@@ -1,4 +1,14 @@
 GIT
+  remote: git://github.com/rails/activerecord-session_store.git
+  revision: 1f1999c549701f92007e6946cb476baf3ed3a4c2
+  specs:
+    activerecord-session_store (0.1.2)
+      actionpack (>= 4.0, < 5.1)
+      activerecord (>= 4.0, < 5.1)
+      rack (>= 1.5.2, < 3)
+      railties (>= 4.0, < 5.1)
+
+GIT
   remote: git@github.com:manafire/better_errors.git
   revision: bff72c44c3e040b1b016cccdfe128896835d88b0
   branch: allow_domain
@@ -194,6 +204,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-session_store!
   better_errors!
   binding_of_caller
   byebug
