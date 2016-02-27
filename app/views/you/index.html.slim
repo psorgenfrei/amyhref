@@ -5,9 +5,4 @@ p= "Seeing #{@inbox_messages_count} messages in INBOX"
 p= "Seeing #{@all_messages_count} messagas in TOTAL"
 
 hr
-
-- @imap.examine("[Google Mail]/All Mail")
-- @imap.uid_search(["NOT", "DELETED"]).each_with_index do |message_id, index|
-  - next if index >= 50
-  - envelope = @imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
-  = "#{envelope.from[0].name}: \t#{envelope.subject}"
+p= @messages.inspect
