@@ -1,7 +1,18 @@
 require 'byebug'
 
 namespace :mail do
-  desc "Fetch new email and parse"
+  desc "Fetch email for each user and parse"
+  task fetch_for_useres: :environment do
+    require 'uri'
+    require 'open3'
+
+    User.each do |user|
+      @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
+      @imap.authenticate('XOAUTH2', user.email, user.tokens.last.access_token)
+    end
+  end
+
+  desc "Fetch Amy's new email and parse"
   task fetch: :environment do
     require 'uri'
     require 'open3'
