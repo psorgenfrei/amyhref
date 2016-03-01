@@ -2,7 +2,7 @@ require 'byebug'
 
 namespace :mail do
   desc "Fetch email for each user and parse"
-  task fetch_for_useres: :environment do
+  task fetch_for_users: :environment do
     require 'uri'
     require 'open3'
 

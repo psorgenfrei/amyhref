@@ -5,10 +5,23 @@ class YouController < ApplicationController
     @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
     @imap.authenticate('XOAUTH2', current_user.email, current_user.tokens.last.fresh_token)
 
-    @inbox_messages_count = @imap.status('INBOX', ['MESSAGES'])['MESSAGES']
-    @all_messages_count = @imap.status("[Google Mail]/All Mail", ['MESSAGES'])['MESSAGES']
+    amyhref_folder_name = 'amyhref.com'
 
-    #@imap.examine("[Google Mail]/All Mail")
+    # Setup the amyhref.com label
+    if not @imap.list('', amyhref_folder_name)
+      @imap.create(amyhref_folder_name)
+    end
+
+    #begin
+    #  @imap.create(amyhref_folder_name)
+    #rescue Net::IMAP::NoResponseError
+    #  # folder exists
+    #end
+
+    @inbox_messages_count = 0 #@imap.status('INBOX', ['MESSAGES'])['MESSAGES']
+    @all_messages_count = 0 #@imap.status("[Google Mail]/All Mail", ['MESSAGES'])['MESSAGES']
+
+    #@imap.examine("[Google Mail]/All Mail") # read-only
     #@imap.uid_search(["NOT", "DELETED"]).each_with_index do |message_id, index|
     #  next if index >= 50
     #  envelope = @imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
@@ -16,16 +29,24 @@ class YouController < ApplicationController
     #end
 
     @messages = []
-    @imap.examine("[Google Mail]/All Mail")
-    @imap.search(['SINCE', 1.week.ago]).each do |message_id|
+    @imap.select("[Google Mail]/All Mail")
+    @imap.search(['SINCE', 2.weeks.ago]).each do |message_id|
       #envelope = @imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
       #@messages << "#{envelope.from[0].name}: \t#{envelope.subject}"
 
-      email_header = @imap.fetch(message_id, 'RFC822.HEADER')
+      email_header = @imap.fetch(message_id, 'RFC822.HEADER') # equiv to BODY.PEEK
 
       if email_header[0].attr['RFC822.HEADER'].downcase.include? 'list-unsubscribe'
+        #puts email_header[0].attr['RFC822.HEADER'].inspect
+        #puts "--"
+
         envelope = @imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
         @messages << "#{envelope.from[0].name}: \t#{envelope.subject}"
+
+        @imap.copy(message_id, amyhref_folder_name)
+        @imap.store(message_id, "+FLAGS", [:Deleted])
+        @imap.store(message_id, "+FLAGS", [:Seen])
+        @imap.expunge
       end
     end
 

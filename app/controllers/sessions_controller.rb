@@ -30,6 +30,9 @@ class SessionsController < ApplicationController
     end
 
     @auth = request.env['omniauth.auth']['credentials']
+puts @auth.inspect
+puts "=== looking for refresh token =="
+puts "-----"
 
     Token.create(
       user_id: @user.id,

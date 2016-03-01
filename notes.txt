@@ -9,3 +9,7 @@ RAILS_ENV=production bundle exec rake assets:precompile
 ngrok
 ./ngrok http 3000
 http://localhost:4040 
+
+Google - 
+remove account access
+https://myaccount.google.com/security#connectedapps
