@@ -1,3 +1,4 @@
+# From https://github.com/dcparker/ruby-gmail/issues/11 and https://gist.github.com/WojtekKruszewski/1404434
 module Net
   class IMAP
     class ResponseParser
@@ -44,7 +45,6 @@ module Net
         end
         return attr
       end
-
     end
   end
 end
