@@ -6,9 +6,9 @@ class Token < ActiveRecord::Base
 
   def to_params
     {
-      'refresh_token' => refresh_token,
-      'client_id' => ENV['CLIENT_ID'],
-      'client_secret' => ENV['CLIENT_SECRET'],
+      'refresh_token' => self.refresh_token,
+      'client_id' => Rails.application.secrets.client_id,
+      'client_secret' => Rails.application.secrets.client_secret,
       'grant_type' => 'refresh_token'
     }
   end
@@ -19,6 +19,7 @@ class Token < ActiveRecord::Base
   end
 
   def refresh!
+puts self.inspect
     response = request_token_from_google
     data = JSON.parse(response.body)
 puts data.inspect
