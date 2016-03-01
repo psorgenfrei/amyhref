@@ -9,6 +9,16 @@ namespace :mail do
     User.each do |user|
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
       @imap.authenticate('XOAUTH2', user.email, user.tokens.last.access_token)
+
+      # Find all since last processed or two weeks ago
+      # copy to amyhref.com folder
+      # remove from Inbox
+      # store message uid
+
+      # fetch all emails via uid
+      # read each email and parse
+
+      # disconnect
     end
   end
 
