@@ -1,4 +1,4 @@
-require 'byebug'
+#require 'byebug'
 
 namespace :mail do
   desc "Fetch email for each user and parse"
@@ -23,6 +23,8 @@ namespace :mail do
       # Label all newsletters, mark as read and remove from inbox
       message_ids = []
       last_processed = user.last_processed || 2.weeks.ago
+
+      puts "Processing #{user.name} from #{last_processed}."
       @imap.uid_search(['SINCE', last_processed]).each do |message_id|
         #envelope = @imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
         #@messages << "#{envelope.from[0].name}: \t#{envelope.subject}"
@@ -116,8 +118,9 @@ namespace :mail do
           end
           url = url.gsub(/^\s+/, '').strip
 
-          #puts url
-          #puts "^^^ done"
+          puts responses.inspect
+          puts url
+          puts "^^^ done"
 
           begin
             #byebug
