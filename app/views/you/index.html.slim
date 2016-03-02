@@ -3,12 +3,19 @@ h1
   br
   = "(#{current_user.email}) 😎"
 
+- last_day = false
+
 .links
   - @hrefs.each do |href|
-    a id="#{href.id}" class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
-    p.break.meta data-id="#{href.id}"
-      ' &mdash; #{href.newsletter.email} // #{href.rating}
+    - if last_day && last_day != href.created_at.strftime('%d%m%Y')
+      p.break.meta.left= href.created_at.strftime("%A, %b %d %Y")
 
-p.archive
+    a id="#{href.id}" class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
+    p.break.meta.right data-id="#{href.id}"
+      ' &mdash; #{href.newsletter.email if href.newsletter} // #{href.rating}
+
+    - last_day = href.created_at.strftime('%d%m%Y')
+
+p class='archive'
   = @hrefs.total_pages
-  = will_paginate @hrefs, :page_links => false
+  = will_paginate @hrefs

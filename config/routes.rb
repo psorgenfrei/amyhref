@@ -17,5 +17,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
   get '*archives' => 'home#archives'
 end
