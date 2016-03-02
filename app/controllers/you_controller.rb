@@ -2,6 +2,10 @@ class YouController < ApplicationController
   before_filter :require_user
 
   def index
+    @hrefs = current_user.hrefs.where(['created_at > ? AND created_at < ?', Date.today.at_beginning_of_day, Date.today.at_end_of_day]).group(:domain).where(:good => true).order('RAND()').limit(22)
+  end
+
+  def index_for_testing
     @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
     @imap.authenticate('XOAUTH2', current_user.email, current_user.tokens.last.fresh_token)
 
@@ -28,9 +32,10 @@ class YouController < ApplicationController
     #  "#{envelope.from[0].name}: \t#{envelope.subject}"
     #end
 
-    @messages = []
     # TODO this might be [Gmail] rather than [Google Mail]
     @imap.select("[Google Mail]/All Mail")
+
+    @messages = []
     @imap.uid_search(['SINCE', 2.weeks.ago]).each do |message_id|
       #envelope = @imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
       #@messages << "#{envelope.from[0].name}: \t#{envelope.subject}"

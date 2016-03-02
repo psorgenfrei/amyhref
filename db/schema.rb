@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160227155700) do
+ActiveRecord::Schema.define(version: 20160302090409) do
 
   create_table "hrefs", force: true do |t|
     t.text     "url"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20160227155700) do
     t.string   "profile"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "last_processed"
   end
 
 end

@@ -6,19 +6,58 @@ namespace :mail do
     require 'uri'
     require 'open3'
 
-    User.each do |user|
+    User.connection
+    User.all.each do |user|
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
       @imap.authenticate('XOAUTH2', user.email, user.tokens.last.access_token)
 
-      # Find all since last processed or two weeks ago
-      # copy to amyhref.com folder
-      # remove from Inbox
-      # store message uid
+      # Setup the amyhref.com mailbox/label
+      amyhref_folder_name = 'amyhref.com'
+      if not @imap.list('', amyhref_folder_name)
+        @imap.create(amyhref_folder_name)
+      end
 
-      # fetch all emails via uid
-      # read each email and parse
+      @imap.select("[Google Mail]/All Mail")
 
-      # disconnect
+      
+      # Label all newsletters, mark as read and remove from inbox
+      message_ids = []
+      last_processed = user.last_processed || 2.weeks.ago
+      @imap.uid_search(['SINCE', last_processed]).each do |message_id|
+        #envelope = @imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
+        #@messages << "#{envelope.from[0].name}: \t#{envelope.subject}"
+
+        email_header = @imap.uid_fetch(message_id, 'RFC822.HEADER') # equiv to BODY.PEEK
+
+        if email_header[0].attr['RFC822.HEADER'].downcase.include? 'list-unsubscribe'
+          message_ids << message_id
+
+          @imap.uid_copy(message_id, amyhref_folder_name)
+          @imap.uid_store(message_id, "+FLAGS", [:Seen])
+
+          #puts @imap.uid_fetch(message_id, 'X-GM-LABELS')
+          @imap.uid_store(message_id,'-X-GM-LABELS', :Inbox)
+        end
+      end
+
+      # Parse each email for links
+      emails = []
+      message_ids.each do |message_id|
+        message = @imap.uid_fetch(message_id,'RFC822')[0].attr['RFC822']
+        emails << Mail.read_from_string(message)
+      end
+
+
+      @imap.expunge
+      @imap.logout
+      @imap.disconnect
+
+# TODO
+# will just keep reprocessing emails that are read and archived?
+# or will last_processed take care of that?
+# signin with Amy to create her account also
+      parse_emails(emails, user)
+      user.update_attributes(:last_processed => Time.now)
     end
   end
 
@@ -27,8 +66,14 @@ namespace :mail do
     require 'uri'
     require 'open3'
 
+    user = User.where(:email => 'amyhref@gmail.com').first
     emails = Mail.find(keys: ['NOT', 'SEEN'], count: 25, order: :asc)
-    puts emails.length
+    parse_emails(emails, user)
+  end
+
+  private
+  def parse_emails(emails, user)
+    puts "Processing #{emails.length} email(s) for #{user.name}"
 
     begin
       emails.each_with_index do |email, index|
@@ -71,12 +116,12 @@ namespace :mail do
           end
           url = url.gsub(/^\s+/, '').strip
 
-          puts url
-          puts "^^^ done"
+          #puts url
+          #puts "^^^ done"
 
           begin
             #byebug
-            href = Href.new(:url => url, :newsletter_id => newsletter.id) rescue next
+            href = Href.new(:url => url, :newsletter_id => newsletter.id, :user_id => user.id) rescue next
             host = href.host.downcase rescue next
 
             next if host =~ /twitter.com/ 

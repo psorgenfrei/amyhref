@@ -1,10 +1,8 @@
 h1= current_user.name
 
-p= "Seeing #{@inbox_messages_count} messages in INBOX"
+.links
+  - @hrefs.each do |href|
+    a id="#{href.id}" class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
+    p.break data-id="#{href.id}"
 
-p= "Seeing #{@all_messages_count} messagas in TOTAL"
-
-hr
-p= @messages.inspect
-p= "#{@messages.count} processed"
-p= Time.now
+p.archive
