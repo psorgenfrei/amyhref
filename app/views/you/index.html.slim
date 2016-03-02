@@ -1,4 +1,7 @@
-h1= current_user.name
+h1
+  = "Amy Href + #{current_user.name}"
+  br
+  = "(#{current_user.email}) 😎"
 
 .links
   - @hrefs.each do |href|

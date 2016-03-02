@@ -17,8 +17,11 @@ namespace :mail do
         @imap.create(amyhref_folder_name)
       end
 
-      @imap.select("[Google Mail]/All Mail")
-
+      begin
+        @imap.select("[Google Mail]/All Mail")
+      rescue Net::IMAP::NoResponseError
+        @imap.select("[Gmail]/All Mail")
+      end
       
       # Label all newsletters, mark as read and remove from inbox
       message_ids = []
