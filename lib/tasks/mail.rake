@@ -26,9 +26,6 @@ namespace :mail do
 
       puts "Processing #{user.name} from #{last_processed}."
       @imap.uid_search(['SINCE', last_processed]).each do |message_id|
-        #envelope = @imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
-        #@messages << "#{envelope.from[0].name}: \t#{envelope.subject}"
-
         email_header = @imap.uid_fetch(message_id, 'RFC822.HEADER') # equiv to BODY.PEEK
 
         if email_header[0].attr['RFC822.HEADER'].downcase.include? 'list-unsubscribe'
@@ -49,15 +46,14 @@ namespace :mail do
         emails << Mail.read_from_string(message)
       end
 
-
       @imap.expunge
       @imap.logout
       @imap.disconnect
 
-# TODO
-# will just keep reprocessing emails that are read and archived?
-# or will last_processed take care of that?
-# signin with Amy to create her account also
+      # TODO
+      # will just keep reprocessing emails that are read and archived?
+      # or will last_processed take care of that?
+      # signin with Amy to create her account also
       parse_emails(emails, user)
       user.update_attributes(:last_processed => Time.now)
     end
@@ -109,7 +105,12 @@ namespace :mail do
           url = url.gsub(/^\s+/, '').strip
           puts url
 
-          stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{url}\" ") 
+          # Ensure we use the right phantomjs
+          if ['foo'].pack('p').size == 8 # 64bit
+            stdin, stdout, stderr = Open3.popen3("phantomjs scraper.js \"#{url}\" ") 
+          elsif ['foo'].pack('p').size == 4 # 32bit
+            stdin, stdout, stderr = Open3.popen3("#{Rails.root}/./phantomjs scraper.js \"#{url}\" ") 
+          end
           responses = stdout.read.split("\n")
           responses.reject!{ |rsp| rsp.downcase == 'about:blank' }
 
