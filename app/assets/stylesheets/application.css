@@ -123,14 +123,16 @@ div.embedly-card {
 }
 
 .meta {
-  .right {
-    text-align: right;
-  }
-  .left {
-    text-align: left;
-  }
   font-size: small;
   color: #8A8A8A;
+}
+
+.right {
+  text-align: right;
+}
+
+.left {
+  text-align: left;
 }
 
 .btn {
