@@ -20,7 +20,7 @@
     -->
     <div class='gmail_signin'>
       <% if logged_in? %>
-        <a href='/signout' class='signout'>Sign out</a>
+        <%= link_to 'Sign out', '/signout', :class => 'signout', :method => :delete %>
       <% else %>
         <a href='/auth/google_oauth2'>
           <img src='/assets/google_signin_buttons/google_signin_button.png' width='191' height='46'>

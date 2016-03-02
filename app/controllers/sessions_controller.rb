@@ -45,6 +45,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session.delete(:current_user)
-    redirect_to root_path
+    redirect_to root_path and return
   end
 end
