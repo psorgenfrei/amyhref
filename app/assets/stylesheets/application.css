@@ -127,3 +127,43 @@ div.embedly-card {
   font-size: small;
   color: #8A8A8A;
 }
+
+.btn {
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 0 1.25em;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 1em;
+  padding-right: 2em;
+  padding-bottom: 1.0625em;
+  padding-left: 2em;
+  font-size: 1.25em;
+  background-color: rgba(255,255,255,0.8);
+  border-color: rgba(230,230,230,0.8);
+  color: #333;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  border: none;
+  color: #4c5759;
+  font-weight: normal;
+  box-shadow: none;
+  transition: none;
+  margin: 0;
+}
+
+.btn.btn--primary {
+  background-color: #00b5ca;
+  color: white;
+}

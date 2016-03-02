@@ -1,6 +1,6 @@
 class Href < ActiveRecord::Base
   validates_presence_of :url
-  validates_uniqueness_of :url, :scope => :newsletter
+  validates_uniqueness_of :url, :scope => [:newsletter, :user]
 
   belongs_to :user
   belongs_to :newsletter

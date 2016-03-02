@@ -52,10 +52,10 @@ gem 'omniauth', '~> 1.2.2'
 gem 'omniauth-google-oauth2'
 gem 'json'
 gem 'gmail_xoauth'
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+gem 'will_paginate'
 
 group :development do
   gem 'better_errors', git: 'git@github.com:manafire/better_errors.git', branch: 'allow_domain' # supports ngrok
   gem 'binding_of_caller'
 end
-
-gem 'activerecord-session_store', github: 'rails/activerecord-session_store'

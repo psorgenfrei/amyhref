@@ -8,6 +8,7 @@ RAILS_ENV=production bundle exec rake assets:precompile
 
 ngrok
 ./ngrok http 3000
+./ngrok http --subdomain=amyhref 9999
 http://localhost:4040 
 
 Google - 
