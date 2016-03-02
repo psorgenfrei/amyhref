@@ -9,7 +9,7 @@ namespace :mail do
     User.connection
     User.all.each do |user|
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
-      @imap.authenticate('XOAUTH2', user.email, user.tokens.last.access_token)
+      @imap.authenticate('XOAUTH2', user.email, user.tokens.last.fresh_token)
 
       # Setup the amyhref.com mailbox/label
       amyhref_folder_name = 'amyhref.com'
@@ -76,7 +76,7 @@ namespace :mail do
     puts "Processing #{emails.length} email(s) for #{user.name}"
 
     begin
-      emails.each_with_index do |email, index|
+      emails.each do |email|
         puts email.subject.inspect
         puts email.from.inspect
 
@@ -144,7 +144,7 @@ namespace :mail do
               href.save!
               puts "Saved #{href.url.inspect}"
             else
-              puts "Skipping invalid url: #{href.url}"
+              puts "Skipping invalid/duplicate url: #{href.url}"
             end
           rescue SystemStackError
             puts $!

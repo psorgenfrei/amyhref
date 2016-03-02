@@ -59,4 +59,3 @@ group :development do
 end
 
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
-
