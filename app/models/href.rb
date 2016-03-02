@@ -72,6 +72,8 @@ class Href < ActiveRecord::Base
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'
 
+    self.rating = @m.system.classifications(self.url).sort{ |k,v| v[0].to_i }.reverse.first[1] rescue false
+
     if url_status == 'up' && self.good_host? && self.good_path?
       self.good = true
     else
