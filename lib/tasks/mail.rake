@@ -27,7 +27,7 @@ namespace :mail do
       message_ids = []
       last_processed = user.last_processed || 2.weeks.ago
 
-      puts "Processing #{user.name} from #{last_processed}."
+      puts "Processing #{user.name} / #{user.email} from #{last_processed}."
       @imap.uid_search(['SINCE', last_processed]).each do |message_id|
         email_header = @imap.uid_fetch(message_id, 'RFC822.HEADER') # equiv to BODY.PEEK
 
