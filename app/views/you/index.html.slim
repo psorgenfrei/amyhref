@@ -5,19 +5,19 @@ h1
 
 - last_day = false
 
-.links
-  - @hrefs.each do |href|
-    - if last_day
-      - if last_day != href.created_at.strftime('%d%m%Y')
-        p.break.meta.left= href.created_at.strftime("%A, %b %d %Y")
-    - else
-      p.break.meta.left= href.created_at.strftime("%A, %b %d %Y")
+- @hrefs.each do |href|
+  - if last_day
+    - if last_day != href.created_at.strftime('%d%m%Y')
+      p.date.center= href.created_at.strftime("%A, %b %d %Y")
+  - else
+    p.date.center= href.created_at.strftime("%A, %b %d %Y")
 
+  .links
     a id="#{href.id}" class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
     p.break.meta.right data-id="#{href.id}"
       ' &mdash; #{href.newsletter.email if href.newsletter} ~ #{href.rating || '∞'}
 
-    - last_day = href.created_at.strftime('%d%m%Y')
+  - last_day = href.created_at.strftime('%d%m%Y')
 
 p class='archive'
   = will_paginate @hrefs

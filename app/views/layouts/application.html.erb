@@ -18,15 +18,15 @@
         <img id="loading" src="http://bit.ly/pMtW1K">
       </div>
     -->
-    <div class='gmail_signin'>
-      <% if logged_in? %>
-        <%= link_to 'Sign out', '/signout', :class => 'signout', :method => :delete %>
-      <% else %>
+    <% if logged_in? %>
+      <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
+    <% else %>
+      <div class='gmail_signin'>
         <a href='/auth/google_oauth2'>
           <img src='/assets/google_signin_buttons/google_signin_button.png' width='191' height='46'>
         </a>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
     <%= yield %>
     <script>
       (function(w, d){

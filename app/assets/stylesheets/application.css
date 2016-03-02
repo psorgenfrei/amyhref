@@ -43,9 +43,9 @@
 }
 
 .signout {
-  position: fixed;
+  position: fixed !important;
   top: .5em;
-  right: .5em;
+  right: 1em;
 }
 
 #overlay {
@@ -112,13 +112,14 @@ p.archive {
 }
 
 div.embedly-card {
+  border-right: 2px solid rgba(0,0,0,0.12);
   border-bottom: 2px solid rgba(0,0,0,0.12);
 }
 
 .break {
   margin: 0;
   padding-top: .25em;
-  height: 3.75em;
+  height: 6em;
   background: url("/images/bg2.jpg") repeat fixed;
 }
 
@@ -127,12 +128,24 @@ div.embedly-card {
   color: #8A8A8A;
 }
 
+.date {
+  color: #191e2d;
+  font-weight: bold;
+  margin-top: 3em;
+  text-transform: uppercase;
+  background: url("/images/bg2.jpg") repeat fixed;
+}
+
 .right {
   text-align: right;
 }
 
 .left {
   text-align: left;
+}
+
+.center {
+  text-align: center;
 }
 
 .btn {
