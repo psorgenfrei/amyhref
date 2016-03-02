@@ -6,6 +6,7 @@ h1
 .links
   - @hrefs.each do |href|
     a id="#{href.id}" class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
-    p.break data-id="#{href.id}"
+    p.break.meta data-id="#{href.id}"
+      ' &mdash; #{href.newsletter.email}
 
 p.archive
