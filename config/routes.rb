@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :hrefs do
       post :train, :as => :train_path
       collection do
-        post :search
+        get :search
         get :today
         get :yesterday
       end

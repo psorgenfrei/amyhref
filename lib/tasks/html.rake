@@ -4,7 +4,9 @@ namespace :html do
     require 'fileutils'
 
     # Backup the existing homepage
-    FileUtils.cp(Rails.root + 'app/views/home/index.html.slim', Rails.root + "app/views/home/index-#{Date.yesterday}.html.slim")
+    unless File.exist? (Rails.root + "app/views/home/index-#{Date.yesterday}.html.slim")
+      FileUtils.cp(Rails.root + 'app/views/home/index.html.slim', Rails.root + "app/views/home/index-#{Date.yesterday}.html.slim")
+    end
 
     page = Rails.root + 'public/homepage-template.html.slim'
     doc = Nokogiri::HTML(open(page))
