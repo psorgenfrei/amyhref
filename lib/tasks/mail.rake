@@ -25,7 +25,7 @@ namespace :mail do
       
       # Label all newsletters, mark as read and remove from inbox
       message_ids = []
-      last_processed = user.last_processed || 2.weeks.ago
+      last_processed = user.last_processed || 1.week.ago
 
       puts "Processing #{user.name} / #{user.email} from #{last_processed}."
       @imap.uid_search(['SINCE', last_processed]).each do |message_id|
