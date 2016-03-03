@@ -41,7 +41,7 @@ namespace :mail do
           message_ids << message_id
 
           @imap.uid_copy(message_id, amyhref_folder_name)
-          @imap.uid_store(message_id, "+FLAGS", [:Seen])
+          #@imap.uid_store(message_id, "+FLAGS", [:Seen])
 
           #puts @imap.uid_fetch(message_id, 'X-GM-LABELS')
           @imap.uid_store(message_id,'-X-GM-LABELS', :Inbox)
@@ -143,6 +143,8 @@ namespace :mail do
             next if host =~ /campaign-archive\d*.com/
             next if host =~ /fanbridge.com/
             next if host =~ /typeform.com/
+
+            next if path =~ /unsubscribe/
 
             # TODO hmm, maybe should be ful url not split on domain and path here?
             next if Href.exists?(:domain => host, :path => path, :user_id => user.id)
