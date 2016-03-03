@@ -7,8 +7,9 @@ namespace :mail do
     require 'open3'
 
     User.connection
-    User.order('created_at DESC').all.each do |user|
-      puts user.email
+
+    # Process users starting with the ones who haven't been processed in a while
+    User.order('last_processed ASC').all.each do |user|
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
       @imap.authenticate('XOAUTH2', user.email, user.tokens.last.fresh_token)
 
@@ -27,10 +28,9 @@ namespace :mail do
       # Label all newsletters, mark as read and remove from inbox
       message_ids = []
       last_processed = user.last_processed || 1.week.ago
-
-      puts "Processing #{user.name} / #{user.email} from #{last_processed}."
       @imap.uid_search(['SINCE', last_processed]).each do |message_id|
         email_header = @imap.uid_fetch(message_id, 'RFC822.HEADER') # equiv to BODY.PEEK
+        next unless email_header
 
         if email_header[0].attr['RFC822.HEADER'].downcase.include? 'list-unsubscribe'
           message_ids << message_id
@@ -54,10 +54,7 @@ namespace :mail do
       @imap.logout
       @imap.disconnect
 
-      # TODO
-      # will just keep reprocessing emails that are read and archived?
-      # or will last_processed take care of that?
-      # signin with Amy to create her account also
+      puts "Processing #{emails.length} email(s) for #{user.name} / #{user.email} since #{last_processed}."
       parse_emails(emails, user)
       user.update_attributes(:last_processed => Time.now)
     end
@@ -75,8 +72,6 @@ namespace :mail do
 
   private
   def parse_emails(emails, user)
-    puts "Processing #{emails.length} email(s) for #{user.name}"
-
     begin
       emails.each do |email|
         puts email.subject.inspect
