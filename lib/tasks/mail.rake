@@ -1,5 +1,3 @@
-#require 'byebug'
-
 namespace :mail do
   desc "Fetch email for each user and parse"
   task fetch_for_users: :environment do
@@ -120,13 +118,9 @@ namespace :mail do
 
           puts responses.inspect
           puts url
-          puts "^^^ done"
+          puts "^^^ unbundled"
 
           begin
-            #byebug
-            href = Href.new(:url => url, :newsletter_id => newsletter.id, :user_id => user.id) rescue next
-            host = href.host.downcase rescue next
-
             next if host =~ /twitter.com/ 
             next if host =~ /facebook.com/
             next if host =~ /linkedin.com/
@@ -138,6 +132,11 @@ namespace :mail do
             next if host =~ /campaign-archive\d*.com/
             next if host =~ /fanbridge.com/
             next if host =~ /typeform.com/
+            next if Href.exists?(:domain => href.host, :path => href.path, :user_id => user.id)
+
+            href = Href.new(:url => url, :newsletter_id => newsletter.id, :user_id => user.id) rescue next
+            host = href.host.downcase rescue next
+
 
             if href.valid?
               unless ActiveRecord::Base.connected?

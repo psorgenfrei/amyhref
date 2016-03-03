@@ -6,6 +6,8 @@ class Href < ActiveRecord::Base
   belongs_to :newsletter
 
   before_save :set_domain
+  before_save :set_path
+
   after_create :initial_classification
 
   require 'uri'
@@ -18,7 +20,7 @@ class Href < ActiveRecord::Base
     self.parse.host
   end
 
-  def path
+  def parse_path
     self.parse.path
   end
 
@@ -50,6 +52,10 @@ class Href < ActiveRecord::Base
   protected
   def set_domain
     self.domain = self.host
+  end
+
+  def set_path
+    self.path = self.parse(self.url).path
   end
 
   def setup_madeleine
