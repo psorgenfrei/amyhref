@@ -37,11 +37,6 @@
   right: 0;
 }
 
-.gmail_signin:hover {
-  border-top: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-}
-
 .signout {
   position: fixed !important;
   top: .5em;

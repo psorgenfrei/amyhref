@@ -31,6 +31,8 @@ class SessionsController < ApplicationController
 
     @auth = request.env['omniauth.auth']['credentials']
 
+    @user.tokens.destroy_all
+
     Token.create(
       user_id: @user.id,
       email: @user.email,
