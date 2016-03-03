@@ -63,6 +63,7 @@ namespace :mail do
       parse_emails(emails, user)
       user.update_attributes(:last_processed => Time.now)
     end
+    puts "Finished"
   end
 
   desc "Fetch Amy's new email and parse"

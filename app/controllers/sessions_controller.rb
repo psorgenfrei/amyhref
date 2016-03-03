@@ -30,8 +30,11 @@ class SessionsController < ApplicationController
     end
 
     @auth = request.env['omniauth.auth']['credentials']
+puts @auth.inspect
+puts "----"
 
-    @user.tokens.destroy_all
+puts "Creating a new token when one exists breaks this"
+puts "Need to update the token and just save the new access token?"
 
     Token.create(
       user_id: @user.id,
