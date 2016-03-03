@@ -9,7 +9,14 @@ namespace :mail do
     # Process users starting with the ones who haven't been processed in a while
     User.order('last_processed ASC').all.each do |user|
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
-      @imap.authenticate('XOAUTH2', user.email, user.tokens.last.fresh_token)
+
+      begin
+        @imap.authenticate('XOAUTH2', user.email, user.tokens.last.fresh_token)
+      rescue Net::IMAP::NoResponseError => e
+        puts "Exception authenticating for #{user.email}"
+        puts e.message.inspect
+        next
+      end
 
       # Setup the amyhref.com mailbox/label
       amyhref_folder_name = 'amyhref.com'
@@ -121,6 +128,10 @@ namespace :mail do
           puts "^^^ unbundled"
 
           begin
+            uri = URI.parse(url)
+            host = uri.host.downcase rescue next
+            path = uri.path.downcase rescue next
+
             next if host =~ /twitter.com/ 
             next if host =~ /facebook.com/
             next if host =~ /linkedin.com/
@@ -132,11 +143,11 @@ namespace :mail do
             next if host =~ /campaign-archive\d*.com/
             next if host =~ /fanbridge.com/
             next if host =~ /typeform.com/
-            next if Href.exists?(:domain => href.host, :path => href.path, :user_id => user.id)
+
+            # TODO hmm, maybe should be ful url not split on domain and path here?
+            next if Href.exists?(:domain => host, :path => path, :user_id => user.id)
 
             href = Href.new(:url => url, :newsletter_id => newsletter.id, :user_id => user.id) rescue next
-            host = href.host.downcase rescue next
-
 
             if href.valid?
               unless ActiveRecord::Base.connected?

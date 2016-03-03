@@ -55,7 +55,7 @@ class Href < ActiveRecord::Base
   end
 
   def set_path
-    self.path = self.parse(self.url).path
+    self.path = self.parse.path
   end
 
   def setup_madeleine
