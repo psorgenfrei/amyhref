@@ -167,9 +167,9 @@ div.embedly-card {
   margin: 0;
 }
 
-.btn:hover, btn.active {
+.btn:hover {
   transition: .3s;
-  background-color: rgba(gold, 0.80);
+  background-color: rgba(20, 38, 62, 0.8);
   color: #fff;
 }
 
