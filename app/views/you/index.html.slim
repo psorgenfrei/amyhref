@@ -8,6 +8,7 @@ h1
 - @hrefs.each do |href|
   - if last_day
     - if last_day != href.created_at.strftime('%d%m%Y')
+      .day style='height: 4em; background-color: #fff; width: 100%; display: block;'
       p.date.center= href.created_at.strftime("%A, %b %d %Y")
   - else
     p.date.center= href.created_at.strftime("%A, %b %d %Y")

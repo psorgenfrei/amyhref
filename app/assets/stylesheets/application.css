@@ -16,6 +16,10 @@
 
 @import url(https://fonts.googleapis.com/css?family=Lobster);
 
+body {
+  margin: 0;
+}
+
 .flash {
   font-family: sans-serif;
   background: #00B5CA;
