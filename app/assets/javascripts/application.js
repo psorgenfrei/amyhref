@@ -18,12 +18,12 @@
 $(document).ready(function(){
   //$('#links a').embedly({ key: '6863f842d9c241e192dad41cab69138c' });
 
-  var rendered_cards = 0;
-  var total_cards = $('a.embedly-card').length;
-  embedly('on', 'card.rendered', function(iframe){
-    rendered_cards = rendered_cards + 1;
-    if (rendered_cards >= total_cards) {
-      $('#overlay').remove();
-    }
-  });
+  //var rendered_cards = 0;
+  //var total_cards = $('a.embedly-card').length;
+  //embedly('on', 'card.rendered', function(iframe){
+  //  rendered_cards = rendered_cards + 1;
+  //  if (rendered_cards >= total_cards) {
+  //    $('#overlay').remove();
+  //  }
+  //});
 });
