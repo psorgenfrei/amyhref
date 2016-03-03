@@ -66,11 +66,9 @@ p.about {
   font-weight: italic;
 }
 
-p.archive {
+.archive {
   text-align: center;
-  text-shadow: 0px 1px 1px #bbb;
-  font-family: 'Gill Sans MT', serif;
-  font-weight: italic;
+  margin-bottom: 2em;
 }
 
 .links {

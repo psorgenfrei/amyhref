@@ -19,5 +19,7 @@ h1
 
   - last_day = href.created_at.strftime('%d%m%Y')
 
-p class='archive'
-  = will_paginate @hrefs
+- unless @hrefs.current_page.to_i == @hrefs.total_pages.to_i
+  .archive
+    a.btn href='/you?page=#{@hrefs.current_page.to_i + 1}'
+      ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
