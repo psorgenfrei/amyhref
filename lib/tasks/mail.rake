@@ -7,7 +7,8 @@ namespace :mail do
     require 'open3'
 
     User.connection
-    User.all.each do |user|
+    User.order('created_at DESC').all.each do |user|
+      puts user.email
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
       @imap.authenticate('XOAUTH2', user.email, user.tokens.last.fresh_token)
 
