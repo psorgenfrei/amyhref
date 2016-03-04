@@ -37,6 +37,13 @@ namespace :mail do
         email_header = @imap.uid_fetch(message_id, 'RFC822.HEADER') # equiv to BODY.PEEK
         next unless email_header
 
+        # Don't reprocess messages already dealt with
+        begin
+          next if @imap.uid_fetch(message_id, 'X-GM-LABELS')[0].attr['X-GM-LABELS'].include? "amyhref.com"
+        rescue Exception => e
+          puts e.message
+        end
+        
         if email_header[0].attr['RFC822.HEADER'].downcase.include? 'list-unsubscribe'
           message_ids << message_id
 
