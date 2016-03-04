@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback" => 'sessions#create'
   delete "/signout" => 'sessions#destroy'
 
-  match '/you', :to => 'you#index', :as => 'you', :via => :get
+  match '/you(/:page)', :to => 'you#index', :as => 'you', :via => :get
 
   namespace :admin do
     resources :hrefs do
