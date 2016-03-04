@@ -46,11 +46,13 @@ namespace :mail do
           puts e.message
         end
         
-#  msg = imap.fetch(message_id,'ENVELOPE')[0].attr['ENVELOPE']
-#  if msg.to
-#    puts "#{msg.to[0].mailbox}@#{msg.to[0].host}: \t#{msg.from[0].name}: \t#{msg.subject}"
-#  end
-        puts email_header[0].attr['RFC822.HEADER'].inspect
+        # wip. attempting to find newsletters w/out list-unsubscribe headers
+        # by matching against known senders
+        #  msg = imap.fetch(message_id,'ENVELOPE')[0].attr['ENVELOPE']
+        #  if msg.to
+        #    puts "#{msg.to[0].mailbox}@#{msg.to[0].host}: \t#{msg.from[0].name}: \t#{msg.subject}"
+        #  end
+
         if email_header[0].attr['RFC822.HEADER'].downcase.include? 'list-unsubscribe' || valid_senders.include?(email_header)
           message_ids << message_id
 
