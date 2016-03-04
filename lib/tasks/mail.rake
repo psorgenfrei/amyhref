@@ -4,6 +4,8 @@ namespace :mail do
     require 'uri'
     require 'open3'
 
+    valid_senders = Newsletter.all.collect{ |n| n.email.downcase }
+
     User.connection
 
     # Process users starting with the ones who haven't been processed in a while
@@ -44,7 +46,12 @@ namespace :mail do
           puts e.message
         end
         
-        if email_header[0].attr['RFC822.HEADER'].downcase.include? 'list-unsubscribe'
+#  msg = imap.fetch(message_id,'ENVELOPE')[0].attr['ENVELOPE']
+#  if msg.to
+#    puts "#{msg.to[0].mailbox}@#{msg.to[0].host}: \t#{msg.from[0].name}: \t#{msg.subject}"
+#  end
+        puts email_header[0].attr['RFC822.HEADER'].inspect
+        if email_header[0].attr['RFC822.HEADER'].downcase.include? 'list-unsubscribe' || valid_senders.include?(email_header)
           message_ids << message_id
 
           @imap.uid_copy(message_id, amyhref_folder_name)
@@ -140,10 +147,11 @@ namespace :mail do
             host = uri.host.downcase rescue next
             path = uri.path.downcase rescue next
 
-            next if host =~ /twitter.com/ 
-            next if host =~ /facebook.com/
-            next if host =~ /linkedin.com/
-            next if host =~ /instapaper.com/
+            #next if host =~ /twitter.com/ 
+            #next if host =~ /facebook.com/
+            #next if host =~ /linkedin.com/
+            #next if host =~ /instapaper.com/
+
             next if host =~ /forward-to-friend\d*.com/
             next if host =~ /forwardtomyfriend\d*.com/
             next if host =~ /updatemyprofile\d*.com/

@@ -7,34 +7,41 @@ var system = require('system');
 var myurl = system.args[1];
 
 var renderPage = function (url) {
-    url = url.trim();
-    page = require('webpage').create();
+  url = url.trim();
+  page = require('webpage').create();
 
-    clearTimeout(timer)
-    timer = setTimeout(function() { endProcess(); }, 5000);
+  clearTimeout(timer)
+  timer = setTimeout(function() { endProcess(); }, 5000);
 
-    page.onNavigationRequested = function(url, type, willNavigate, main) {
-        if (main && url!=myurl) {
-            myurl = url;
-            page.close()
+  page.onNavigationRequested = function(url, type, willNavigate, main) {
+    //console.log('Trying to navigate to: ' + url);
+    //console.log('Caused by: ' + type);
+    //console.log('Will actually navigate: ' + willNavigate);
+    //console.log('Sent from the page\'s main frame: ' + main);
 
-            //setTimeout('renderPage(myurl)',1); // recurse
-            setTimeout(function() { renderPage(myurl); }, 1 ) // recurse
-            console.log(url)
-        }
-    };
+    if (main && url != myurl) {
+      myurl = url;
+      console.log(myurl)
+      page.close()
 
-    page.open(url, function(status) {
-        if (status==='success') {
-            phantom.exit(0);
-        } else {
-            phantom.exit(1);
-        }
-    });
+      //setTimeout('renderPage(myurl)',1); // recurse
+      setTimeout(function() { renderPage(myurl); }, 1 ) // recurse
+    }
+  };
+
+  page.open(url, function(status) {
+    if (status === 'success') {
+      phantom.exit(0);
+    } else {
+      phantom.exit(1);
+    }
+  });
 } 
 
 function endProcess() {
-  return false;
+  //console.log('terminated')
+  //return false;
+  phantom.exit(1);
 }
 
 renderPage(myurl);

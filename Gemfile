@@ -42,7 +42,6 @@ gem 'mysql2', '~> 0.3.18' # Rails 4 fix
 gem 'redirect_follower'
 gem 'classifier'
 gem 'madeleine'
-gem 'will_paginate'
 gem 'slim-rails'
 gem 'nokogiri'
 gem 'htmlentities'
@@ -54,6 +53,8 @@ gem 'json'
 gem 'gmail_xoauth'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 gem 'will_paginate'
+#gem 'rb-gsl', '~> 1.16', '>= 1.16.0.6'
+#gem 'rb-gsl', '~> 1.14', '= 1.14'
 
 group :development do
   gem 'better_errors', git: 'git@github.com:manafire/better_errors.git', branch: 'allow_domain' # supports ngrok
