@@ -30,19 +30,21 @@ class SessionsController < ApplicationController
     end
 
     @auth = request.env['omniauth.auth']['credentials']
-puts @auth.inspect
-puts "----"
 
-puts "Creating a new token when one exists breaks this"
-puts "Need to update the token and just save the new access token?"
-
-    Token.create(
-      user_id: @user.id,
-      email: @user.email,
-      access_token: @auth['token'],
-      refresh_token: @auth['refresh_token'],
-      expires_at: Time.at(@auth['expires_at']).to_datetime
-    )
+    if @user.tokens.any?
+      @user.tokens.last.update_attributes(
+        access_token: @auth['token'],
+        expires_at: Time.at(@auth['expires_at']).to_datetime
+      )
+    else
+      Token.create(
+        user_id: @user.id,
+        email: @user.email,
+        access_token: @auth['token'],
+        refresh_token: @auth['refresh_token'],
+        expires_at: Time.at(@auth['expires_at']).to_datetime
+      )
+    end
 
     session[:current_user] = @user.id
     redirect_to '/you'
