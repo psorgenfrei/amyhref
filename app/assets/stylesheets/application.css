@@ -80,6 +80,26 @@ p.about {
   font-family: 'Open Sans', serif;
 }
 
+.card {
+  text-align: center;
+  width: 600px;
+  padding: 0px;
+  position: relative;
+  max-width: 100%;
+  margin: 5px auto;
+  color: #464646;
+  position: relative;
+  width: auto;
+  z-index: 1;
+  font-family: Oxygen,Arial,"Helvetica Neue",Helvetica,sans-serif;
+  border-bottom: 2px solid rgba(0,0,0,0.12);
+  border-right: 2px solid rgba(0,0,0,0.12);
+  padding: 1em;
+  font-size: 13px;
+  line-height: 20px;
+  background: transparent;
+}
+
 .embedly-card {
   padding: 0 1em;
 }

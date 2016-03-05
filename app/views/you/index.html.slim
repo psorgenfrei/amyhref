@@ -3,8 +3,18 @@ h1
   br
   = "(#{current_user.email}) 😎"
 
-- last_day = false
+- if current_user.last_processed.nil? || @hrefs.nil?
+  p.date.center Welcome
+  .links
+    .card
+      - image = ['/assets/welcome/robotyuio.gif', '/assets/welcome/15.gif', '/assets/welcome/130559800278.gif'].shuffle.first
+      img src="#{image}"
+      br
+      ' Stay tuned, our robots are busy creating a new robot just for you.
+      br
+      ' Check back in a few hours to see how we're shaping up.
 
+- last_day = false
 - @hrefs.each do |href|
   - if last_day
     - if last_day != href.created_at.strftime('%d%m%Y')
