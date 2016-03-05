@@ -5,8 +5,11 @@ namespace :mail do
     require 'open3'
 
     valid_senders = Newsletter.all.collect{ |n| n.email.downcase }
+    valid_senders << 'o1.em.getrevue.co'
 
     User.connection
+
+    puts "Started parsing at #{Time.now}"
 
     # Process users starting with the ones who haven't been processed in a while
     User.order('last_processed ASC').all.each do |user|
@@ -44,16 +47,12 @@ namespace :mail do
           next if @imap.uid_fetch(message_id, 'X-GM-LABELS')[0].attr['X-GM-LABELS'].include? "amyhref.com"
         rescue Exception => e
           puts e.message
+          next
         end
-        
-        # wip. attempting to find newsletters w/out list-unsubscribe headers
-        # by matching against known senders
-        #  msg = imap.fetch(message_id,'ENVELOPE')[0].attr['ENVELOPE']
-        #  if msg.to
-        #    puts "#{msg.to[0].mailbox}@#{msg.to[0].host}: \t#{msg.from[0].name}: \t#{msg.subject}"
-        #  end
 
-        if email_header[0].attr['RFC822.HEADER'].downcase.include? 'list-unsubscribe' || valid_senders.include?(email_header)
+        rfc822_header = email_header[0].attr['RFC822.HEADER'].downcase
+        received_from = rfc822_header.scan(/received:\sfrom\s(\S*)/im).flatten
+        if rfc822_header.include? 'list-unssubscribe' || (received_from & valid_senders).any?
           message_ids << message_id
 
           @imap.uid_copy(message_id, amyhref_folder_name)
@@ -79,7 +78,7 @@ namespace :mail do
       parse_emails(emails, user)
       user.update_attributes(:last_processed => Time.now)
     end
-    puts "Finished"
+    puts "Finished at #{Time.now}"
   end
 
   desc "Fetch Amy's new email and parse"
