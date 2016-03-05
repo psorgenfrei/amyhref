@@ -140,7 +140,7 @@ namespace :mail do
           url = url.gsub(/^\s+/, '').strip
 
           begin
-            uri = URI.parse(url)
+            uri = URI.parse(url) rescue next
             host = uri.host.downcase rescue next
             path = uri.path.downcase rescue next
 
@@ -177,8 +177,8 @@ namespace :mail do
           rescue SystemStackError
             puts $!
             puts caller[0..500]
+            next
           end
-          sleep(5)
         end
       end
     rescue Exception => e
