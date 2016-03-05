@@ -14,11 +14,6 @@ var renderPage = function (url) {
   timer = setTimeout(function() { endProcess(); }, 5000);
 
   page.onNavigationRequested = function(url, type, willNavigate, main) {
-    //console.log('Trying to navigate to: ' + url);
-    //console.log('Caused by: ' + type);
-    //console.log('Will actually navigate: ' + willNavigate);
-    //console.log('Sent from the page\'s main frame: ' + main);
-
     if (main && url != myurl) {
       myurl = url;
       console.log(myurl)
@@ -38,16 +33,11 @@ var renderPage = function (url) {
   });
 
   page.onError = function(msg, trace) {
-    console.log('error');
-    console.log(msg);
     phantom.exit(1);
   }
-
 } 
 
 function endProcess() {
-  //console.log('terminated')
-  //return false;
   phantom.exit(1);
 }
 

@@ -4,10 +4,6 @@ namespace :mail do
     require 'uri'
     require 'open3'
 
-    valid_senders = Newsletter.all.collect{ |n| n.email.downcase }
-    valid_senders << 'o1.em.getrevue.co'
-    valid_senders << 'o192254121115.outbound-mail.sendgrid.net'
-
     User.connection
 
     puts "Started parsing at #{Time.now}"
@@ -56,7 +52,7 @@ namespace :mail do
         rfc822_header = email_header[0].attr['RFC822.HEADER'].downcase
         received_from = rfc822_header.scan(/received:\sfrom\s(\S*)/im).flatten.uniq
 
-        if rfc822_header.include?('list-unssubscribe') || (received_from & valid_senders).any?
+        if rfc822_header.include?('list-unsubscribe') || matches_know_senders?(received_from)
           message_ids << message_id
 
           @imap.uid_copy(message_id, amyhref_folder_name)
@@ -143,7 +139,6 @@ namespace :mail do
           end
           url = url.gsub(/^\s+/, '').strip
 
-          puts responses.inspect
           puts url
           puts "^^^ unbundled"
 
@@ -193,5 +188,22 @@ namespace :mail do
       puts e.backtrace
       puts e.message
     end
+  end
+
+  # does any entry in senders match any of the regex in known_senders?
+  def matches_know_senders?(senders)
+    #known_senders = Newsletter.all.collect{ |n| n.email.downcase }
+    known_senders = []
+    known_senders << 'o1.em.getrevue.co'
+    known_senders << 'o192254121115.outbound-mail.sendgrid.net'
+    known_senders.uniq!
+
+    prefixes = [
+      /\S*\.getrevue\.co/,
+      /\S*\.outbound-mail\.sendgrid\.net/,
+    ]
+
+    re = Regexp.union(prefixes)
+    senders.to_s.match(re)
   end
 end
