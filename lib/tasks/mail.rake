@@ -139,9 +139,6 @@ namespace :mail do
           end
           url = url.gsub(/^\s+/, '').strip
 
-          puts url
-          puts "^^^ unbundled"
-
           begin
             uri = URI.parse(url)
             host = uri.host.downcase rescue next
