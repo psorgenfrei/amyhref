@@ -44,7 +44,7 @@ body {
   right: 0;
 }
 
-.signout {
+.signout, .signin {
   position: fixed !important;
   top: .5em;
   right: 1em;

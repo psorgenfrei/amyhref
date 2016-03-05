@@ -16,11 +16,7 @@
     <% if logged_in? %>
       <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
     <% else %>
-      <div class='gmail_signin'>
-        <a href='/auth/google_oauth2'>
-          <img src='/assets/google_signin_buttons/google_signin_button.png' width='191' height='46'>
-        </a>
-      </div>
+      <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn btn--primary signin' %>
     <% end %>
     <%= yield %>
     <script>
