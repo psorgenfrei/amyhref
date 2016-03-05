@@ -24,7 +24,7 @@ h1
       - else
         p.date.center= href.created_at.strftime("%A, %b %d %Y")
 
-      .link id="#{href.id}" data-scroll-index='#{index}'
+      .link id="#{href.id}"
         a class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
         p.break.meta.right
           ' &mdash; #{href.newsletter.email if href.newsletter} ~ #{href.rating || '∞'}
@@ -35,5 +35,3 @@ h1
     .archive
       a.btn href='/you/#{@hrefs.current_page.to_i + 1}'
         ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
-
-= render :partial => 'shared/scrollit'

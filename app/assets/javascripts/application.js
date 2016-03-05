@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require jquery.keyboardScroll.js
 //= require_tree .
 
 $(document).ready(function(){
