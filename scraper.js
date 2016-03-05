@@ -36,6 +36,13 @@ var renderPage = function (url) {
       phantom.exit(1);
     }
   });
+
+  page.onError = function(msg, trace) {
+    console.log('error');
+    console.log(msg);
+    phantom.exit(1);
+  }
+
 } 
 
 function endProcess() {
