@@ -1,8 +1,11 @@
 h1
   = "Amy Href's links of the day for " + Time.now.strftime("%A, %b %d %Y").to_s + ' 😎'
 
-- @hrefs.each do |href|
-  .links
-    a id="#{href.id}" class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
-    p.break.meta.right data-id="#{href.id}"
-      ' &mdash; #{href.newsletter.email if href.newsletter} ~ #{href.rating || '∞'}
+.links
+  - @hrefs.each_with_index do |href, index|
+    .link data-scroll-index='#{index + 1}'
+      a class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
+      p.break.meta.right
+        ' &mdash; #{href.newsletter.email if href.newsletter} ~ #{href.rating || '∞'}
+
+= render :partial => 'shared/scrollit'

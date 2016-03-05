@@ -15,22 +15,25 @@ h1
       ' Check back in a few hours to see how we're shaping up.
 
 - if @hrefs
-  - last_day = false
-  - @hrefs.each do |href|
-    - if last_day
-      - if last_day != href.created_at.strftime('%d%m%Y')
-        .day.date.center= href.created_at.strftime("%A, %b %d %Y")
-    - else
-      p.date.center= href.created_at.strftime("%A, %b %d %Y")
+  .links
+    - last_day = false
+    - @hrefs.each_with_index do |href, index|
+      - if last_day
+        - if last_day != href.created_at.strftime('%d%m%Y')
+          .day.date.center= href.created_at.strftime("%A, %b %d %Y")
+      - else
+        p.date.center= href.created_at.strftime("%A, %b %d %Y")
 
-    .links
-      a id="#{href.id}" class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
-      p.break.meta.right data-id="#{href.id}"
-        ' &mdash; #{href.newsletter.email if href.newsletter} ~ #{href.rating || '∞'}
+      .link id="#{href.id}" data-scroll-index='#{index}'
+        a class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
+        p.break.meta.right
+          ' &mdash; #{href.newsletter.email if href.newsletter} ~ #{href.rating || '∞'}
 
-    - last_day = href.created_at.strftime('%d%m%Y')
+      - last_day = href.created_at.strftime('%d%m%Y')
 
   - unless @hrefs.current_page.to_i == @hrefs.total_pages.to_i
     .archive
       a.btn href='/you/#{@hrefs.current_page.to_i + 1}'
         ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
+
+= render :partial => 'shared/scrollit'
