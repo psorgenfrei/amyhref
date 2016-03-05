@@ -6,6 +6,7 @@ namespace :mail do
 
     valid_senders = Newsletter.all.collect{ |n| n.email.downcase }
     valid_senders << 'o1.em.getrevue.co'
+    valid_senders << 'o192254121115.outbound-mail.sendgrid.net'
 
     User.connection
 
@@ -50,9 +51,12 @@ namespace :mail do
           next
         end
 
+        # wip, catch senders w/out List-Unusubscribe headers
+        # need to accomodate 123.known.sender domains in here, sigh
         rfc822_header = email_header[0].attr['RFC822.HEADER'].downcase
-        received_from = rfc822_header.scan(/received:\sfrom\s(\S*)/im).flatten
-        if rfc822_header.include? 'list-unssubscribe' || (received_from & valid_senders).any?
+        received_from = rfc822_header.scan(/received:\sfrom\s(\S*)/im).flatten.uniq
+
+        if rfc822_header.include?('list-unssubscribe') || (received_from & valid_senders).any?
           message_ids << message_id
 
           @imap.uid_copy(message_id, amyhref_folder_name)
