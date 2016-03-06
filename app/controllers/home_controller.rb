@@ -1,8 +1,6 @@
 class HomeController < ApplicationController
   def index
-    # TODO fix the User.last
-    user = User.where(email: 'amyhref@gmail.com').first || User.last
-    @hrefs = user.hrefs.where(:good => true). order('created_at DESC, rating ASC').page(params[:page])
+    @hrefs = Href.where(good: true, good_host: true, good_path: true).group('DATE(created_at), newsletter_id').order('created_at DESC, rating ASC').page(params[:page])
   end
 
   def archives

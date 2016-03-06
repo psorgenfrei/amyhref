@@ -17,7 +17,7 @@ h1
 - if @hrefs
   .links
     - last_day = false
-    - @hrefs.each_with_index do |href, index|
+    - @hrefs.each do |href|
       - if last_day && last_day != href.created_at.strftime('%d%m%Y')
         .day.date.center= href.created_at.strftime("%A, %b %d %Y")
 

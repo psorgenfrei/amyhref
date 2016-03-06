@@ -20,8 +20,14 @@
 body {
   margin: 0;
   font-family: 'Open Sans Condensed', sans-serif;
-  //background: url("/images/bg2.jpg") repeat center fixed;
-  background: url("/images/bg7.jpg") repeat center fixed;
+  background: url("/images/bg25.jpg") repeat center fixed;
+}
+
+.break {
+  background: url("/images/bg25.jpg") repeat center fixed;
+  margin: 0;
+  padding-top: .25em;
+  height: 6em;
 }
 
 .flash {
@@ -108,14 +114,6 @@ p.about {
 div.embedly-card {
   border-right: 2px solid rgba(0,0,0,0.12);
   border-bottom: 2px solid rgba(0,0,0,0.12);
-}
-
-.break {
-  margin: 0;
-  padding-top: .25em;
-  height: 6em;
-  //background: url("/images/bg2.jpg") repeat fixed center;
-  background: url("/images/bg7.jpg") repeat center fixed;
 }
 
 .meta {

@@ -2,5 +2,5 @@ h1
   = "Amy Href's links of the day for " + Time.now.strftime("%A, %b %d %Y").to_s + ' 😎'
 
 .links
-  - @hrefs.each_with_index do |href, index|
+  - @hrefs.each do |href|
     = render :partial => 'shared/href', :locals => {:href => href}
