@@ -57,9 +57,7 @@ class Admin::HrefsController < ApplicationController
 
   protected
   def setup_madeleine
-    @m = SnapshotMadeleine.new('bayes_data') {
-      Classifier::Bayes.new 'up', 'down'
-    }
+    @m = current_user.bayes
   end
 
   def set_good_or_bad(href)

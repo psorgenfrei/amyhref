@@ -42,7 +42,7 @@ class Href < ActiveRecord::Base
   end
 
   def train(key, value)
-    @m ||= setup_madeleine
+    @m = self.user.bayes
     @m.system.train(key, value)
     self.reclassify
     @m.take_snapshot
@@ -58,18 +58,12 @@ class Href < ActiveRecord::Base
     self.path = self.parse.path
   end
 
-  def setup_madeleine
-    SnapshotMadeleine.new('bayes_data') {
-      Classifier::Bayes.new 'up', 'down'
-    }
-  end
-
   # Callback to set the initial classification
   # - use a timeout because sometimes we get stack level errors
   def initial_classification
     self.url.strip!
 
-    @m ||= setup_madeleine
+    @m = self.user.bayes
 
     path_status= @m.system.classify(self.path).downcase rescue 'down'
     host_status = @m.system.classify(self.host).downcase rescue 'down'
