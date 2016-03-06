@@ -27,6 +27,14 @@ class SessionsController < ApplicationController
         picture: raw_data.picture,
         profile: raw_data.profile
       )
+
+
+      begin
+        FileUtils.mkdir(Rails.root + "bayes/#{@user.email}")
+        FileUtils.cp(Rails.root + 'bayes/default.snapshot', Rails.root + "bayes/#{@user.email}/000000000000000000001.snapshot")
+      rescue Errno::EEXIST
+        puts "Directory exists, skipping default bayes setup"
+      end
     end
 
     @auth = request.env['omniauth.auth']['credentials']
