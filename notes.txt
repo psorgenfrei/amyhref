@@ -14,3 +14,7 @@ http://localhost:4040
 Google - 
 remove account access
 https://myaccount.google.com/security#connectedapps
+
+MySQL strict/easy mode - 
+SET @@sql_mode = 'ONLY_FULL_GROUP_BY';
+SET @@sql_mode = ''
