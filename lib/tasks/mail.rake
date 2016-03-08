@@ -199,7 +199,7 @@ namespace :mail do
     prefixes = [
       /\S*\.getrevue\.co/,
       /\S*\.outbound-mail\.sendgrid\.net/,
-      /\S*\.sendgrid.net/.
+      /\S*\.sendgrid.net/,
     ]
 
     re = Regexp.union(prefixes)
