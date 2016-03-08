@@ -29,13 +29,13 @@ class Admin::HrefsController < ApplicationController
   def train
     href = Href.find(params[:href_id])
 
-    # global rank
-    @m.train params[:q], href.send(params[:s]) # host or path
-    @m.train params[:q], href.url # full url
-
     # user rank
     href.user.bayes.train params[:q], href.send(params[:s]) # host or path
     href.user.bayes.train params[:q], href.url # full url
+
+    # global rank
+    @m.train params[:q], href.send(params[:s]) # host or path
+    @m.train params[:q], href.url # full url
 
     if params[:q] == 'Up'
       if params[:s] == 'host'
