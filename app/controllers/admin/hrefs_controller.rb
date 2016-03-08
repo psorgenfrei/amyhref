@@ -29,8 +29,13 @@ class Admin::HrefsController < ApplicationController
   def train
     href = Href.find(params[:href_id])
 
-    @m.system.train params[:q], href.send(params[:s]) # host or path
-    @m.system.train params[:q], href.url # full url
+    # global rank
+    @m.train params[:q], href.send(params[:s]) # host or path
+    @m.train params[:q], href.url # full url
+
+    # user rank
+    href.user.bayes.system.train params[:q], href.send(params[:s]) # host or path
+    href.user.bayes.system.train params[:q], href.url # full url
 
     if params[:q] == 'up'
       if params[:s] == 'host'
@@ -47,7 +52,7 @@ class Admin::HrefsController < ApplicationController
     end
     set_good_or_bad(href)
 
-    flash[:notice] = @m.system.classify(href.url)
+    flash[:notice] = "#{@m.classify(href.url)} - #{href.user.bayes.system.classify(href.url)}"
 
     respond_to do |format|
       format.html { redirect_to :back }
