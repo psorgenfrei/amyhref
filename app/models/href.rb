@@ -43,7 +43,7 @@ class Href < ActiveRecord::Base
 
   def train(key, value)
     @m = self.user.bayes
-    @m.system.train(key, value)
+    @m.system.train(key.to_sym, value)
     self.reclassify
 
     self.user.snapshot
@@ -66,9 +66,10 @@ class Href < ActiveRecord::Base
     self.url.strip!
 
     # per-user ranking
-    path_status= self.user.bayes.classify(self.path).downcase rescue 'down'
-    host_status = self.user.bayes.classify(self.host).downcase rescue 'down'
-    url_status = self.user.bayes.classify(self.url).downcase rescue 'down'
+    bayes = self.user.bayes
+    path_status= bayes.classify(self.path).downcase rescue 'down'
+    host_status =bayes.classify(self.host).downcase rescue 'down'
+    url_status = bayes.classify(self.url).downcase rescue 'down'
 
     # global ranking
     GlobalBayes.instance.classify(self.path).downcase rescue 'down'
@@ -78,7 +79,7 @@ class Href < ActiveRecord::Base
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'
 
-    self.rating = self.user.bayes.classifications(self.url).sort{ |k,v| v[0].to_i }.reverse.first[1].to_f rescue false
+    self.rating = bayes.classifications(self.url).sort{ |k,v| v[0].to_i }.reverse.first[1].to_f rescue false
     self.rating = false if self.rating == 'Infinity'
 
     if url_status == 'up' && self.good_host? && self.good_path?

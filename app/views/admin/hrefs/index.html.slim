@@ -30,7 +30,7 @@ table border='1' align='center' cellpadding='5' bgcolor='#fff'
   - @hrefs.each do |href|
     tr
       - begin
-        td style= "#{@m.classify(href.host).downcase == 'up' && @m.classify(href.path).downcase == 'up' ? 'background-color: green;' : 'background-color: red;'}"
+        td style= "#{@m.classify(href.host) == 'Up' && @m.classify(href.path) == 'Up' ? 'background-color: green;' : 'background-color: red;'}"
           i class="fa fa-cloud"
       - rescue
         td style='background-color: grey;'
@@ -50,9 +50,9 @@ table border='1' align='center' cellpadding='5' bgcolor='#fff'
         = href.host
         div.actions
           span style='display:table;margin:0 auto;'
-            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=up&s=host', :method => :post, :remote => true do
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=Up&s=host', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-up" style='margin-right: 4em;'
-            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=down&s=host', :method => :post, :remote => true do
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=Down&s=host', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-down"
 
       td style= "#{href.good_host ? 'background-color: green;' : 'background-color: red;'}"
@@ -65,9 +65,9 @@ table border='1' align='center' cellpadding='5' bgcolor='#fff'
         = href.path
         div.actions
           span style='display:table;margin:0 auto;'
-            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=up&s=path', :method => :post, :remote => true do
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=Up&s=path', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-up" style='margin-right: 4em;'
-            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=down&s=path', :method => :post, :remote => true do
+            = link_to '/admin/hrefs/' + href.id.to_s + '/train?q=Down&s=path', :method => :post, :remote => true do
               i class="fa fa-thumbs-o-down"
 
       td style= "#{href.good_path ? 'background-color: green;' : 'background-color: red;'}"
