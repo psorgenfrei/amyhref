@@ -15,7 +15,7 @@
     </div>
     <% if logged_in? %>
       <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
-      <% if current_page?(controller: :you, action: :index) %>
+      <% if current_page?('/you') %>
         <%= link_to 'Home', '/', :class => 'btn you' %>
       <% else %>
         <%= link_to 'Your profile', '/you', :class => 'btn you' %>
