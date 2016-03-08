@@ -57,6 +57,12 @@ body {
   right: 1em;
 }
 
+.you {
+  position: fixed !important;
+  top: .5em;
+  left: 1em;
+}
+
 h1 {
   color: #000;
   margin-bottom: 1.5em;

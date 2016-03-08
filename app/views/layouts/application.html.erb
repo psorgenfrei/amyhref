@@ -15,6 +15,7 @@
     </div>
     <% if logged_in? %>
       <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
+      <%= link_to 'Your profile', '/you', :class => 'btn you' %>
     <% else %>
       <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn btn--primary signin' %>
     <% end %>
