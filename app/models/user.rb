@@ -5,12 +5,17 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
 
   def bayes
-    begin
+    classifier = begin
       data = File.read("bayes/#{self.email}")
       Marshal.load(data)
     rescue Errno::ENOENT
       ClassifierReborn::Bayes.new 'Up', 'Down'
     end
+
+    if classifier.nil?
+      classifier = ClassifierReborn::Bayes.new( 'Up', 'Down')
+    end
+    classifier
   end
 
   def snapshot
