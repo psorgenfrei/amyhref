@@ -1,10 +1,13 @@
 class Href < ActiveRecord::Base
   validates_presence_of :url
-  validates_uniqueness_of :url, :scope => :newsletter
+  validates_uniqueness_of :url, :scope => [:newsletter, :user]
 
+  belongs_to :user
   belongs_to :newsletter
 
   before_save :set_domain
+  before_save :set_path
+
   after_create :initial_classification
 
   require 'uri'
@@ -17,7 +20,7 @@ class Href < ActiveRecord::Base
     self.parse.host
   end
 
-  def path
+  def parse_path
     self.parse.path
   end
 
@@ -39,7 +42,7 @@ class Href < ActiveRecord::Base
   end
 
   def train(key, value)
-    @m ||= setup_madeleine
+    @m = self.user.bayes
     @m.system.train(key, value)
     self.reclassify
     @m.take_snapshot
@@ -51,10 +54,8 @@ class Href < ActiveRecord::Base
     self.domain = self.host
   end
 
-  def setup_madeleine
-    SnapshotMadeleine.new('bayes_data') {
-      Classifier::Bayes.new 'up', 'down'
-    }
+  def set_path
+    self.path = self.parse.path
   end
 
   # Callback to set the initial classification
@@ -62,14 +63,22 @@ class Href < ActiveRecord::Base
   def initial_classification
     self.url.strip!
 
-    @m ||= setup_madeleine
+    @m = self.user.bayes
 
+    # per-user ranking
     path_status= @m.system.classify(self.path).downcase rescue 'down'
     host_status = @m.system.classify(self.host).downcase rescue 'down'
     url_status = @m.system.classify(self.url).downcase rescue 'down'
 
+    # global ranking
+    GlobalBayes.instance.classify(self.path).downcase rescue 'down'
+    GlobalBayes.instance.classify(self.host).downcase rescue 'down'
+    GlobalBayes.instance.classify(self.url).downcase rescue 'down'
+
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'
+
+    self.rating = @m.system.classifications(self.url).sort{ |k,v| v[0].to_i }.reverse.first[1] rescue false
 
     if url_status == 'up' && self.good_host? && self.good_path?
       self.good = true

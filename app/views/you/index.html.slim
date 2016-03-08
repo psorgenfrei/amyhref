@@ -1,0 +1,31 @@
+h1
+  = "Amy Href + #{current_user.name}"
+  br
+  = "(#{current_user.email}) 😎"
+
+- if current_user.last_processed.nil? || @hrefs.nil?
+  p.date.center Welcome
+  .links
+    .card
+      - image = ['/assets/welcome/robotyuio.gif', '/assets/welcome/15.gif', '/assets/welcome/130559800278.gif'].shuffle.first
+      img src="#{image}"
+      br
+      ' Stay tuned, we're busy creating a brand new robot just for you.
+      br
+      ' Check back in a few hours to see how we're shaping up.
+
+- if @hrefs
+  .links
+    - last_day = false
+    - @hrefs.each do |href|
+      - if last_day && last_day != href.created_at.strftime('%d%m%Y')
+        .day.date.center= href.created_at.strftime("%A, %b %d %Y")
+
+      = render :partial => 'shared/href', :locals => {:href => href}
+
+      - last_day = href.created_at.strftime('%d%m%Y')
+
+  - unless @hrefs.current_page.to_i == @hrefs.total_pages.to_i
+    .archive
+      a.btn href='/you/#{@hrefs.current_page.to_i + 1}'
+        ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
