@@ -40,3 +40,5 @@ bower.json
 
 # Ignore Mail config
 config/initializers/mail.rb
+
+config/secrets.yml

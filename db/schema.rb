@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 20160303150013) do
     t.text     "path"
   end
 
-  add_index "hrefs", ["created_at"], name: "index_hrefs_on_created_at", using: :btree
   add_index "hrefs", ["domain"], name: "index_hrefs_on_domain", using: :btree
   add_index "hrefs", ["newsletter_id"], name: "index_hrefs_on_newsletter_id", using: :btree
 
@@ -38,7 +37,6 @@ ActiveRecord::Schema.define(version: 20160303150013) do
     t.datetime "updated_at"
   end
 
-  add_index "newsletters", ["created_at"], name: "index_newsletters_on_created_at", using: :btree
   add_index "newsletters", ["email"], name: "index_newsletters_on_email", using: :btree
 
   create_table "sessions", force: true do |t|
