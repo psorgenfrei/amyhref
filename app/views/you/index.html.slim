@@ -3,7 +3,7 @@ h1
   br
   = "(#{current_user.email}) 😎"
 
-- if current_user.last_processed.nil?
+- if current_user.last_processed.nil? || @hrefs.nil?
   p.date.center Welcome
   .links
     .card
@@ -13,7 +13,6 @@ h1
       ' Stay tuned, we're busy creating a brand new robot just for you.
       br
       ' Check back in a few hours to see how we're shaping up.
-
 - elsif @hrefs
   .links
     - last_day = false
