@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Href < ActiveRecord::Base
   validates_presence_of :url
   validates_uniqueness_of :url, :scope => [:newsletter, :user]
@@ -42,13 +44,15 @@ class Href < ActiveRecord::Base
   end
 
   def train(key, value)
-    @m = self.user.bayes
-    @m.system.train(key.to_sym, value)
+    self.user.bayes.train(key.to_sym, value)
+    GlobalBayes.instance.train(key.to_sym, value)
+
     self.reclassify
 
     self.user.snapshot
+    GlobalBayes.snapshot
 
-    @m.system.classifications(value)
+    self.user.bayes.classifications(value)
   end
 
   protected
@@ -67,20 +71,20 @@ class Href < ActiveRecord::Base
 
     # per-user ranking
     bayes = self.user.bayes
-    path_status= bayes.classify(self.path).downcase rescue 'down'
-    host_status =bayes.classify(self.host).downcase rescue 'down'
+    path_status = bayes.classify(self.path).downcase rescue 'down'
+    host_status = bayes.classify(self.host).downcase rescue 'down'
     url_status = bayes.classify(self.url).downcase rescue 'down'
 
     # global ranking
-    GlobalBayes.instance.classify(self.path).downcase rescue 'down'
-    GlobalBayes.instance.classify(self.host).downcase rescue 'down'
-    GlobalBayes.instance.classify(self.url).downcase rescue 'down'
+    GlobalBayes.instance.classify(self.path).downcase #rescue 'down'
+    GlobalBayes.instance.classify(self.host).downcase #rescue 'down'
+    GlobalBayes.instance.classify(self.url).downcase #rescue 'down'
 
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'
 
     self.rating = bayes.classifications(self.url).sort{ |k,v| v[0].to_i }.reverse.first[1].to_f rescue false
-    self.rating = false if self.rating.to_s == Infinity
+    self.rating = false if self.rating.to_s == 'Infinity'
 
     if url_status == 'up' && self.good_host? && self.good_path?
       self.good = true

@@ -1,20 +1,23 @@
 module GlobalBayes
   def self.instance
-    classifier = begin
-      data = File.read("bayes/all@amyhref.com")
-      Marshal.load(data)
-    rescue Errno::ENOENT
-      ClassifierReborn::Bayes.new 'Up', 'Down'
+    if @classifier.nil?
+      @classifier = begin
+        data = File.read("bayes/global.dat")
+        Marshal.load(data)
+      rescue Errno::ENOENT
+        ClassifierReborn::Bayes.new('Up', 'Down')
+      end
+
+      if @classifier.nil?
+        @classifier = ClassifierReborn::Bayes.new('Up', 'Down')
+      end
     end
 
-    if classifier.nil?
-      classifier = ClassifierReborn::Bayes.new( 'Up', 'Down')
-    end
-    classifier
+    @classifier
   end
 
-  def self.save
-    snapshot = Marshal.dump(classifier)
-    File.open('bayes/all@amyhref.com', 'w') {|f| f.write(snapshot) }
+  def self.snapshot
+    snapshot = Marshal.dump(GlobalBayes.instance)
+    File.open('bayes/global.dat', 'w') {|f| f.write(snapshot) }
   end
 end

@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
 
       begin
         FileUtils.cp(Rails.root + "bayes/default.snapshot", Rails.root + "bayes/#{@user.email}")
-      rescue Errno::EEXIST
+      rescue Errno::EEXIST, Errno::ENOENT
         puts "File exists, skipping default bayes setup"
       end
     end

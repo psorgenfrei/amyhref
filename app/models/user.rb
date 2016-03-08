@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class User < ActiveRecord::Base
   has_many :tokens
   has_many :hrefs
@@ -5,21 +7,24 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
 
   def bayes
-    classifier = begin
-      data = File.read("bayes/#{self.email}")
-      Marshal.load(data)
-    rescue Errno::ENOENT
-      ClassifierReborn::Bayes.new 'Up', 'Down'
+    if @classifier.nil?
+      @classifier = begin
+        data = File.read("bayes/#{self.email}.dat")
+        Marshal.load(data)
+      rescue Errno::ENOENT, ArgumentError
+        ::ClassifierReborn::Bayes.new('Up', 'Down')
+      end
+
+      if @classifier.nil?
+        @classifier = ClassifierReborn::Bayes.new('Up', 'Down')
+      end
     end
 
-    if classifier.nil?
-      classifier = ClassifierReborn::Bayes.new( 'Up', 'Down')
-    end
-    classifier
+    @classifier
   end
 
   def snapshot
-    snapshot = Marshal.dump(@m)
-    File.open('bayes/' + self.email, 'w') {|f| f.write(snapshot) }
+    snapshot = Marshal.dump(self.bayes)
+    File.open('bayes/' + self.email + '.dat', 'w') {|f| f.write(snapshot) }
   end
 end

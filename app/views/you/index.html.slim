@@ -3,7 +3,7 @@ h1
   br
   = "(#{current_user.email}) 😎"
 
-- if current_user.last_processed.nil? || @hrefs.nil?
+- if current_user.last_processed.nil? || @hrefs.empty?
   p.date.center Welcome
   .links
     .card
