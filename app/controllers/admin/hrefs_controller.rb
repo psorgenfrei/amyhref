@@ -57,7 +57,8 @@ class Admin::HrefsController < ApplicationController
 
   protected
   def setup_madeleine
-    @m = current_user.bayes
+    #@m = current_user.bayes
+    @m = GlobalBayes.instance
   end
 
   def set_good_or_bad(href)
