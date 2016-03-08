@@ -3,18 +3,18 @@ h1
   br
   = "(#{current_user.email}) 😎"
 
-- if current_user.last_processed.nil? || @hrefs.nil?
+- if current_user.last_processed.nil?
   p.date.center Welcome
   .links
     .card
-      - image = ['/assets/welcome/robotyuio.gif', '/assets/welcome/15.gif', '/assets/welcome/130559800278.gif'].shuffle.first
-      img src="#{image}"
+      - image = ['welcome/robotyuio.gif', 'welcome/15.gif', 'welcome/130559800278.gif'].shuffle.first
+      = image_tag(image)
       br
       ' Stay tuned, we're busy creating a brand new robot just for you.
       br
       ' Check back in a few hours to see how we're shaping up.
 
-- if @hrefs
+- elsif @hrefs
   .links
     - last_day = false
     - @hrefs.each do |href|
