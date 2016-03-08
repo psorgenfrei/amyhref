@@ -77,7 +77,7 @@ namespace :mail do
       puts "Processing #{emails.length} email(s) for #{user.name} / #{user.email} since #{last_processed}."
       parse_emails(emails, user)
       user.update_attributes(:last_processed => Time.now)
-      user.bayes.take_snapshot
+      user.snapshot
     end
     puts "Finished at #{Time.now}"
   end

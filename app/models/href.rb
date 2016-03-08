@@ -45,7 +45,9 @@ class Href < ActiveRecord::Base
     @m = self.user.bayes
     @m.system.train(key, value)
     self.reclassify
-    @m.take_snapshot
+
+    self.user.snapshot
+
     @m.system.classifications(value)
   end
 
@@ -63,12 +65,10 @@ class Href < ActiveRecord::Base
   def initial_classification
     self.url.strip!
 
-    @m = self.user.bayes
-
     # per-user ranking
-    path_status= @m.system.classify(self.path).downcase rescue 'down'
-    host_status = @m.system.classify(self.host).downcase rescue 'down'
-    url_status = @m.system.classify(self.url).downcase rescue 'down'
+    path_status= self.user.bayes.classify(self.path).downcase rescue 'down'
+    host_status = self.user.bayes.classify(self.host).downcase rescue 'down'
+    url_status = self.user.bayes.classify(self.url).downcase rescue 'down'
 
     # global ranking
     GlobalBayes.instance.classify(self.path).downcase rescue 'down'
@@ -78,7 +78,7 @@ class Href < ActiveRecord::Base
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'
 
-    self.rating = @m.system.classifications(self.url).sort{ |k,v| v[0].to_i }.reverse.first[1] rescue false
+    self.rating = self.user.bayes.classifications(self.url).sort{ |k,v| v[0].to_i }.reverse.first[1].to_f rescue false
 
     if url_status == 'up' && self.good_host? && self.good_path?
       self.good = true

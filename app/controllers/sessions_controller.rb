@@ -30,10 +30,9 @@ class SessionsController < ApplicationController
 
 
       begin
-        FileUtils.mkdir(Rails.root + "bayes/#{@user.email}")
-        FileUtils.cp(Rails.root + 'bayes/default.snapshot', Rails.root + "bayes/#{@user.email}/000000000000000000001.snapshot")
+        FileUtils.cp(Rails.root + "bayes/default.snapshot", Rails.root + "bayes/#{@user.email}")
       rescue Errno::EEXIST
-        puts "Directory exists, skipping default bayes setup"
+        puts "File exists, skipping default bayes setup"
       end
     end
 
