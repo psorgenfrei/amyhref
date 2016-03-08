@@ -7,32 +7,6 @@ var system = require('system');
 var myurl = system.args[1];
 
 var renderPage = function (url) {
-<<<<<<< HEAD
-    url = url.trim();
-    page = require('webpage').create();
-
-    clearTimeout(timer)
-    timer = setTimeout(function() { endProcess(); }, 5000);
-
-    page.onNavigationRequested = function(url, type, willNavigate, main) {
-        if (main && url!=myurl) {
-            myurl = url;
-            page.close()
-
-            //setTimeout('renderPage(myurl)',1); // recurse
-            setTimeout(function() { renderPage(myurl); }, 1 ) // recurse
-            console.log(url)
-        }
-    };
-
-    page.open(url, function(status) {
-        if (status==='success') {
-            phantom.exit(0);
-        } else {
-            phantom.exit(1);
-        }
-    });
-=======
   url = url.trim();
   page = require('webpage').create();
 
@@ -61,7 +35,6 @@ var renderPage = function (url) {
   page.onError = function(msg, trace) {
     phantom.exit(1);
   }
->>>>>>> e06bc9ca482045e647f0b9a8785a30be46731ed7
 } 
 
 function endProcess() {
