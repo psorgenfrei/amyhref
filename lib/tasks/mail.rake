@@ -48,11 +48,11 @@ namespace :mail do
         end
 
         # wip, catch senders w/out List-Unusubscribe headers
-        # need to accomodate 123.known.sender domains in here, sigh
         rfc822_header = email_header[0].attr['RFC822.HEADER'].downcase
         received_from = rfc822_header.scan(/received:\sfrom\s(\S*)/im).flatten.uniq
+        received_by = rfc822_header.scan(/received:\sby\s(\S*)/im).flatten.uniq
 
-        if rfc822_header.include?('list-unsubscribe') || matches_know_senders?(received_from)
+        if rfc822_header.include?('list-unsubscribe') || matches_known_senders?(received_from) || matches_known_senders?(received_by)
           message_ids << message_id
 
           @imap.uid_copy(message_id, amyhref_folder_name)
@@ -189,13 +189,7 @@ namespace :mail do
   end
 
   # does any entry in senders match any of the regex in known_senders?
-  def matches_know_senders?(senders)
-    #known_senders = Newsletter.all.collect{ |n| n.email.downcase }
-    known_senders = []
-    known_senders << 'o1.em.getrevue.co'
-    known_senders << 'o192254121115.outbound-mail.sendgrid.net'
-    known_senders.uniq!
-
+  def matches_known_senders?(senders)
     prefixes = [
       /\S*\.getrevue\.co/,
       /\S*\.outbound-mail\.sendgrid\.net/,
