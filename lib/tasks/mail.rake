@@ -145,10 +145,12 @@ namespace :mail do
             host = uri.host.downcase rescue next
             path = uri.path.downcase rescue next
 
-            #next if host =~ /twitter.com/ 
-            #next if host =~ /facebook.com/
-            #next if host =~ /linkedin.com/
-            #next if host =~ /instapaper.com/
+            next if host =~ /twitter.com/ 
+            next if host =~ /facebook.com/
+            next if host =~ /linkedin.com/
+            next if host =~ /instapaper.com/
+            next if host =~ /instagram.com/
+            next if host =~ /pinterest.com/
 
             next if host =~ /forward-to-friend\d*.com/
             next if host =~ /forwardtomyfriend\d*.com/
