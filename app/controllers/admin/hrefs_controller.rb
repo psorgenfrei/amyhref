@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Admin::HrefsController < ApplicationController
   before_filter :setup_madeleine
 
@@ -36,6 +38,9 @@ class Admin::HrefsController < ApplicationController
     # global rank
     @m.train params[:q], href.send(params[:s]) # host or path
     @m.train params[:q], href.url # full url
+
+    href.user.snapshot
+    GlobalBayes.snapshot
 
     if params[:q] == 'Up'
       if params[:s] == 'host'

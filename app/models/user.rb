@@ -27,6 +27,6 @@ class User < ActiveRecord::Base
 
   def snapshot
     snapshot = Marshal.dump(self.bayes)
-    File.open('bayes/' + self.email + '.dat', 'w') {|f| f.write(snapshot) }
+    File.open('bayes/' + self.email + '.dat', 'wb') {|f| f.write(snapshot) }
   end
 end

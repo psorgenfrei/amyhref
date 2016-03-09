@@ -18,6 +18,6 @@ module GlobalBayes
 
   def self.snapshot
     snapshot = Marshal.dump(GlobalBayes.instance)
-    File.open('bayes/global.dat', 'w') {|f| f.write(snapshot) }
+    File.open('bayes/global.dat', 'wb') {|f| f.write(snapshot) }
   end
 end

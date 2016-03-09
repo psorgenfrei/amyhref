@@ -49,9 +49,6 @@ class Href < ActiveRecord::Base
 
     self.reclassify
 
-    self.user.snapshot
-    GlobalBayes.snapshot
-
     self.user.bayes.classifications(value)
   end
 
