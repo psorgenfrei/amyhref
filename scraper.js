@@ -11,7 +11,7 @@ var renderPage = function (url) {
   page = require('webpage').create();
 
   clearTimeout(timer)
-  timer = setTimeout(function() { endProcess(); }, 5000);
+  timer = setTimeout(function() { endProcess(); }, 7000);
 
   page.onNavigationRequested = function(url, type, willNavigate, main) {
     if (main && url != myurl) {
