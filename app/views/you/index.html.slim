@@ -20,14 +20,12 @@
       ul
         li
           - unless @newsletter
-            b
-              '&gt;
+            ' &gt;
           = link_to 'All', '/you'
         - @newsletters.each do |newsletter|
           li
             - if @newsletter && @newsletter.id == newsletter.id
-              b
-                '&gt;
+              ' &gt;
             = link_to newsletter.email, you_newsletter_path(newsletter.id)
 
   .links
