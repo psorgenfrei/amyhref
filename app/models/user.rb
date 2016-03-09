@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   validates_uniqueness_of :email
 
+  attr_accessor :classifier
+
   def bayes
     if @classifier.nil?
       @classifier = begin
