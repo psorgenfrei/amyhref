@@ -1,7 +1,6 @@
-h1
-  = "Amy Href + #{current_user.name}"
-  br
-  = "(#{current_user.email}) 😎"
+- content_for :title do
+  h1.title
+    = "#{current_user.name} - #{current_user.email}"
 
 - if current_user.last_processed.nil? || @hrefs.empty?
   p.date.center Welcome

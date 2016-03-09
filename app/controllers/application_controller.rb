@@ -20,4 +20,9 @@ class ApplicationController < ActionController::Base
     current_user.present?
   end
   helper_method :logged_in?
+
+  def logged_out?
+    !logged_in?
+  end
+  helper_method :logged_out?
 end

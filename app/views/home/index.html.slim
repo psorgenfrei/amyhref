@@ -1,5 +1,6 @@
-h1
-  = "Amy Href's links of the day for " + Time.now.strftime("%A, %b %d %Y").to_s + ' 😎'
+- content_for :title do
+  h1.title
+    = "Amy Href's links of the day for " + Time.now.strftime("%A, %b %d %Y").to_s
 
 .links
   - @hrefs.each do |href|

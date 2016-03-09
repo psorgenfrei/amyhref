@@ -14,17 +14,16 @@
  *= require_self
  */
 
-@import url(https://fonts.googleapis.com/css?family=Lobster);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300);
 
 body {
   margin: 0;
   font-family: 'Open Sans Condensed', sans-serif;
-  background: url("/images/bg25.jpg") repeat center fixed;
+  background-color: #87CEFA; 
 }
 
 .break {
-  background: url("/images/bg25.jpg") repeat center fixed;
+  background-color: #87CEFA; 
   margin: 0;
   padding-top: .25em;
   height: 6em;
@@ -45,20 +44,34 @@ body {
   color: #fff;
 }
 
-.gmail_signin {
-  position: fixed;
+.header {
+  position: absolute;
+  width: 100%;
   top: 0;
-  right: 0;
 }
 
-.signout, .signin {
-  position: fixed !important;
+.header .left {
+  float: left;
+}
+
+.header .right {
+  float: right;
+}
+
+.signin, .signout {
+  position: absolute;
+  right: .5em;
   top: .5em;
-  right: 1em;
+}
+
+.title {
+  position: absolute;
+  top: -0.5em;
+  width: 100%;
+  z-index: -1;
 }
 
 .you {
-  position: fixed !important;
   top: .5em;
   left: 1em;
 }
@@ -67,14 +80,13 @@ h1 {
   color: #000;
   margin-bottom: 1.5em;
   text-align: center;
-  font-family: 'Lobster', serif;
+  font-family: 'Open Sans Condensed', sans-serif;
 }
 
 p.about {
   text-align: center;
   margin-top: -2.5em;
   margin-bottom: 2.5em;
-  text-shadow: 0px 1px 1px #bbb;
   font-weight: italic;
 }
 
@@ -83,13 +95,16 @@ p.about {
   margin-bottom: 2em;
 }
 
+.links {
+  margin-top: 5em;
+}
+
 .link {
   width: 600px;
   max-width: 100%;
   margin: 5px auto;
   position: relative;
   background-color: #fff;
-  text-shadow: 0px 1px 1px #bbb;
   font-family: 'Open Sans', serif;
 }
 
@@ -105,8 +120,6 @@ p.about {
   width: auto;
   z-index: 1;
   font-family: Oxygen,Arial,"Helvetica Neue",Helvetica,sans-serif;
-  border-bottom: 2px solid rgba(0,0,0,0.12);
-  border-right: 2px solid rgba(0,0,0,0.12);
   padding: 1em;
   font-size: 13px;
   line-height: 20px;
@@ -118,8 +131,6 @@ p.about {
 }
 
 div.embedly-card {
-  border-right: 2px solid rgba(0,0,0,0.12);
-  border-bottom: 2px solid rgba(0,0,0,0.12);
 }
 
 .meta {
@@ -137,7 +148,6 @@ div.embedly-card {
 
 .date {
   color: #464646;
-  text-shadow: 0px 1px 1px #bbb;
   font-weight: bold;
   text-transform: uppercase;
 }
