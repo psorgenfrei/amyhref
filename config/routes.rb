@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   delete "/signout" => 'sessions#destroy'
 
   match '/you(/:page)', :to => 'you#index', :as => 'you', :via => :get
+  match '/you/newsletters/:newsletter_id(/:page)', :to => 'you#newsletters', :as => 'you_newsletter', :via => :get
 
   namespace :admin do
     resources :hrefs do
