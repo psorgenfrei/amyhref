@@ -1,6 +1,7 @@
 link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
 
-h1 Amy Href // Hrefs
+- content_for :title do
+  h1.title Amy Href // Hrefs
 
 css:
   input[type='text'] { font-size: 16px; font-family: monospace; }
@@ -9,7 +10,7 @@ css:
     font-family: 'Gill Sans', sans-serif;
   }
 
-div style='text-align: right; padding: 1em;'
+div style='text-align: right; padding: 1em; margin-top: 5em;'
   = form_tag '/admin/hrefs/search', :method => :get do
     = text_field_tag 'q', (params[:q] if params[:q]), :size => 18, :placeholder => 'Search...', :style => ''
     = submit_tag '>>'

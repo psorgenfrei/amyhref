@@ -150,7 +150,6 @@ namespace :mail do
             next if host =~ /linkedin.com/
             next if host =~ /instapaper.com/
             next if host =~ /instagram.com/
-            next if host =~ /pinterest.com/
 
             next if host =~ /forward-to-friend\d*.com/
             next if host =~ /forwardtomyfriend\d*.com/
