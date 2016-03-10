@@ -14,7 +14,8 @@ class YouController < ApplicationController
   end
 
   def search
-    @hrefs = current_user.hrefs.where(good: true).where(['LOWER(hrefs.url) LIKE ?', '%' + params[:q].downcase + '%']).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
+    query = '%' + params[:q].downcase + '%'
+    @hrefs = current_user.hrefs.joins(:newsletter).where(good: true).where(['LOWER(hrefs.url) LIKE ? OR LOWER(newsletters.email) = ?', query, query]).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
 
     render action: :index
   end
