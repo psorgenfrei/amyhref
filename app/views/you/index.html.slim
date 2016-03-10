@@ -1,33 +1,46 @@
+css:
+  input[type="submit"] {
+    font-family: FontAwesome;
+  }
+
 - content_for :title do
   h1.title
     = "#{current_user.name} - #{current_user.email}"
 
 - if current_user.last_processed.nil? || @hrefs.empty?
-  p.date.center Welcome
   .links
-    .card
-      - image = ['welcome/robotyuio.gif', 'welcome/15.gif', 'welcome/130559800278.gif'].shuffle.first
-      = image_tag(image)
-      br
-      ' Stay tuned, we're busy creating a brand new robot just for you.
-      br
-      ' Check back in a few hours to see how we're shaping up.
+    - if params[:q]
+      .card.date
+        p= "No results found for \"#{params[:q]}\""
+    - else
+      p.date.center Welcome
+      .card
+        - image = ['welcome/robotyuio.gif', 'welcome/15.gif', 'welcome/130559800278.gif'].shuffle.first
+        = image_tag(image)
+        br
+        ' Stay tuned, we're busy creating a brand new robot just for you.
+        br
+        ' Check back in a few hours to see how we're shaping up.
 
-- elsif @hrefs
-  - if @newsletters
-    .filters
-      h3.filter Filter
-      ul
+- if @newsletters
+  .filters
+    h3.filter Filter
+    ul
+      li
+        - unless @newsletter || params[:q]
+          ' &gt;
+        = link_to 'All', '/you'
+      - @newsletters.each do |newsletter|
         li
-          - unless @newsletter
+          - if @newsletter && @newsletter.id == newsletter.id
             ' &gt;
-          = link_to 'All', '/you'
-        - @newsletters.each do |newsletter|
-          li
-            - if @newsletter && @newsletter.id == newsletter.id
-              ' &gt;
-            = link_to newsletter.email, you_newsletter_path(newsletter.id)
+          = link_to newsletter.email, you_newsletter_path(newsletter.id)
 
+      li
+        = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em;' do
+          = text_field_tag 'q', (params[:q] if params[:q]), :placeholder => 'Search...', :style => 'padding: .5em;'
+
+- if @hrefs
   .links
     - last_day = false
     - @hrefs.each do |href|

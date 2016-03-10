@@ -13,6 +13,12 @@ class YouController < ApplicationController
     render action: :index
   end
 
+  def search
+    @hrefs = current_user.hrefs.where(good: true).where(['LOWER(hrefs.url) LIKE ?', '%' + params[:q].downcase + '%']).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
+
+    render action: :index
+  end
+
   protected
   def fetch_newsletters
     newsletter_ids = current_user.hrefs.select(:newsletter_id).where(good: true).group(:newsletter_id)
