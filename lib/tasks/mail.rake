@@ -52,7 +52,7 @@ namespace :mail do
         received_from = rfc822_header.scan(/received:\sfrom\s(\S*)/im).flatten.uniq
         received_by = rfc822_header.scan(/received:\sby\s(\S*)/im).flatten.uniq
 
-        if rfc822_header.include?('list-unsubscribe') || matches_known_senders?(received_from) || matches_known_senders?(received_by)
+        if rfc822_header.include?('list-unsubscribe') || rfc822_header.include?('list-id:') || matches_known_senders?(received_from) || matches_known_senders?(received_by)
           message_ids << message_id
 
           @imap.uid_copy(message_id, amyhref_folder_name)
