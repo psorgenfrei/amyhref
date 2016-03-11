@@ -73,9 +73,9 @@ class Href < ActiveRecord::Base
     url_status = bayes.classify(self.url).downcase rescue 'down'
 
     # global ranking
-    GlobalBayes.instance.classify(self.path).downcase #rescue 'down'
-    GlobalBayes.instance.classify(self.host).downcase #rescue 'down'
-    GlobalBayes.instance.classify(self.url).downcase #rescue 'down'
+    GlobalBayes.instance.classify(self.path).downcase rescue 'down'
+    GlobalBayes.instance.classify(self.host).downcase rescue 'down'
+    GlobalBayes.instance.classify(self.url).downcase rescue 'down'
 
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'

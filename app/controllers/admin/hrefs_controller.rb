@@ -36,8 +36,8 @@ class Admin::HrefsController < ApplicationController
     href.user.bayes.train params[:q], href.url # full url
 
     # global rank
-    @m.train params[:q], href.send(params[:s]) # host or path
-    @m.train params[:q], href.url # full url
+    GlobalBayes.instance.train params[:q], href.send(params[:s]) # host or path
+    GlobalBayes.instance.train params[:q], href.url # full url
 
     href.user.snapshot
     GlobalBayes.snapshot
@@ -57,7 +57,7 @@ class Admin::HrefsController < ApplicationController
     end
     set_good_or_bad(href)
 
-    flash[:notice] = "#{@m.classify(href.send(params[:s]))} - #{href.user.bayes.classify(href.send(params[:s]))}"
+    flash[:notice] = "#{GlobalBayes.instance.classify(href.send(params[:s]))} - #{href.user.bayes.classify(href.send(params[:s]))}"
 
     respond_to do |format|
       format.html { redirect_to :back }
@@ -66,10 +66,6 @@ class Admin::HrefsController < ApplicationController
   end
 
   protected
-  def setup_madeleine
-    @m = GlobalBayes.instance
-  end
-
   def set_good_or_bad(href)
     href.update_column(:good, (href.good_host? && href.good_path?))
   end
