@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   match '/you/newsletters/:newsletter_id(/:page)', :to => 'you#newsletters', :as => 'you_newsletter', :via => :get
   match '/you/search(/:page)', :to => 'you#search', :as => 'you_search', :via => :get
+  match '/you/junk(/:page)', :to => 'you#junk', :as => 'you_junk', :via => :get
   match '/you(/:page)', :to => 'you#index', :as => 'you', :via => :get, :constraints => { :id => /\d/ }
 
   namespace :admin do

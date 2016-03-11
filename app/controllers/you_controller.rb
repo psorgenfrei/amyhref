@@ -8,7 +8,7 @@ class YouController < ApplicationController
 
   def newsletters
     @newsletter = Newsletter.where(id: params[:newsletter_id]).first
-    @hrefs = current_user.hrefs.where(good: true, newsletter_id: @newsletter.id). order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
+    @hrefs = current_user.hrefs.where(good: true, newsletter_id: @newsletter.id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
 
     render action: :index
   end
@@ -16,6 +16,12 @@ class YouController < ApplicationController
   def search
     query = '%' + params[:q].downcase + '%'
     @hrefs = current_user.hrefs.joins(:newsletter).where(good: true).where(['LOWER(hrefs.url) LIKE ? OR LOWER(newsletters.email) = ?', query, query]).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
+
+    render action: :index
+  end
+
+  def junk
+    @hrefs = current_user.hrefs.where(good: false).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
 
     render action: :index
   end
