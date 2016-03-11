@@ -63,6 +63,9 @@ css:
       - if @newsletter
         a.btn href='/you/newsletters/#{@newsletter.id}/#{@hrefs.current_page.to_i + 1}'
           ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
+      - elsif controller.action_name == 'junk'
+        a.btn href='/you/junk/#{@hrefs.current_page.to_i + 1}'
+          ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
       - else
         a.btn href='/you/#{@hrefs.current_page.to_i + 1}'
           ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
