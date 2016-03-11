@@ -57,7 +57,7 @@ class Admin::HrefsController < ApplicationController
     end
     set_good_or_bad(href)
 
-    flash[:notice] = "#{@m.classify(href.url)} - #{href.user.bayes.classify(href.url)}"
+    flash[:notice] = "#{@m.classify(href.send(params[:s]))} - #{href.user.bayes.classify(href.send(params[:s]))}"
 
     respond_to do |format|
       format.html { redirect_to :back }
