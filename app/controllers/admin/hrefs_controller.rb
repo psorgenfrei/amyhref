@@ -1,8 +1,6 @@
 # encoding: utf-8
 
 class Admin::HrefsController < ApplicationController
-  before_filter :setup_madeleine
-
   def index
     @hrefs = Href.order('created_at DESC').paginate(:page => params[:page], :per_page => 25)
     #@hrefs.collect{ |h| h.reclassify }
