@@ -1,22 +1,6 @@
 - content_for :title do
   .title.hide-for-small= "#{current_user.email}"
 
-- if current_user.last_processed.nil? || @hrefs.empty?
-  .large-12.large-centered.columns
-    .links
-      - if params[:q]
-        .card.date
-          p= "No results found for \"#{params[:q]}\""
-      - else
-        p.date.center Welcome
-        .card
-          - image = ['welcome/robotyuio.gif', 'welcome/15.gif', 'welcome/130559800278.gif'].shuffle.first
-          = image_tag(image)
-          br
-          ' Stay tuned, we're busy creating a brand new robot just for you.
-          br
-          ' Check back in a few hours to see how we're shaping up.
-
 .large-3.columns.hide-for-small
   - if @newsletters
     .filters
@@ -44,7 +28,23 @@
             = text_field_tag 'q', (params[:q] if params[:q]), :placeholder => 'Search...', :style => 'padding: .5em;'
 
 .large-9.large-centered.small-12.small-centered.columns
-  - if @hrefs
+  - if current_user.last_processed.nil? || @hrefs.empty?
+    .large-12.large-centered.columns
+      .links
+        - if params[:q]
+          .card.date
+            p= "No results found for \"#{params[:q]}\""
+        - else
+          p.date.day Welcome
+          .card
+            - image = ['welcome/robotyuio.gif', 'welcome/15.gif', 'welcome/130559800278.gif'].shuffle.first
+            = image_tag(image)
+            br
+            ' Stay tuned, we're busy creating a brand new robot just for you.
+            br
+            ' Check back in a few hours to see how we're shaping up.
+
+  - elsif @hrefs
     .links
       - last_day = false
       - @hrefs.each do |href|

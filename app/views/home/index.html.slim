@@ -1,6 +1,7 @@
 .large-12.large-centered.columns
   - content_for :title do
-    .title= Time.now.strftime("%A, %b %d %Y").to_s
+    .title
+      = link_to(image_tag( '/images/logo.png', :size => '32x32', :alt => 'Amy Href'), '/')
 
   .links
     - @hrefs.each do |href|
