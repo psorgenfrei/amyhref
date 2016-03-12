@@ -1,7 +1,6 @@
 .large-12.large-centered.columns
   - content_for :title do
-    h1.title
-      = "Amy Href's links of the day for " + Time.now.strftime("%A, %b %d %Y").to_s
+    .title= Time.now.strftime("%A, %b %d %Y").to_s
 
   .links
     - @hrefs.each do |href|

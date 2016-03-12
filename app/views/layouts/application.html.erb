@@ -16,31 +16,29 @@
   <body>
     <div class='flash' style='display: none;'> </div>
 
-    <div class="fixed">
-      <nav class="top-bar" data-topbar role="navigation">
-        <section class="top-bar-section">
-          <ul class="right">
-            <% if logged_in? %>
-              <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
+    <nav class="top-bar" data-topbar role="navigation">
+      <section class="top-bar-section">
+        <ul class="right">
+          <% if logged_in? %>
+            <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
+          <% else %>
+            <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn signin' %>
+          <% end %>
+        </ul>
+
+        <%= yield :title %>
+
+        <ul class="left">
+          <% if logged_in? %>
+            <% if controller.controller_name == 'you' %>
+              <%= link_to 'Home', '/', :class => 'btn you' %>
             <% else %>
-              <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn signin' %>
+              <%= link_to 'Your profile', '/you', :class => 'btn you' %>
             <% end %>
-          </ul>
-
-          <%= yield :title %>
-
-          <ul class="left">
-            <% if logged_in? %>
-              <% if controller.controller_name == 'you' %>
-                <%= link_to 'Home', '/', :class => 'btn you' %>
-              <% else %>
-                <%= link_to 'Your profile', '/you', :class => 'btn you' %>
-              <% end %>
-            <% end %>
-          </ul>
-        </section>
-      </nav>
-    </div>
+          <% end %>
+        </ul>
+      </section>
+    </nav>
 
     <div class='row full-width'>
       <%= yield %>
