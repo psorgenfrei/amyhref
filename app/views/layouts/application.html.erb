@@ -21,9 +21,9 @@
         <section class="top-bar-section">
           <ul class="right">
             <% if logged_in? %>
-              <%= link_to 'Sign out', '/signout', :class => 'btn signout right', :method => :delete %>
+              <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
             <% else %>
-              <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn btn--primary signin right' %>
+              <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn signin' %>
             <% end %>
           </ul>
 
@@ -43,11 +43,7 @@
     </div>
 
     <div class='row full-width'>
-      <div class='large-12 large-centered column'>
-
-        <%= yield %>
-
-      </div>
+      <%= yield %>
     <div>
 
     <%= render :partial => 'shared/embedly' %>
@@ -55,5 +51,6 @@
     <%= yield :javascript_for_footer %>
 
     <%= render :partial => 'shared/ga' %>
+
   </body>
 </html>

@@ -52,11 +52,12 @@ body, .top-bar {
 
 .signin, .signout {
   position: absolute;
-  right: .5em;
   top: .5em;
+  right: 1em;
 }
 
 .you {
+  position: absolute;
   top: .5em;
   left: 1em;
 }
@@ -69,7 +70,7 @@ body, .top-bar {
 }
 
 .filters {
-  position: absolute;;
+  position: absolute;
   left: 0em;
 }
 
@@ -189,18 +190,11 @@ div.embedly-card {
   font-family: inherit;
   font-weight: bold;
   line-height: 1;
-  margin: 0 0 1.25em;
   position: relative;
   text-decoration: none;
   text-align: center;
   display: inline-block;
-  padding-top: 1em;
-  padding-right: 2em;
-  padding-bottom: 1.0625em;
-  padding-left: 2em;
   font-size: 1.25em;
-  background-color: rgba(255,255,255,0.8);
-  border-color: rgba(230,230,230,0.8);
   color: #333;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -219,13 +213,11 @@ div.embedly-card {
 
 .btn:hover {
   transition: .3s;
-  background-color: rgba(20, 38, 62, 0.8);
   color: #fff;
 }
 
 .btn.btn--primary {
-  background-color: #00b5ca;
-  color: white;
+  color: #00b5ca;
 }
 
 .btn.btn--on-white {
@@ -233,5 +225,5 @@ div.embedly-card {
 }
 
 .full-width {
-max-width: initial;
+  max-width: initial;
 }

@@ -3,12 +3,12 @@ css:
     font-family: FontAwesome;
   }
 
-.row
-  - content_for :title do
-    h1.title
-      = "#{current_user.name} - #{current_user.email}"
+- content_for :title do
+  h1.title
+    = "#{current_user.name} - #{current_user.email}"
 
-  - if current_user.last_processed.nil? || @hrefs.empty?
+- if current_user.last_processed.nil? || @hrefs.empty?
+  .large-12.large-centered.columns
     .links
       - if params[:q]
         .card.date
@@ -23,52 +23,53 @@ css:
           br
           ' Check back in a few hours to see how we're shaping up.
 
-.large-2.columns.left
-  - if @newsletters
-    .filters
-      h3.filter Filter
-      ul
-        li
-          - unless @newsletter || params[:q] || controller.action_name == 'junk'
-            ' &gt;
-          = link_to 'All', '/you'
-
-        - @newsletters.each do |newsletter|
+.large-12.large-centered.columns
+  .large-3.columns
+    - if @newsletters
+      .filters
+        h3.filter Filter
+        ul
           li
-            - if @newsletter && @newsletter.id == newsletter.id
+            - unless @newsletter || params[:q] || controller.action_name == 'junk'
               ' &gt;
-            = link_to newsletter.email, you_newsletter_path(newsletter.id)
+            = link_to 'All', '/you'
 
-        li
-          - if controller.action_name == 'junk'
-            ' &gt;
-          = link_to 'Junk', '/you/junk'
+          - @newsletters.each do |newsletter|
+            li
+              - if @newsletter && @newsletter.id == newsletter.id
+                ' &gt;
+              = link_to newsletter.email, you_newsletter_path(newsletter.id)
+
+          li
+            - if controller.action_name == 'junk'
+              ' &gt;
+            = link_to 'Junk', '/you/junk'
 
 
-        li
-          = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em;' do
-            = text_field_tag 'q', (params[:q] if params[:q]), :placeholder => 'Search...', :style => 'padding: .5em;'
+          li
+            = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em;' do
+              = text_field_tag 'q', (params[:q] if params[:q]), :placeholder => 'Search...', :style => 'padding: .5em;'
 
-.large-10.columns.left
-  - if @hrefs
-    .links
-      - last_day = false
-      - @hrefs.each do |href|
-        - if last_day && last_day != href.created_at.strftime('%d%m%Y')
-          .day.date.center= href.created_at.strftime("%A, %b %d %Y")
+  .large-9.columns
+    - if @hrefs
+      .links
+        - last_day = false
+        - @hrefs.each do |href|
+          - if last_day && last_day != href.created_at.strftime('%d%m%Y')
+            .day.date.center= href.created_at.strftime("%A, %b %d %Y")
 
-        = render :partial => 'shared/href', :locals => {:href => href}
+          = render :partial => 'shared/href', :locals => {:href => href}
 
-        - last_day = href.created_at.strftime('%d%m%Y')
+          - last_day = href.created_at.strftime('%d%m%Y')
 
-    - unless @hrefs.current_page.to_i == @hrefs.total_pages.to_i
-      .archive
-        - if @newsletter
-          a.btn href='/you/newsletters/#{@newsletter.id}/#{@hrefs.current_page.to_i + 1}'
-            ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
-        - elsif controller.action_name == 'junk'
-          a.btn href='/you/junk/#{@hrefs.current_page.to_i + 1}'
-            ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
-        - else
-          a.btn href='/you/#{@hrefs.current_page.to_i + 1}'
-            ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
+      - unless @hrefs.current_page.to_i == @hrefs.total_pages.to_i
+        .archive
+          - if @newsletter
+            a.btn href='/you/newsletters/#{@newsletter.id}/#{@hrefs.current_page.to_i + 1}'
+              ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
+          - elsif controller.action_name == 'junk'
+            a.btn href='/you/junk/#{@hrefs.current_page.to_i + 1}'
+              ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
+          - else
+            a.btn href='/you/#{@hrefs.current_page.to_i + 1}'
+              ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
