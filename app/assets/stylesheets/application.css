@@ -18,7 +18,7 @@
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300);
 
-body {
+body, .top-bar {
   background-color: #87CEFA; 
 }
 
@@ -48,15 +48,6 @@ body {
   position: absolute;
   width: 100%;
   top: 0.5em;
-}
-
-.header .left {
-  float: left;
-}
-
-.header .right {
-  float: right;
-  margin-right: 1em;
 }
 
 .signin, .signout {
@@ -108,6 +99,8 @@ h1 {
 h3.filter{
   padding-left: 1em;
   margin-bottom: -0.5em;
+  font-size: 1.17em;
+  font-weight: bold;
 }
 
 p.about {
@@ -237,4 +230,8 @@ div.embedly-card {
 
 .btn.btn--on-white {
   background-color: #c4cecf;
+}
+
+.full-width {
+max-width: initial;
 }

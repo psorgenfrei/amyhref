@@ -4,39 +4,51 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) : 'Amy Href' %></title>
+    <title><%= content_for?(:page_title) ? yield(:page_title) : 'Amy Href' %></title>
 
-    <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "vendor/modernizr" %>
-    <%= javascript_include_tag "application" 'data-turbolinks-track' => true %>
-    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %> 
+    <%= javascript_include_tag "vendor/modernizr", 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <link rel="shortcut icon" href="/images/amyhref.ico" /> 
+    <%= csrf_meta_tags %>
   </head>
 
   <body>
     <div class='flash' style='display: none;'> </div>
 
-    <div class='row'>
-      <div class='large-12 column header'>
-        <% if logged_in? %>
-          <% if controller.controller_name == 'you' %>
-            <%= link_to 'Home', '/', :class => 'btn you left' %>
-          <% else %>
-            <%= link_to 'Your profile', '/you', :class => 'btn you left' %>
-          <% end %>
-        <% end %>
+    <div class="fixed">
+      <nav class="top-bar" data-topbar role="navigation">
+        <section class="top-bar-section">
+          <ul class="right">
+            <% if logged_in? %>
+              <%= link_to 'Sign out', '/signout', :class => 'btn signout right', :method => :delete %>
+            <% else %>
+              <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn btn--primary signin right' %>
+            <% end %>
+          </ul>
 
-        <%= yield :title %>
+          <%= yield :title %>
 
-        <% if logged_in? %>
-          <%= link_to 'Sign out', '/signout', :class => 'btn signout right', :method => :delete %>
-        <% else %>
-          <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn btn--primary signin right' %>
-        <% end %>
+          <ul class="left">
+            <% if logged_in? %>
+              <% if controller.controller_name == 'you' %>
+                <%= link_to 'Home', '/', :class => 'btn you' %>
+              <% else %>
+                <%= link_to 'Your profile', '/you', :class => 'btn you' %>
+              <% end %>
+            <% end %>
+          </ul>
+        </section>
+      </nav>
+    </div>
+
+    <div class='row full-width'>
+      <div class='large-12 large-centered column'>
+
+        <%= yield %>
+
       </div>
     <div>
-
-    <%= yield %>
 
     <%= render :partial => 'shared/embedly' %>
 

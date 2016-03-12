@@ -129,6 +129,7 @@ $include-html-global-classes: $include-html-classes;
 // $body-font-family: $font-family-sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
+$body-font-family: inherit;
 
 // We use this to control font-smoothing
 // $font-smoothing: antialiased;
@@ -257,6 +258,8 @@ $include-html-global-classes: $include-html-classes;
 // $anchor-text-decoration-hover: none;
 // $anchor-font-color: $primary-color;
 // $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);
+$anchor-font-color: inhreit;
+$anchor-font-color-hover: inhreit;
 
 // We use these to style the <hr> element
 // $hr-border-width: 1px;
