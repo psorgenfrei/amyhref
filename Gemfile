@@ -55,6 +55,7 @@ gem 'json'
 gem 'gmail_xoauth'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 gem 'will_paginate'
+gem 'foundation-rails'
 #gem 'rb-gsl', '~> 1.16', '>= 1.16.0.6'
 #gem 'rb-gsl', '~> 1.14', '= 1.14'
 
