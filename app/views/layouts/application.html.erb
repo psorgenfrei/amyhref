@@ -16,23 +16,25 @@
   <body>
     <div class='flash' style='display: none;'> </div>
 
-    <div class='header'>
-      <% if logged_in? %>
-        <% if controller.controller_name == 'you' %>
-          <%= link_to 'Home', '/', :class => 'btn you left' %>
-        <% else %>
-          <%= link_to 'Your profile', '/you', :class => 'btn you left' %>
+    <div class='row'>
+      <div class='large-12 column header'>
+        <% if logged_in? %>
+          <% if controller.controller_name == 'you' %>
+            <%= link_to 'Home', '/', :class => 'btn you left' %>
+          <% else %>
+            <%= link_to 'Your profile', '/you', :class => 'btn you left' %>
+          <% end %>
         <% end %>
-      <% end %>
 
-      <%= yield :title %>
+        <%= yield :title %>
 
-      <% if logged_in? %>
-        <%= link_to 'Sign out', '/signout', :class => 'btn signout right', :method => :delete %>
-      <% else %>
-        <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn btn--primary signin right' %>
-      <% end %>
-    </div>
+        <% if logged_in? %>
+          <%= link_to 'Sign out', '/signout', :class => 'btn signout right', :method => :delete %>
+        <% else %>
+          <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn btn--primary signin right' %>
+        <% end %>
+      </div>
+    <div>
 
     <%= yield %>
 
