@@ -86,6 +86,7 @@ body, .top-bar {
 
 .filters ul li {
   line-height: 1.5em;
+  overflow: hidden;
 }
 
 .filters ul li a {

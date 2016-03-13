@@ -1,5 +1,6 @@
 - content_for :title do
-  .title.hide-for-small= "#{current_user.email}"
+  .title.hide-for-small
+    = link_to(image_tag( '/images/logo.png', :size => '32x32', :alt => 'Amy Href'), '/')
 
 .large-3.columns.hide-for-small
   - if @newsletters
@@ -9,7 +10,7 @@
         li
           - unless @newsletter || params[:q] || controller.action_name == 'junk'
             ' &gt;
-          = link_to 'All', '/you'
+          = link_to "All (#{current_user.email})", '/you'
 
         - @newsletters.each do |newsletter|
           li
