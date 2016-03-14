@@ -3,9 +3,10 @@
   .break
     .meta
       ' #{href.newsletter.email if href.newsletter}
-    .train.hide-for-small id= href.id
-      = link_to train_up_you_path(href), method: :put, remote: true do
-        i class="fa fa-heart"
-      ' &nbsp; &nbsp; &nbsp;
-      = link_to train_down_you_path(href), method: :put, remote: true do
-        i class="fa fa-minus-circle"
+    - if logged_in? && href.user == current_user
+      .train.hide-for-small id= href.id
+        = link_to train_up_you_path(href), method: :put, remote: true do
+          i class="fa fa-heart"
+        ' &nbsp; &nbsp; &nbsp;
+        = link_to train_down_you_path(href), method: :put, remote: true do
+          i class="fa fa-minus-circle"
