@@ -36,7 +36,7 @@ $(function(){ $(document).foundation(); });
 
 $(function(){
   // init jquey navigation
-  $('.links').keyboardNavagation({offset: 2});
+  $('.links').keyboardNavagation();
 
   // j - down 
   $(document).bind('keydown', 'j', function(){
