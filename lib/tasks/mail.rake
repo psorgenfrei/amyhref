@@ -161,6 +161,7 @@ namespace :mail do
             next if host =~ /typeform.com/
 
             next if path =~ /unsubscribe/
+            next if path =~ /^\/$/
 
             # TODO hmm, maybe should be ful url not split on domain and path here?
             next if Href.exists?(:domain => host, :path => path, :user_id => user.id)
