@@ -10,6 +10,13 @@ Rails.application.routes.draw do
   match '/you/junk(/:page)', :to => 'you#junk', :as => 'you_junk', :via => :get
   match '/you(/:page)', :to => 'you#index', :as => 'you', :via => :get, :constraints => { :id => /\d/ }
 
+  resources :you do
+    member do
+      put 'up', to: 'you#up', as: 'train_up'
+      put 'down', to: 'you#down', as: 'train_down'
+    end
+  end
+
   namespace :admin do
     resources :hrefs do
       post :train, :as => :train_path

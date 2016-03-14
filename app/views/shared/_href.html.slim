@@ -1,4 +1,10 @@
 .link id="#{href.id}"
   a class='embedly-card' data-card-via='amyhref.com' data-card-controls='0' href="#{href.url}"
-  p.break.meta
-    ' #{href.newsletter.email if href.newsletter}
+  .break
+    .meta
+      ' #{href.newsletter.email if href.newsletter}
+    .train id= href.id
+      = link_to train_up_you_path(href), method: :put, remote: true do
+        i class="fa fa-thumbs-o-up"
+      ' &nbsp; &nbsp; &nbsp;
+      i class="fa fa-thumbs-o-down"

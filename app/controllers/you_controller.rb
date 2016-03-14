@@ -44,6 +44,15 @@ class YouController < ApplicationController
     end
   end
 
+  def up
+    @href = Href.find(params[:id])
+    @href.train(:Up, @href.url)
+    @href.update_attributes(good: true, good_host: true, good_path: true)
+  end
+
+  def down
+  end
+
   protected
   def fetch_newsletters
     newsletter_ids = current_user.hrefs.select(:newsletter_id).where(good: true).group(:newsletter_id)

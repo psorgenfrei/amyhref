@@ -22,13 +22,6 @@ body, .top-bar {
   background-color: #87CEFA; 
 }
 
-.break {
-  background-color: #87CEFA; 
-  margin: 0;
-  padding-top: .25em;
-  height: 6em;
-}
-
 .flash {
   font-family: sans-serif;
   background: #00B5CA;
@@ -155,11 +148,29 @@ p.about {
 div.embedly-card {
 }
 
-.meta {
+.break {
+  background-color: #87CEFA; 
+  margin: 0;
+  padding-top: .25em;
+  height: 6em;
+}
+
+.break .meta {
   text-align: right;
   font-size: small;
   color: #130f30;
+  height: 0;
 }
+
+.link:hover > .break .train {
+  visibility: visible;
+}
+
+.break .train {
+  text-align: center;
+  visibility: hidden;
+}
+
 
 .day {
   width: 100%;
