@@ -15,6 +15,8 @@
 //= require jquery.pageless
 //= require foundation
 //= require turbolinks
+//= require jquery.hotkeys
+//= require jquery.keyboard-navigation
 //= require_tree .
 
 $(document).ready(function(){
@@ -31,3 +33,18 @@ $(document).ready(function(){
 });
 
 $(function(){ $(document).foundation(); });
+
+$(function(){
+  // init jquey navigation
+  $('.links').keyboardNavagation();
+
+  // j - down 
+  $(document).bind('keydown', 'j', function(){
+    $('.links').trigger('scrollNext');
+  });
+
+  // k - up
+  $(document).bind('keydown', 'k', function(){
+    $('.links').trigger('scrollPrev');
+  });
+});
