@@ -2,10 +2,10 @@ module GlobalBayes
   def self.instance
     if @classifier.nil?
       @classifier = begin
-        data = File.read("bayes/global.dat")
+        data = File.read(Rails.root + 'bayes/global.dat')
         Marshal.load(data)
-      rescue Errno::ENOENT
-        ClassifierReborn::Bayes.new('Up', 'Down')
+      rescue Errno::ENOENT, ArgumentError
+        ::ClassifierReborn::Bayes.new('Up', 'Down')
       end
 
       if @classifier.nil?
@@ -18,6 +18,6 @@ module GlobalBayes
 
   def self.snapshot
     snapshot = Marshal.dump(GlobalBayes.instance)
-    File.open('bayes/global.dat', 'wb') {|f| f.write(snapshot) }
+    File.open(Rails.root + 'bayes/global.dat', 'wb') {|f| f.write(snapshot) }
   end
 end

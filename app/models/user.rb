@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   def bayes
     if @classifier.nil?
       @classifier = begin
-        data = File.read("bayes/#{self.email}.dat")
+        data = File.read(Rails.root + "bayes/#{self.email}.dat")
         Marshal.load(data)
       rescue Errno::ENOENT, ArgumentError
         ::ClassifierReborn::Bayes.new('Up', 'Down')
