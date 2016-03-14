@@ -73,10 +73,7 @@ body, .top-bar {
 }
 
 .filters {
-  //position: absolute;
   margin-top: 2.5em;
-  //left: 0em;
-  position: fixed;
   left: 1em;
 }
 
