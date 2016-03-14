@@ -46,11 +46,28 @@ class YouController < ApplicationController
 
   def up
     @href = Href.find(params[:id])
+    render # do this asap
+
     @href.train(:Up, @href.url)
+    @href.train(:Up, @href.domain)
+    @href.train(:Up, @href.path)
+
     @href.update_attributes(good: true, good_host: true, good_path: true)
+
+    current_user.snapshot if rand(3) == 0
   end
 
   def down
+    @href = Href.find(params[:id])
+    render # do this asap
+
+    @href.train(:Down, @href.url)
+    @href.train(:Down, @href.domain)
+    @href.train(:Down, @href.path)
+
+    @href.update_attributes(good: false, good_host: false, good_path: false)
+
+    current_user.snapshot if rand(3) == 0
   end
 
   protected

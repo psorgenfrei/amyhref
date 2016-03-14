@@ -7,4 +7,5 @@
       = link_to train_up_you_path(href), method: :put, remote: true do
         i class="fa fa-thumbs-o-up"
       ' &nbsp; &nbsp; &nbsp;
-      i class="fa fa-thumbs-o-down"
+      = link_to train_down_you_path(href), method: :put, remote: true do
+        i class="fa fa-thumbs-o-down"
