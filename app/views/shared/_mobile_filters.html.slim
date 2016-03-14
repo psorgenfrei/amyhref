@@ -15,7 +15,7 @@
 
     li
       - selected = (controller.action_name == 'spam') ? 'selected' : ''
-      i= link_to 'Spam', '/you/spam', class: selected
+      = link_to 'Spam', '/you/spam', class: selected
 
     li
       = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em;' do
