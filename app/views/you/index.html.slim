@@ -59,16 +59,16 @@
     - unless @hrefs.current_page.to_i == @hrefs.total_pages.to_i
       .archive
         - if @newsletter
-          - url = "/you/newsletters/#{@newsletter.id}/#{@hrefs.current_page.to_i + 1}"
-          a.btn href= url
+          - url = "/you/newsletters/#{@newsletter.id}"
+          a.btn href= url + "/#{@hrefs.current_page.to_i + 1}"
             ' Next page (#{@hrefs.total_pages})
         - elsif controller.action_name == 'junk'
-          - url = "/you/junk/#{@hrefs.current_page.to_i + 1}"
-          a.btn href= url
+          - url = '/you/junk'
+          a.btn href= url + "/#{@hrefs.current_page.to_i + 1}"
             ' Next page (#{@hrefs.total_pages})
         - else
-          - url = "/you/#{@hrefs.current_page.to_i + 1}"
-          a.btn href= url
+          - url = '/you'
+          a.btn href= url + "/#{@hrefs.current_page.to_i + 1}"
             ' Next page (#{@hrefs.total_pages})
 
     
