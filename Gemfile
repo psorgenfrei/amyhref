@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.8'
+gem 'rails', '4.1.9'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+#gem 'sass-rails', '~> 4.0.3' # see compatibility note below - duncan
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -55,6 +55,9 @@ gem 'json'
 gem 'gmail_xoauth'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 gem 'will_paginate'
+gem 'foundation-rails', '~> 5.5.0'
+gem 'sass-rails', '~> 5.0.0'  # upgraded for compatibility w/ foundation
+
 #gem 'rb-gsl', '~> 1.16', '>= 1.16.0.6'
 #gem 'rb-gsl', '~> 1.14', '= 1.14'
 

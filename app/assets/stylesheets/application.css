@@ -12,11 +12,13 @@
  *
  *= require_tree .
  *= require_self
+ *= require foundation_and_overrides
+
  */
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300);
 
-body {
+body, .top-bar {
   background-color: #87CEFA; 
 }
 
@@ -48,45 +50,43 @@ body {
   top: 0.5em;
 }
 
-.header .left {
-  float: left;
-}
-
-.header .right {
-  float: right;
-  margin-right: 1em;
-}
-
 .signin, .signout {
   position: absolute;
-  right: .5em;
   top: .5em;
+  right: 1em;
+  z-index: 1;
 }
 
 .you {
+  position: absolute;
   top: .5em;
   left: 1em;
 }
 
 .title {
   position: absolute;
-  top: -0.5em;
   width: 100%;
-  z-index: -1;
+  margin: -.25em;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Open Sans Condensed', sans-serif;
 }
 
 .filters {
-  position: absolute;;
-  left: 0em;
+  //position: absolute;
+  margin-top: 2.5em;
+  //left: 0em;
+  position: fixed;
+  left: 1em;
 }
 
 .filters ul {
   list-style-type: none;
-  padding-left: 1em;
 }
 
 .filters ul li {
   line-height: 1.5em;
+  overflow: hidden;
 }
 
 .filters ul li a {
@@ -94,6 +94,7 @@ body {
 }
 
 h1, h2, h3 {
+  font-weight: bold;
   font-family: 'Open Sans Condensed', sans-serif;
 }
 
@@ -104,8 +105,8 @@ h1 {
 }
 
 h3.filter{
-  padding-left: 1em;
-  margin-bottom: -0.5em;
+  font-size: 1.17em;
+  font-weight: bold;
 }
 
 p.about {
@@ -158,6 +159,7 @@ div.embedly-card {
 }
 
 .meta {
+  text-align: right;
   font-size: small;
   color: #130f30;
 }
@@ -167,24 +169,13 @@ div.embedly-card {
   padding: 1em;
   display: block;
   margin-bottom: 5em;
+  text-align: center;
 }
 
 .date {
   color: #464646;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-.right {
-  text-align: right;
-}
-
-.left {
-  text-align: left;
-}
-
-.center {
-  text-align: center;
 }
 
 .btn {
@@ -194,18 +185,11 @@ div.embedly-card {
   font-family: inherit;
   font-weight: bold;
   line-height: 1;
-  margin: 0 0 1.25em;
   position: relative;
   text-decoration: none;
   text-align: center;
   display: inline-block;
-  padding-top: 1em;
-  padding-right: 2em;
-  padding-bottom: 1.0625em;
-  padding-left: 2em;
   font-size: 1.25em;
-  background-color: rgba(255,255,255,0.8);
-  border-color: rgba(230,230,230,0.8);
   color: #333;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -224,15 +208,27 @@ div.embedly-card {
 
 .btn:hover {
   transition: .3s;
-  background-color: rgba(20, 38, 62, 0.8);
   color: #fff;
 }
 
 .btn.btn--primary {
-  background-color: #00b5ca;
-  color: white;
+  color: #00b5ca;
 }
 
 .btn.btn--on-white {
   background-color: #c4cecf;
+}
+
+/* Foundation overrides */
+
+.full-width {
+  max-width: initial;
+}
+
+.top-bar-section ul {
+  width: auto;
+}
+
+ul {
+  margin-left: initial;
 }
