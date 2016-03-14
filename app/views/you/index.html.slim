@@ -2,31 +2,11 @@
   .title.hide-for-small
     = link_to(image_tag( '/images/logo.png', :size => '32x32', :alt => 'Amy Href'), '/')
 
+- content_for :offcanvas do
+  = render partial: 'shared/mobile_filters'
+
 .large-3.columns.hide-for-small
-  - if @newsletters
-    .filters
-      h3.filter Filter
-      ul
-        li
-          - unless @newsletter || params[:q] || controller.action_name == 'junk'
-            ' &gt;
-          = link_to "All (#{current_user.email})", '/you'
-
-        - @newsletters.each do |newsletter|
-          li
-            - if @newsletter && @newsletter.id == newsletter.id
-              ' &gt;
-            = link_to newsletter.email, you_newsletter_path(newsletter.id)
-
-        li
-          - if controller.action_name == 'junk'
-            ' &gt;
-          = link_to 'Junk', '/you/junk'
-
-
-        li
-          = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em;' do
-            = text_field_tag 'q', (params[:q] if params[:q]), :placeholder => 'Search...', :style => 'padding: .5em;'
+  = render partial: 'shared/filters'
 
 .large-9.large-centered.small-12.small-centered.columns
   - if current_user.last_processed.nil? || @hrefs.empty?
@@ -47,10 +27,15 @@
 
   - elsif @hrefs
     .links
+      - if params[:q]
+        .link.day.date= "#{pluralize(@hrefs.total_entries, 'result')} found for \"#{params[:q]}\""
+      - else
+        .link.day.date.initial-date= @hrefs.first.created_at.strftime("%A, %b %d %Y")
+
       - last_day = false
       - @hrefs.each do |href|
         - if last_day && last_day != href.created_at.strftime('%d%m%Y')
-          .day.date.center= href.created_at.strftime("%A, %b %d %Y")
+          .day.date= href.created_at.strftime("%A, %b %d %Y")
 
         = render :partial => 'shared/href', :locals => {:href => href}
 
@@ -60,15 +45,15 @@
       .archive
         - if @newsletter
           - url = "/you/newsletters/#{@newsletter.id}"
-          a.btn href= url + "/#{@hrefs.current_page.to_i + 1}"
+          a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
             ' Next page (#{@hrefs.total_pages})
         - elsif controller.action_name == 'junk'
           - url = '/you/junk'
-          a.btn href= url + "/#{@hrefs.current_page.to_i + 1}"
+          a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
             ' Next page (#{@hrefs.total_pages})
         - else
           - url = '/you'
-          a.btn href= url + "/#{@hrefs.current_page.to_i + 1}"
+          a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
             ' Next page (#{@hrefs.total_pages})
 
     

@@ -6,7 +6,7 @@ class YouController < ApplicationController
     @hrefs = current_user.hrefs.where(good: true). order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
 
     if request.xhr?
-      render :partial => 'shared/href', :collection => @hrefs
+      render :partial => 'shared/hrefs'
     else
       render
     end
@@ -17,7 +17,7 @@ class YouController < ApplicationController
     @hrefs = current_user.hrefs.where(good: true, newsletter_id: @newsletter.id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
 
     if request.xhr?
-      render :partial => 'shared/href', :collection => @hrefs
+      render :partial => 'shared/hrefs'
     else
       render action: :index
     end
