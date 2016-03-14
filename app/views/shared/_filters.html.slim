@@ -3,7 +3,7 @@
     h3.filter Filter
     ul
       li
-        - selected = (@newsletter || params[:q] || controller.action_name == 'junk') ? '' : 'selected'
+        - selected = (@newsletter || params[:q] || controller.action_name == 'spam') ? '' : 'selected'
         = link_to 'All', '/you', class: selected
 
       - @newsletters.each do |newsletter|
@@ -12,8 +12,8 @@
           = link_to newsletter.email, you_newsletter_path(newsletter.id), class: selected
 
       li
-        - selected = (controller.action_name == 'junk') ? 'selected' : ''
-        = link_to 'Junk', '/you/junk', class: selected
+        - selected = (controller.action_name == 'spam') ? 'selected' : ''
+        i= link_to 'Spam', '/you/spam', class: selected
 
       li
         = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em;' do
