@@ -79,11 +79,15 @@ class Href < ActiveRecord::Base
 
     self.good_host = true if host_status == 'up'
     self.good_path = true if path_status == 'up'
-
     self.good_path = false if self.path == '/' # we much prefer deep links
 
     self.rating = bayes.classifications(self.url).sort{ |k,v| v[0].to_i }.reverse.first[1].to_f rescue false
     self.rating = false if self.rating.to_s == 'Infinity'
+
+    # reinforce good urls
+    if self.good_host? && self.good_path?
+      self.user.bayes.train(:Up, self.url)
+    end
 
     if url_status == 'up' && self.good_host? && self.good_path?
       self.good = true
