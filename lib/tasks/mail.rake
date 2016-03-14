@@ -40,8 +40,12 @@ namespace :mail do
         next unless email_header
 
         # Don't reprocess messages already dealt with
+        # But do process unread messages in the amyhref.com folder - allow users to drag/drop or filter 
+        #  messages into the folder for additional processing
         begin
-          next if @imap.uid_fetch(message_id, 'X-GM-LABELS')[0].attr['X-GM-LABELS'].include? "amyhref.com"
+          if @imap.uid_fetch(message_id, 'X-GM-LABELS')[0].attr['X-GM-LABELS'].include?('amyhref.com')
+             next @imap.uid_fetch(message_id, 'FLAGS').include?(:Seen)
+          end
         rescue Exception => e
           puts e.message
           next
