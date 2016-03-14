@@ -213,7 +213,6 @@ DEPENDENCIES
   byebug
   classifier-reborn
   coffee-rails (~> 4.0.0)
-  fast-stemmer
   foundation-rails (~> 5.5.0)
   gmail_xoauth
   htmlentities

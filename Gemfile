@@ -42,7 +42,7 @@ gem 'mysql2', '~> 0.3.18' # Rails 4 fix
 gem 'redirect_follower'
 #gem 'classifier'
 gem 'classifier-reborn'
-gem 'fast-stemmer'
+#gem 'fast-stemmer'
 gem 'madeleine'
 gem 'slim-rails'
 gem 'nokogiri'
