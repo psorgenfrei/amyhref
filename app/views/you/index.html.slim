@@ -67,3 +67,12 @@
         - else
           a.btn href='/you/#{@hrefs.current_page.to_i + 1}'
             ' Next page (#{@hrefs.current_page} of #{@hrefs.total_pages} )
+
+    
+    - content_for :javascript_for_footer do
+      javascript:
+        $('.links').pageless({
+          totalPages: #{@hrefs.total_pages},
+          url: '/you/',
+          loaderMsg: 'Loading more results'
+        });
