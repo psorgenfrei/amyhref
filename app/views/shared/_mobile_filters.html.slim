@@ -1,0 +1,22 @@
+= link_to 'Home', '/', :class => 'btn you on-dark'
+
+- if @newsletters
+  ul.off-canvas-list style='margin-top: 5em;'
+    li
+      label= current_user.email
+    li
+      - selected = (@newsletter || params[:q] || controller.action_name == 'junk') ? '' : 'selected'
+      = link_to 'All', '/you', class: selected
+
+    - @newsletters.each do |newsletter|
+      li
+        - selected = (@newsletter && @newsletter.id == newsletter.id) ? 'selected' : ''
+        = link_to newsletter.email, you_newsletter_path(newsletter.id), class: selected
+
+    li
+      - selected = (controller.action_name == 'junk') ? 'selected' : ''
+      = link_to 'Junk', '/you/junk', class: selected
+
+    li
+      = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em;' do
+        = text_field_tag 'q', (params[:q] if params[:q]), :placeholder => 'Search...', :style => 'padding: .5em;'

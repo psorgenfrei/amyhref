@@ -83,6 +83,14 @@ body, .top-bar {
   text-decoration: none;
 }
 
+li .selected {
+  font-weight: bold;
+}
+
+li .selected::before {
+  content: '> ';
+}
+
 h1, h2, h3 {
   font-weight: bold;
   font-family: 'Open Sans Condensed', sans-serif;
@@ -178,12 +186,19 @@ div.embedly-card {
   display: block;
   margin-bottom: 5em;
   text-align: center;
+  background-color: #87CEFA; 
 }
 
 .date {
+  width: 600px;
   color: #464646;
   font-weight: bold;
   text-transform: uppercase;
+}
+
+.initial-date {
+  margin-bottom: 1.25em;
+  padding-top: .25em;
 }
 
 .btn {
@@ -193,7 +208,6 @@ div.embedly-card {
   font-family: inherit;
   font-weight: bold;
   line-height: 1;
-  position: relative;
   text-decoration: none;
   text-align: center;
   display: inline-block;
@@ -227,6 +241,18 @@ div.embedly-card {
   background-color: #c4cecf;
 }
 
+.fa-heart {
+  color: rgb(191, 71, 91);
+}
+
+.fa-minus-circle {
+  color: DarkSlateBlue;
+}
+
+.on-dark {
+  color: rgba(255, 255, 255, 0.7);
+}
+
 /* Foundation overrides */
 
 .full-width {
@@ -241,10 +267,3 @@ ul {
   margin-left: initial;
 }
 
-.fa-heart {
-  color: rgb(191, 71, 91);
-}
-
-.fa-minus-circle {
-  color: DarkSlateBlue;
-}

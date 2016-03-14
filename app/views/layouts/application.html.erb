@@ -15,35 +15,51 @@
   </head>
 
   <body>
-    <div class='flash' style='display: none;'> </div>
+    <div class="off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
 
-    <nav class="top-bar" data-topbar role="navigation">
-      <section class="top-bar-section">
-        <ul class="right">
-          <% if logged_in? %>
-            <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
-          <% else %>
-            <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn signin' %>
-          <% end %>
-        </ul>
+      <!-- off canvas menu -->
+      <aside class="left-off-canvas-menu ">
+        <%= yield :offcanvas %>
+      </aside>
 
-        <%= yield :title %>
+      <!-- main content -->
+      <div class='flash' style='display: none;'> </div>
 
-        <ul class="left">
-          <% if logged_in? %>
-            <% if controller.controller_name == 'you' %>
-              <%= link_to 'Home', '/', :class => 'btn you' %>
+      <nav class="top-bar" data-topbar role="navigation">
+        <section class="top-bar-section">
+          <ul class="right">
+            <% if logged_in? %>
+              <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
             <% else %>
-              <%= link_to 'Your profile', '/you', :class => 'btn you' %>
+              <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn signin' %>
             <% end %>
-          <% end %>
-        </ul>
-      </section>
-    </nav>
+          </ul>
 
-    <div class='row full-width'>
-      <%= yield %>
-    <div>
+          <%= yield :title %>
+
+          <ul class="left">
+            <% if logged_in? %>
+              <% if controller.controller_name == 'you' %>
+                <%= link_to 'Filter', '#', :class => 'btn you left-off-canvas-toggle show-for-small-only' %>
+                <%= link_to 'Home', '/', :class => 'btn you hide-for-small' %>
+              <% else %>
+                <%= link_to 'You', '/you', :class => 'btn you' %>
+              <% end %>
+            <% end %>
+          </ul>
+        </section>
+      </nav>
+
+      <div class='row full-width'>
+        <%= yield %>
+      <div>
+
+      <!-- close the off-canvas menu -->
+      <a class="exit-off-canvas"></a>
+
+      </div>
+    </div>
 
     <%= render :partial => 'shared/embedly' %>
 
