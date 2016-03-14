@@ -60,10 +60,10 @@ namespace :mail do
           message_ids << message_id
 
           @imap.uid_copy(message_id, amyhref_folder_name)
-          #@imap.uid_store(message_id, "+FLAGS", [:Seen])
 
           #puts @imap.uid_fetch(message_id, 'X-GM-LABELS')
           @imap.uid_store(message_id,'-X-GM-LABELS', :Inbox)
+          @imap.uid_store(message_id, "+FLAGS", [:Seen])
         end
       end
 
