@@ -3,9 +3,9 @@
   .break
     .meta
       ' #{href.newsletter.email if href.newsletter}
-    .train id= href.id
+    .train.hide-for-small id= href.id
       = link_to train_up_you_path(href), method: :put, remote: true do
-        i class="fa fa-thumbs-o-up"
+        i class="fa fa-heart"
       ' &nbsp; &nbsp; &nbsp;
       = link_to train_down_you_path(href), method: :put, remote: true do
-        i class="fa fa-thumbs-o-down"
+        i class="fa fa-minus-circle"

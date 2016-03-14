@@ -1,3 +1,2 @@
 |
-  $('##{@href.id}.train').toggle('pulsate');
-  $('##{@href.id}.train').fadeOut(); 
+  $('##{@href.id}.train').animate({ opacity: 'hide', width: 'hide' }, 'fast', 'swing', function() { $(this).remove(); });

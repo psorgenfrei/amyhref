@@ -240,3 +240,11 @@ div.embedly-card {
 ul {
   margin-left: initial;
 }
+
+.fa-heart {
+  color: rgb(191, 71, 91);
+}
+
+.fa-minus-circle {
+  color: DarkSlateBlue;
+}
