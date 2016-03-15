@@ -103,6 +103,7 @@ h1 {
 }
 
 h3.filter{
+  color: #464646;
   font-size: 1.17em;
   font-weight: bold;
 }
@@ -203,7 +204,6 @@ div.embedly-card {
   width: 600px;
   color: #464646;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
 .initial-date {
