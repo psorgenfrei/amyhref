@@ -1,2 +1,2 @@
 |
-  $('##{@href.id}.train').animate({ opacity: 'hide', width: 'hide' }, 'fast', 'swing', function() { $(this).remove(); });
+  $('##{@href.id}.train').fadeOut(200, function() { $(this).remove(); });
