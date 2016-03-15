@@ -1,6 +1,5 @@
 - if @newsletters
   .filters
-    h3.filter Filter
     ul
       li
         - selected = (@newsletter || params[:q] || controller.action_name == 'spam') ? '' : 'selected'
