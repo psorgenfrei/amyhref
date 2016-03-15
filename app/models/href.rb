@@ -89,7 +89,7 @@ class Href < ActiveRecord::Base
       self.user.bayes.train(:Up, self.url)
     end
 
-    if url_status == 'up' && self.good_host? && self.good_path?
+    if url_status == 'up' || (self.good_host? && self.good_path?)
       self.good = true
     else
       self.good = false
