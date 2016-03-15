@@ -8,12 +8,14 @@
         = link_to train_up_you_path(href), method: :put, remote: true do
           i class="fa fa-heart"
         ' &nbsp; &nbsp; &nbsp;
-        = link_to train_down_you_path(href), method: :put, remote: true do
-          i class="fa fa-minus-circle"
+        - unless controller.action_name == 'spam'
+          = link_to train_down_you_path(href), method: :put, remote: true do
+            i class="fa fa-minus-circle"
 
       .train.train__mobile.show-for-small-only.show-for-mobile id= href.id
         = link_to train_up_you_path(href), method: :put, remote: true do
           i class="fa fa-heart"
         ' &nbsp; &nbsp; &nbsp;
-        = link_to train_down_you_path(href), method: :put, remote: true do
-          i class="fa fa-minus-circle"
+        - unless controller.action_name == 'spam'
+          = link_to train_down_you_path(href), method: :put, remote: true do
+            i class="fa fa-minus-circle"
