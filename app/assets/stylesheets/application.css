@@ -203,6 +203,7 @@ div.embedly-card {
   width: 600px;
   color: #464646;
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 .initial-date {
