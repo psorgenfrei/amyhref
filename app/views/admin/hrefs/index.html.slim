@@ -29,7 +29,7 @@ table border='1' align='center' cellpadding='5' bgcolor='#fff'
   - @hrefs.each do |href|
     tr
       - begin
-        td style= "#{href.user.bayes.classify(href.host) == 'Up' && href.user.bayes.classify(href.path) == 'Up' ? 'background-color: green;' : 'background-color: red;'}"
+        td style= "#{href.user.bayes.classify(href.host) == 'Up' && href.user.bayes.classify(href.path) == 'Up' && href.user.bayes.classify(href.url) == 'Up'? 'background-color: green;' : 'background-color: red;'}"
           i class="fa fa-cloud"
       - rescue
         td style='background-color: grey;'
