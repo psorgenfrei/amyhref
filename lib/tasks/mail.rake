@@ -44,7 +44,7 @@ namespace :mail do
         #  messages into the folder for additional processing
         begin
           if @imap.uid_fetch(message_id, 'X-GM-LABELS')[0].attr['X-GM-LABELS'].include?('amyhref.com')
-             next @imap.uid_fetch(message_id, 'FLAGS').include?(:Seen)
+             next if @imap.uid_fetch(message_id, 'FLAGS').include?(:Seen)
           end
         rescue Exception => e
           puts e.message
