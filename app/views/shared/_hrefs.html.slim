@@ -1,4 +1,4 @@
-- @last_day = false
+- @last_day ||= false
 
 - @hrefs.each do |href|
   - if @last_day && @last_day != href.created_at.strftime('%d%m%Y')

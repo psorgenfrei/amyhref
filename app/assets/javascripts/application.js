@@ -19,9 +19,8 @@
 //= require turbolinks
 //= require_tree .
 
-var ready;
-ready = function() {
-  $(document).foundation();
+$(document).on('ready page:load', function(event) {
+  Turbolinks.enableProgressBar();
 
   // init jquey navigation
   $('.links').keyboardNavagation();
@@ -35,13 +34,6 @@ ready = function() {
   //    $('#overlay').remove();
   //  }
   //});
-};
-
-$(document).on('ready page:load', function(event) {
-  Turbolinks.enableProgressBar();
-
-  // init jquey navigation
-  $('.links').keyboardNavagation();
 });
 
 // j - down 
