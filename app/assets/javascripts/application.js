@@ -11,17 +11,23 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery.pageless
 //= require foundation
-//= require turbolinks
 //= require jquery.hotkeys
 //= require jquery.keyboard-navigation
+//= require turbolinks
 //= require_tree .
 
-$(document).ready(function(){
-  //$('#links a').embedly({ key: '6863f842d9c241e192dad41cab69138c' });
+var ready;
+ready = function() {
+  $(document).foundation();
 
+  // init jquey navigation
+  $('.links').keyboardNavagation();
+
+  //$('#links a').embedly({ key: '6863f842d9c241e192dad41cab69138c' });
   //var rendered_cards = 0;
   //var total_cards = $('a.embedly-card').length;
   //embedly('on', 'card.rendered', function(iframe){
@@ -30,21 +36,18 @@ $(document).ready(function(){
   //    $('#overlay').remove();
   //  }
   //});
+};
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
+document.addEventListener("turbolinks:load", ready);
+
+// j - down 
+$(document).bind('keydown', 'j', function(){
+  $('.links').trigger('scrollNext');
 });
 
-$(function(){ $(document).foundation(); });
-
-$(function(){
-  // init jquey navigation
-  $('.links').keyboardNavagation();
-
-  // j - down 
-  $(document).bind('keydown', 'j', function(){
-    $('.links').trigger('scrollNext');
-  });
-
-  // k - up
-  $(document).bind('keydown', 'k', function(){
-    $('.links').trigger('scrollPrev');
-  });
+// k - up
+$(document).bind('keydown', 'k', function(){
+  $('.links').trigger('scrollPrev');
 });
