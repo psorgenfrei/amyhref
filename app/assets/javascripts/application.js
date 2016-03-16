@@ -46,3 +46,4 @@ $(document).bind('keydown', 'k', function(){
   $('.links').trigger('scrollPrev');
 });
 
+$(function(){ $(document).foundation(); });
