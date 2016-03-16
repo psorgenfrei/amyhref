@@ -48,18 +48,3 @@
           - url = '/you'
           a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
             ' Next page (#{@hrefs.total_pages})
-
-    
-    - content_for :javascript_for_footer do
-      javascript:
-        var ready;
-        ready = function() {
-          $('.links').pageless({
-            totalPages: #{@hrefs.total_pages},
-            url: '#{url}',
-            loaderMsg: '',
-          });
-        };
-        $(document).ready(ready);
-        $(document).on('page:load', ready);
-        document.addEventListener("turbolinks:load", ready);

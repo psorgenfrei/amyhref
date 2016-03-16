@@ -6,3 +6,29 @@
   = render :partial => 'shared/href', :locals => {:href => href}
 
   - @last_day = href.created_at.strftime('%d%m%Y')
+
+- url = ''
+
+- content_for :javascript_for_footer do
+  javascript:
+    //$(document).ready(ready);
+    //$(document).on('page:load', ready);
+    //$(document).on('ready page:load', ready);
+    //$(document).on('page:change', ready);
+    //$(document).on('page:change', function() {
+    //$(document).on('ready page:load', function() {
+    document.addEventListener("turbolinks:load", function() {
+      $('.links').pagelessReset();
+      alert(1);
+      alert('#{@hrefs.first.url}');
+      $('.links').pageless({
+        totalPages: #{@hrefs.total_pages},
+        url: '#{url}',
+        loaderMsg: '',
+      });
+    });
+    //$(document).ready(ready);
+    //$(document).on('page:load', ready);
+    document.addEventListener("turbolinks:load", ready);
+    //$(document).on('ready page:load', ready);
+    //$(document).on('page:change', ready);

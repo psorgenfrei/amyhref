@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery.pageless
 //= require foundation
@@ -38,9 +37,11 @@ ready = function() {
   //});
 };
 
-$(document).ready(ready);
-$(document).on('page:load', ready);
+//$(document).ready(ready);
+//$(document).on('page:load', ready);
 document.addEventListener("turbolinks:load", ready);
+//$(document).on('ready page:load', ready);
+//$(document).on('page:change', ready);
 
 // j - down 
 $(document).bind('keydown', 'j', function(){
