@@ -39,15 +39,15 @@
         - if @newsletter
           - url = "/you/newsletters/#{@newsletter.id}"
           a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
-            ' Next page (#{@hrefs.total_pages})
+            ' Next page (of #{@hrefs.total_pages})
         - elsif controller.action_name == 'spam'
           - url = '/you/spam'
           a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
-            ' Next page (#{@hrefs.total_pages})
+            ' Next page (of #{@hrefs.total_pages})
         - else
           - url = '/you'
           a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
-            ' Next page (#{@hrefs.total_pages})
+            ' Next page (of #{@hrefs.total_pages})
 
     
     - content_for :javascript_for_footer do
