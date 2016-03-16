@@ -34,17 +34,21 @@ $(document).ready(function(){
 
 $(function(){ $(document).foundation(); });
 
-$(function(){
+$(document).on('ready page:load', function(event) {
+  Turbolinks.enableProgressBar();
+
   // init jquey navigation
   $('.links').keyboardNavagation();
 
-  // j - down 
-  $(document).bind('keydown', 'j', function(){
-    $('.links').trigger('scrollNext');
-  });
-
-  // k - up
-  $(document).bind('keydown', 'k', function(){
-    $('.links').trigger('scrollPrev');
-  });
 });
+
+// j - down 
+$(document).bind('keydown', 'j', function(){
+  $('.links').trigger('scrollNext');
+});
+
+// k - up
+$(document).bind('keydown', 'k', function(){
+  $('.links').trigger('scrollPrev');
+});
+
