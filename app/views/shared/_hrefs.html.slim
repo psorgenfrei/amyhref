@@ -1,8 +1,8 @@
-- last_day = false
+- @last_day ||= false
 - @hrefs.each do |href|
-  - if last_day && last_day != href.created_at.strftime('%d%m%Y')
+  - if @last_day && @last_day != href.created_at.strftime('%d%m%Y')
     .link.day.date= href.created_at.strftime("%A, %b %d %Y")
 
   = render :partial => 'shared/href', :locals => {:href => href}
 
-  - last_day = href.created_at.strftime('%d%m%Y')
+  - @last_day = href.created_at.strftime('%d%m%Y')
