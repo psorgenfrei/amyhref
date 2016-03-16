@@ -37,7 +37,7 @@
     - unless @hrefs.current_page.to_i == @hrefs.total_pages.to_i
       .archive
         - if @newsletter
-          - url = "/you/newsletters/#{@newsletter.id}"
+          - url = "/you/newsletter/#{@newsletter.id}"
           a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
             ' Next page (of #{@hrefs.total_pages})
         - elsif controller.action_name == 'spam'

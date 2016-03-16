@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback" => 'sessions#create'
   delete "/signout" => 'sessions#destroy'
 
-  match '/you/newsletters/:newsletter_id(/:page)', :to => 'you#newsletters', :as => 'you_newsletter', :via => :get
+  match '/you/newsletter/:newsletter_id(/:page)', :to => 'you#newsletter', :as => 'you_newsletter', :via => :get
   match '/you/search(/:page)', :to => 'you#search', :as => 'you_search', :via => :get
   match '/you/spam(/:page)', :to => 'you#spam', :as => 'you_spam', :via => :get
   match '/you(/:page)', :to => 'you#index', :as => 'you', :via => :get, :constraints => { :id => /\d/ }
@@ -27,6 +27,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  #get '*archives' => 'home#archives'
 end

@@ -14,14 +14,19 @@
 //= require jquery_ujs
 //= require jquery.pageless
 //= require foundation
-//= require turbolinks
 //= require jquery.hotkeys
 //= require jquery.keyboard-navigation
+//= require turbolinks
 //= require_tree .
 
-$(document).ready(function(){
-  //$('#links a').embedly({ key: '6863f842d9c241e192dad41cab69138c' });
+var ready;
+ready = function() {
+  $(document).foundation();
 
+  // init jquey navigation
+  $('.links').keyboardNavagation();
+
+  //$('#links a').embedly({ key: '6863f842d9c241e192dad41cab69138c' });
   //var rendered_cards = 0;
   //var total_cards = $('a.embedly-card').length;
   //embedly('on', 'card.rendered', function(iframe){
@@ -30,16 +35,13 @@ $(document).ready(function(){
   //    $('#overlay').remove();
   //  }
   //});
-});
-
-$(function(){ $(document).foundation(); });
+};
 
 $(document).on('ready page:load', function(event) {
   Turbolinks.enableProgressBar();
 
   // init jquey navigation
   $('.links').keyboardNavagation();
-
 });
 
 // j - down 

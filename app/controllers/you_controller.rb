@@ -12,7 +12,7 @@ class YouController < ApplicationController
     end
   end
 
-  def newsletters
+  def newsletter
     @newsletter = Newsletter.where(id: params[:newsletter_id]).first
     @hrefs = current_user.hrefs.where(good: true, newsletter_id: @newsletter.id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
 
