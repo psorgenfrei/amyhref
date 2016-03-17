@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303150013) do
+ActiveRecord::Schema.define(version: 20160317203329) do
 
   create_table "hrefs", force: true do |t|
     t.text     "url"
@@ -27,8 +27,10 @@ ActiveRecord::Schema.define(version: 20160303150013) do
     t.text     "path"
   end
 
+  add_index "hrefs", ["created_at"], name: "index_hrefs_on_created_at", using: :btree
   add_index "hrefs", ["domain"], name: "index_hrefs_on_domain", using: :btree
   add_index "hrefs", ["newsletter_id"], name: "index_hrefs_on_newsletter_id", using: :btree
+  add_index "hrefs", ["user_id", "good"], name: "index_hrefs_on_user_id_and_good", using: :btree
 
   create_table "newsletters", force: true do |t|
     t.string   "title"
@@ -37,6 +39,7 @@ ActiveRecord::Schema.define(version: 20160303150013) do
     t.datetime "updated_at"
   end
 
+  add_index "newsletters", ["created_at"], name: "index_newsletters_on_created_at", using: :btree
   add_index "newsletters", ["email"], name: "index_newsletters_on_email", using: :btree
 
   create_table "sessions", force: true do |t|
