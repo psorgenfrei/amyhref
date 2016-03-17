@@ -30,7 +30,7 @@
       - if params[:q]
         .link.day.date= "#{pluralize(@hrefs.total_entries, 'result')} found for \"#{params[:q]}\""
       - else
-        .link.day.date.initial-date= @hrefs.first.created_at.strftime("%A, %b %d %Y")
+        .link.day.date.initial-date= @hrefs.first.created_at.strftime("%A, %b %d")
 
       = render partial: 'shared/hrefs'
 
