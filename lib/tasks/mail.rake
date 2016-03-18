@@ -10,6 +10,8 @@ namespace :mail do
 
     # Process users starting with the ones who haven't been processed in a while
     User.order('last_processed ASC').all.each do |user|
+      message_ids = []
+
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
 
       begin
@@ -32,51 +34,44 @@ namespace :mail do
         @imap.select("[Gmail]/All Mail")
       end
       
-      # Label all newsletters, mark as read and remove from inbox
-      message_ids = []
+      # First grab all the unread items labelled with amyhref
+      # - allow users to drag/drop or filter messages into the folder for additional processing
+      message_ids << @imap.uid_search(['X-GM-LABELS', 'amyhref.com', 'NOT', 'SEEN'])
+      
+      # Now search for all the recent newsletters, mark as read and archive them
       last_processed = user.last_processed || 1.week.ago
       @imap.uid_search(['SINCE', last_processed]).each do |message_id|
         email_header = @imap.uid_fetch(message_id, 'RFC822.HEADER') # equiv to BODY.PEEK
         next unless email_header
 
-        # Don't reprocess messages already dealt with
-        # But do process unread messages in the amyhref.com folder - allow users to drag/drop or filter 
-        #  messages into the folder for additional processing
-        begin
-          if @imap.uid_fetch(message_id, 'X-GM-LABELS')[0].attr['X-GM-LABELS'].include?('amyhref.com')
-             next if @imap.uid_fetch(message_id, 'FLAGS').include?(:Seen)
-          end
-        rescue Exception => e
-          puts e.message
-          next
-        end
-
-        # wip, catch senders w/out List-Unusubscribe headers
+        # try a few methods to discover newsletters
         rfc822_header = email_header[0].attr['RFC822.HEADER'].downcase
         received_from = rfc822_header.scan(/received:\sfrom\s(\S*)/im).flatten.uniq
         received_by = rfc822_header.scan(/received:\sby\s(\S*)/im).flatten.uniq
 
         if rfc822_header.include?('list-unsubscribe') || rfc822_header.include?('list-id:') || matches_known_senders?(received_from) || matches_known_senders?(received_by)
           message_ids << message_id
-
-          @imap.uid_copy(message_id, amyhref_folder_name)
-
           #puts @imap.uid_fetch(message_id, 'X-GM-LABELS')
-          @imap.uid_store(message_id,'-X-GM-LABELS', :Inbox)
-          @imap.uid_store(message_id, "+FLAGS", [:Seen])
         end
       end
 
-      # Parse each email for links
-      emails = []
-      message_ids.each do |message_id|
-        message = @imap.uid_fetch(message_id,'RFC822')[0].attr['RFC822']
-        emails << Mail.read_from_string(message)
-      end
+      # Mark all relevant emails as read, archive and move them into our folder 
+      message_ids = message_ids.flatten.uniq
+      @imap.uid_copy(message_ids, amyhref_folder_name)
+      @imap.uid_store(message_ids,'-X-GM-LABELS', :Inbox)
+      @imap.uid_store(message_ids, "+FLAGS", [:Seen])
 
+      # Disconnect from the mail server
       @imap.expunge
       @imap.logout
       @imap.disconnect
+
+      # Finally, parse each email for links
+      emails = []
+      message_ids.uniq.each do |message_id|
+        message = @imap.uid_fetch(message_id,'RFC822')[0].attr['RFC822']
+        emails << Mail.read_from_string(message)
+      end
 
       puts "Processing #{emails.length} email(s) for #{user.name} / #{user.email} since #{last_processed}."
       parse_emails(emails, user)
