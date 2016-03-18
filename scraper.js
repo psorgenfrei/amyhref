@@ -9,6 +9,7 @@ var myurl = system.args[1];
 var renderPage = function (url) {
   url = url.trim();
   page = require('webpage').create();
+  page.settings.resourceTimeout = 10000;
 
   clearTimeout(timer)
   timer = setTimeout(function() { endProcess(); }, 5000);
@@ -35,11 +36,16 @@ var renderPage = function (url) {
   page.onError = function(msg, trace) {
     phantom.exit(1);
   }
+
+  page.onResourceTimeout = function(request) {
+    console.log('Response (#' + request.id + '): ' + JSON.stringify(request));
+    //phantom.exit(1);
+  }
 } 
 
 function endProcess() {
   clearTimeout(globalTimer);
-  throw new Error('');
+  throw new Error('timedout');
   phantom.exit(1);
 }
 
