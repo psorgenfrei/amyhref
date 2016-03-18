@@ -72,7 +72,9 @@ class YouController < ApplicationController
 
   protected
   def fetch_newsletters
+    # written a bit longhand to avoid a weird/slow MySQL query
     newsletter_ids = current_user.hrefs.select(:newsletter_id).where(good: true).group(:newsletter_id)
-    @newsletters = Newsletter.where(id: newsletter_ids).order('id DESC')
+    ids = newsletter_ids.collect{ |n| n.newsletter_id }.uniq
+    @newsletters = Newsletter.where(id: ids).order('id DESC')
   end
 end
