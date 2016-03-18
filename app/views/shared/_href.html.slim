@@ -5,17 +5,17 @@
       ' #{href.newsletter.email if href.newsletter}
     - if logged_in? && href.user == current_user
       .train.hide-for-small id= href.id
-        = link_to train_up_you_path(href), method: :put, remote: true do
-          i class="fa fa-check"
-        ' &nbsp; &nbsp; &nbsp;
-        - unless controller.action_name == 'spam'
+        - if controller.action_name == 'spam'
+          = link_to train_up_you_path(href), method: :put, remote: true do
+            i class="fa fa-check"
+        - else
           = link_to train_down_you_path(href), method: :put, remote: true do
             i class="fa fa-minus-circle"
 
       .train.train__mobile.show-for-small-only.show-for-mobile id= href.id
-        = link_to train_up_you_path(href), method: :put, remote: true do
-          i class="fa fa-check"
-        ' &nbsp; &nbsp; &nbsp;
-        - unless controller.action_name == 'spam'
+        - if controller.action_name == 'spam'
+          = link_to train_up_you_path(href), method: :put, remote: true do
+            i class="fa fa-check"
+        - else
           = link_to train_down_you_path(href), method: :put, remote: true do
             i class="fa fa-minus-circle"
