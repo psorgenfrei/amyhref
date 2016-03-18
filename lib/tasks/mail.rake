@@ -128,7 +128,7 @@ namespace :mail do
 
           # Ensure we use the right phantomjs
           if ['foo'].pack('p').size == 8 # 64bit
-            stdin, stdout, stderr = Open3.popen3("timeout 10 ./phantomjs scraper.js \"#{url}\" ") 
+            stdin, stdout, stderr = Open3.popen3("timeout 10 phantomjs scraper.js \"#{url}\" ") 
           elsif ['foo'].pack('p').size == 4 # 32bit
             stdin, stdout, stderr = Open3.popen3("timeout 10 #{Rails.root}/./phantomjs scraper.js \"#{url}\" ") 
           end

@@ -27,13 +27,16 @@ var renderPage = function (url) {
 
   page.open(url, function(status) {
     if (status === 'success') {
+      page,close();
       phantom.exit(0);
     } else {
+      page,close();
       phantom.exit(1);
     }
   });
 
   page.onError = function(msg, trace) {
+    page,close();
     phantom.exit(1);
   }
 
@@ -45,11 +48,11 @@ var renderPage = function (url) {
 
 function endProcess() {
   clearTimeout(globalTimer);
-  throw new Error('timedout');
+  page,close();
   phantom.exit(1);
 }
 
 // Set a timer before we start, just to be sure
-var globalTimer = setTimeout(function() { endProcess(); }, 7000);
+var globalTimer = setTimeout(function() { endProcess(); }, 6000);
 
 renderPage(myurl);
