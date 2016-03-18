@@ -32,3 +32,6 @@ FROM (
      ORDER BY created_at DESC, rating ASC
    ) AS x WHERE x.row_number <= 3
   LIMIT 40;
+
+Scraper/Phantomjs - 
+apt-get install timeout
