@@ -11,7 +11,7 @@ var renderPage = function (url) {
   page = require('webpage').create();
 
   clearTimeout(timer)
-  timer = setTimeout(function() { endProcess(); }, 7000);
+  timer = setTimeout(function() { endProcess(); }, 5000);
 
   page.onNavigationRequested = function(url, type, willNavigate, main) {
     if (main && url != myurl) {
@@ -38,7 +38,12 @@ var renderPage = function (url) {
 } 
 
 function endProcess() {
+  clearTimeout(globalTimer);
+  throw new Error('');
   phantom.exit(1);
 }
+
+// Set a timer before we start, just to be sure
+var globalTimer = setTimeout(function() { endProcess(); }, 7000);
 
 renderPage(myurl);
