@@ -61,18 +61,19 @@ namespace :mail do
       @imap.uid_store(message_ids,'-X-GM-LABELS', :Inbox)
       @imap.uid_store(message_ids, "+FLAGS", [:Seen])
 
-      # Disconnect from the mail server
-      @imap.expunge
-      @imap.logout
-      @imap.disconnect
-
-      # Finally, parse each email for links
+      # Fetch each email
       emails = []
       message_ids.uniq.each do |message_id|
         message = @imap.uid_fetch(message_id,'RFC822')[0].attr['RFC822']
         emails << Mail.read_from_string(message)
       end
 
+      # Disconnect from the mail server
+      @imap.expunge
+      @imap.logout
+      @imap.disconnect
+
+      # Finally, process each email for links
       puts "Processing #{emails.length} email(s) for #{user.name} / #{user.email} since #{last_processed}."
       parse_emails(emails, user)
       user.update_attributes(:last_processed => Time.now)
