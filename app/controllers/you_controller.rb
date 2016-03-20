@@ -75,6 +75,6 @@ class YouController < ApplicationController
     # written a bit longhand to avoid a weird/slow MySQL query
     newsletter_ids = current_user.hrefs.select(:newsletter_id).where(good: true).group(:newsletter_id)
     ids = newsletter_ids.collect{ |n| n.newsletter_id }.uniq
-    @newsletters = Newsletter.where(id: ids).order('email DESC')
+    @newsletters = Newsletter.where(id: ids).order('email ASC')
   end
 end
