@@ -7,6 +7,7 @@ class Href < ActiveRecord::Base
   belongs_to :user
   belongs_to :newsletter
 
+  before_save :strip_tracking_parameters
   before_save :set_domain
   before_save :set_path
 
@@ -15,6 +16,7 @@ class Href < ActiveRecord::Base
   require 'uri'
 
   def parse
+    puts self.url.inspect
     URI.parse(self.url)
   end
 
@@ -53,6 +55,19 @@ class Href < ActiveRecord::Base
   end
 
   protected
+  def strip_tracking_parameters
+    # From http://stackoverflow.com/questions/12822347/how-can-i-remove-google-tracking-parameters-utm-from-an-url
+    uri = URI.parse(self.url)
+    clean_key_vals = URI.decode_www_form(uri.query).reject{|k, _| k.start_with?('utm_')}
+    uri.query = URI.encode_www_form(clean_key_vals)
+
+    if uri.to_s.ends_with? '?'
+      uri = uri.to_s.chomp('?')
+    end
+
+    self.url = uri
+  end
+
   def set_domain
     self.domain = self.host
   end
