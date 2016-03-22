@@ -139,6 +139,7 @@ namespace :mail do
             url = responses.last
           end
           url = url.gsub(/^\s+/, '').strip
+          puts "scraped to #{url}"
 
           begin
             uri = URI.parse(url) rescue next
