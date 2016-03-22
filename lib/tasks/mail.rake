@@ -164,8 +164,13 @@ namespace :mail do
             next if path =~ /unsubscribe/
             next if path =~ /^\/$/
 
+            puts "continuing..."
+
             # TODO hmm, maybe should be ful url not split on domain and path here?
-            next if Href.exists?(:domain => host, :path => path, :user_id => user.id)
+            if Href.exists?(:domain => host, :path => path, :user_id => user.id)
+              puts "Skipping duplicate url: #{href.url}"
+              next
+            end
 
             href = Href.new(:url => url, :newsletter_id => newsletter.id, :user_id => user.id) rescue next
 
@@ -177,7 +182,8 @@ namespace :mail do
               href.save!
               puts "Saved #{href.url.inspect}"
             else
-              puts "Skipping invalid/duplicate url: #{href.url}"
+              puts href.errors.inspect
+              puts "Skipping invalid url: #{href.url}"
             end
           rescue SystemStackError
             puts $!
