@@ -58,7 +58,11 @@ class Href < ActiveRecord::Base
     # From http://stackoverflow.com/questions/12822347/how-can-i-remove-google-tracking-parameters-utm-from-an-url
     uri = URI.parse(self.url)
     clean_key_vals = URI.decode_www_form(uri.query).reject{|k, _| k.start_with?('utm_')}
-    uri.query = URI.encode_www_form(clean_key_vals)
+    begin
+      uri.query = URI.encode_www_form(clean_key_vals)
+    rescue Exception => e
+      puts e.message
+    end
 
     if uri.to_s.ends_with? '?'
       uri = uri.to_s.chomp('?')
