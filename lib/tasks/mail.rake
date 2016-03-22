@@ -142,9 +142,14 @@ namespace :mail do
           puts "scraped to #{url}"
 
           begin
-            uri = URI.parse(url) rescue next
-            host = uri.host.downcase rescue next
-            path = uri.path.downcase rescue next
+            begin
+              uri = URI.parse(url) 
+              host = uri.host.downcase 
+              path = uri.path.downcase 
+            rescue Exception => e
+              puts e.message
+              next
+            end
 
             next if host =~ /twitter.com/ 
             next if host =~ /facebook.com/
@@ -162,13 +167,13 @@ namespace :mail do
             next if host =~ /typeform.com/
 
             next if path =~ /unsubscribe/
-            next if path =~ /^\/$/
+            #next if path =~ /^\/$/ # skip homepages, preferring deep-links
 
             puts "continuing..."
 
             # TODO hmm, maybe should be ful url not split on domain and path here?
             if Href.exists?(:domain => host, :path => path, :user_id => user.id)
-              puts "Skipping duplicate url: #{href.url}"
+              puts "Skipping duplicate url: #{uri}"
               next
             end
 
