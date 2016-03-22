@@ -7,7 +7,7 @@ class Href < ActiveRecord::Base
   belongs_to :user
   belongs_to :newsletter
 
-  before_save :strip_tracking_parameters
+  before_save :strip_tracking_parameters!
   before_save :set_domain
   before_save :set_path
 
@@ -53,8 +53,7 @@ class Href < ActiveRecord::Base
     self.user.bayes.classifications(value)
   end
 
-  protected
-  def strip_tracking_parameters
+  def strip_tracking_parameters!
     # From http://stackoverflow.com/questions/12822347/how-can-i-remove-google-tracking-parameters-utm-from-an-url
     uri = URI.parse(self.url)
     begin
@@ -71,6 +70,7 @@ class Href < ActiveRecord::Base
     self.url = uri.to_s
   end
 
+  protected
   def set_domain
     self.domain = self.host
   end

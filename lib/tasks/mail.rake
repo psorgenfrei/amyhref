@@ -178,6 +178,7 @@ namespace :mail do
             end
 
             href = Href.new(:url => url, :newsletter_id => newsletter.id, :user_id => user.id) rescue next
+            href.strip_tracking_parameters!
 
             if href.valid?
               unless ActiveRecord::Base.connected?
