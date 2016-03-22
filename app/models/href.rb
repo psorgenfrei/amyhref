@@ -16,8 +16,7 @@ class Href < ActiveRecord::Base
   require 'uri'
 
   def parse
-    puts self.url.inspect
-    URI.parse(self.url)
+    URI.parse(self.url.to_s)
   end
 
   def host
@@ -65,7 +64,7 @@ class Href < ActiveRecord::Base
       uri = uri.to_s.chomp('?')
     end
 
-    self.url = uri
+    self.url = uri.to_s
   end
 
   def set_domain
@@ -79,7 +78,7 @@ class Href < ActiveRecord::Base
   # Callback to set the initial classification
   # - use a timeout because sometimes we get stack level errors
   def initial_classification
-    self.url.strip!
+    self.url.to_s.strip!
 
     # per-user ranking
     bayes = self.user.bayes
