@@ -147,7 +147,7 @@ namespace :mail do
               host = uri.host.downcase 
               path = uri.path.downcase 
             rescue Exception => e
-              puts e.message
+              puts e.message.inspect
               next
             end
 
