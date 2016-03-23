@@ -27,16 +27,16 @@ var renderPage = function (url) {
 
   page.open(url, function(status) {
     if (status === 'success') {
-      page,close();
+      page.close();
       phantom.exit(0);
     } else {
-      page,close();
+      page.close();
       phantom.exit(1);
     }
   });
 
   page.onError = function(msg, trace) {
-    page,close();
+    page.close();
     phantom.exit(1);
   }
 
@@ -48,7 +48,7 @@ var renderPage = function (url) {
 
 function endProcess() {
   clearTimeout(globalTimer);
-  page,close();
+  page.close();
   phantom.exit(1);
 }
 
