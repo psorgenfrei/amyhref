@@ -16,7 +16,7 @@
           .card.date
             p= "No results found for \"#{params[:q]}\""
         - else
-          p.date.day Welcome
+          .link.day.date.initial-date Welcome
           .card
             - image = ['welcome/robotyuio.gif', 'welcome/15.gif', 'welcome/130559800278.gif'].shuffle.first
             = image_tag(image)

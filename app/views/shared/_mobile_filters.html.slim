@@ -6,7 +6,7 @@
       label= current_user.email
 
     li
-      - selected = (@newsletter || params[:q] || controller.action_name == 'spam') ? '' : 'selected'
+      - selected = (@newsletter || params[:q] || controller.action_name == 'spam' || controller.action_name == 'highlights') ? '' : 'selected'
       = link_to 'All', '/you', class: selected
 
     li
