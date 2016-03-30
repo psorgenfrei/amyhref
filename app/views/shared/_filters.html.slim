@@ -2,18 +2,26 @@
   .filters
     ul
       li
-        - selected = (@newsletter || params[:q] || controller.action_name == 'spam') ? '' : 'selected'
+        - selected = (@newsletter || params[:q] || controller.action_name == 'spam' || controller.action_name == 'highlights') ? '' : 'selected'
         = link_to 'All', '/you', class: selected
 
+      li
+        - selected = (controller.action_name == 'highlights') ? 'selected' : ''
+        = link_to 'Highlights', '/you/highlights', class: selected
+
+      li
+        - selected = (controller.action_name == 'spam') ? 'selected' : ''
+        = link_to 'Spam', '/you/spam', class: selected
+
+      br
+
+      h3.filter Filter
       - @newsletters.each do |newsletter|
         li
           - selected = (@newsletter && @newsletter.id == newsletter.id) ? 'selected' : ''
           = link_to newsletter.email, you_newsletter_path(newsletter.id), class: selected
 
       li
-        - selected = (controller.action_name == 'spam') ? 'selected' : ''
-        = link_to 'Spam', '/you/spam', class: selected
-
-      li
-        = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em;' do
+        = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em; width: 80%;' do
           = text_field_tag 'q', (params[:q] if params[:q]), :placeholder => 'Search...', :style => 'padding: .5em;'
+
