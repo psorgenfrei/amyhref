@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback" => 'sessions#create'
   delete "/signout" => 'sessions#destroy'
 
+  match '/you/highlights(/:page)', :to => 'you#highlights', :as => 'you_highlights', :via => :get
   match '/you/newsletter/:newsletter_id(/:page)', :to => 'you#newsletter', :as => 'you_newsletter', :via => :get
   match '/you/search(/:page)', :to => 'you#search', :as => 'you_search', :via => :get
   match '/you/spam(/:page)', :to => 'you#spam', :as => 'you_spam', :via => :get

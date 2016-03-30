@@ -87,10 +87,6 @@ li .selected {
   font-weight: bold;
 }
 
-li .selected::before {
-  content: '> ';
-}
-
 h1, h2, h3 {
   font-weight: bold;
   font-family: 'Open Sans Condensed', sans-serif;
