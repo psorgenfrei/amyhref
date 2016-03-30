@@ -47,30 +47,46 @@
       <!-- main content -->
       <div class='flash' style='display: none;'> </div>
 
-      <nav class="top-bar" data-topbar role="navigation">
-        <section class="top-bar-section">
-          <ul class="right">
-            <% if logged_in? %>
-              <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
-            <% else %>
-              <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn signin' %>
-            <% end %>
-          </ul>
-
-          <%= yield :title %>
-
-          <ul class="left">
-            <% if logged_in? %>
-              <% if controller.controller_name == 'you' %>
-                <%= link_to 'Filter', '#', :class => 'btn you left-off-canvas-toggle show-for-small-only' %>
-                <%= link_to 'Home', '/', :class => 'btn you hide-for-small' %>
+      <div class="sticky">
+        <nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: small" data-options="is_hover: false">
+          <section class="top-bar-section">
+            <ul class="right">
+              <% if logged_in? %>
+                <%= link_to 'Sign out', '/signout', :class => 'btn signout', :method => :delete %>
               <% else %>
-                <%= link_to 'You', '/you/highlights', :class => 'btn you' %>
+                <%= link_to 'Sign in', '/auth/google_oauth2', :class => 'btn signin' %>
               <% end %>
-            <% end %>
-          </ul>
-        </section>
-      </nav>
+            </ul>
+
+            <%= yield :title %>
+
+            <div class="title scrollTop show-for-small-only">
+              <% if @newsletter %>
+                <%= @newsletter.email %>
+              <% elsif controller.action_name == 'spam' %>
+                Spam
+              <% elsif controller.action_name == 'highlights' %>
+                Highlights
+              <% elsif controller.action_name == 'index' %>
+                All
+              <% elsif controller.action_name == 'search' %>
+                Search
+              <% end %>
+            </div>
+
+            <ul class="left">
+              <% if logged_in? %>
+                <% if controller.controller_name == 'you' %>
+                  <%= link_to 'Filter', '#', :class => 'btn you left-off-canvas-toggle show-for-small-only scrollTop' %>
+                  <%= link_to 'Home', '/', :class => 'btn you hide-for-small' %>
+                <% else %>
+                  <%= link_to 'You', '/you/highlights', :class => 'btn you' %>
+                <% end %>
+              <% end %>
+            </ul>
+          </section>
+        </nav>
+      </div>
 
       <div class='row full-width'>
         <%= yield %>

@@ -59,10 +59,12 @@ body, .top-bar {
 .title {
   position: absolute;
   width: 100%;
-  margin: -.25em;
-  font-weight: bold;
   text-align: center;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.5rem;
+  color: #4c5759;
 }
 
 .filters {

@@ -3,9 +3,6 @@
 - if @newsletters
   ul.off-canvas-list style='margin-top: 5em;'
     li
-      label= current_user.email
-
-    li
       - selected = (@newsletter || params[:q] || controller.action_name == 'spam' || controller.action_name == 'highlights') ? '' : 'selected'
       = link_to 'All', '/you', class: selected
 
