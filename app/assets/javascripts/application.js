@@ -25,12 +25,6 @@ $(document).on('ready page:load', function(event) {
   // init jquey navigation
   $('.links').keyboardNavagation();
 
-  // for taps on the mobile fixed menu
-  $(".scrollTop").click(function(e){
-    $("html, body").animate({ scrollTop: "0px" });
-  });
-
-
   //$('#links a').embedly({ key: '6863f842d9c241e192dad41cab69138c' });
   //var rendered_cards = 0;
   //var total_cards = $('a.embedly-card').length;

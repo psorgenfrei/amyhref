@@ -43,11 +43,17 @@ body, .top-bar {
   top: 0.5em;
 }
 
-.signin, .signout {
+.signin, .signout, .current-filter {
   position: absolute;
   top: .5em;
   right: 1em;
   z-index: 1;
+}
+
+.current-filter {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 60%;
 }
 
 .you {

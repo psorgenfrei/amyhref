@@ -25,3 +25,6 @@
     li
       = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em;' do
         = text_field_tag 'q', (params[:q] if params[:q]), :placeholder => 'Search...', :style => 'padding: .5em;'
+
+    li
+      = link_to 'Sign out', '/signout', :method => :delete
