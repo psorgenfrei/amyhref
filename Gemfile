@@ -65,4 +65,9 @@ gem 'sass-rails', '~> 5.0.0'  # upgraded for compatibility w/ foundation
 group :development do
   gem 'better_errors', git: 'git@github.com:manafire/better_errors.git', branch: 'allow_domain' # supports ngrok
   gem 'binding_of_caller'
+  gem 'rspec-rails', '2.14.2'
+  gem 'capybara', '2.4.1'
+  gem 'selenium-webdriver'
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'database_cleaner', '1.3.0'
 end
