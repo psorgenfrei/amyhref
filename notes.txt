@@ -15,6 +15,9 @@ Google -
 remove account access
 https://myaccount.google.com/security#connectedapps
 
+setup Google OAuth account
+https://console.developers.google.com
+
 MySQL strict/easy mode - 
 SET @@sql_mode = 'ONLY_FULL_GROUP_BY';
 SET @@sql_mode = ''
