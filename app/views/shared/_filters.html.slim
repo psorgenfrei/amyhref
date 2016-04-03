@@ -2,15 +2,15 @@
   .filters
     ul
       li
-        - selected = (@newsletter || params[:q] || controller.action_name == 'spam' || controller.action_name == 'highlights') ? '' : 'selected'
+        - selected = (@newsletter || params[:q] || controller.action_name == 'spam' || controller.action_name == 'highlights') ? 'all' : 'all selected'
         = link_to 'All', '/you', class: selected
 
       li
-        - selected = (controller.action_name == 'highlights') ? 'selected' : ''
+        - selected = (controller.action_name == 'highlights') ? 'highlights selected' : 'highlights'
         = link_to 'Highlights', '/you/highlights', class: selected
 
       li
-        - selected = (controller.action_name == 'spam') ? 'selected' : ''
+        - selected = (controller.action_name == 'spam') ? 'spam selected' : 'spam'
         = link_to 'Spam', '/you/spam', class: selected
 
       br

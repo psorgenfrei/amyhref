@@ -75,4 +75,5 @@ group :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'database_cleaner', '1.3.0'
   gem 'launchy'
+  gem 'rack_session_access'
 end

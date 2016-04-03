@@ -60,3 +60,5 @@ Before do
   FactoryGirl.create(:user, email: 'amyhref@gmail.com')
   FactoryGirl.create(:href, user_id: User.first.id)
 end
+
+require "rack_session_access/capybara"

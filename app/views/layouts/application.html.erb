@@ -78,7 +78,7 @@
             <% if logged_in? %>
               <% if controller.controller_name == 'you' %>
                 <%= link_to 'Filter', '#', :class => 'btn you left-off-canvas-toggle show-for-small-only' %>
-                <%= link_to 'Home', '/', :class => 'btn you hide-for-small' %>
+                <%= link_to 'Home', '/', :class => 'btn you hide-for-small home' %>
               <% else %>
                 <%= link_to 'You', '/you/highlights', :class => 'btn you' %>
               <% end %>
