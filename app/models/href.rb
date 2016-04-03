@@ -60,7 +60,7 @@ class Href < ActiveRecord::Base
       clean_key_vals = URI.decode_www_form(uri.query).reject{|k, _| k.start_with?('utm_')}
       uri.query = URI.encode_www_form(clean_key_vals)
     rescue Exception => e
-      puts e.message
+      #puts e.message
     end
 
     if uri.to_s.ends_with? '?'
