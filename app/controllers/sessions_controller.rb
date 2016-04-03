@@ -54,7 +54,7 @@ class SessionsController < ApplicationController
     end
 
     session[:current_user] = @user.id
-    redirect_to '/you'
+    redirect_to '/you/highlights'
   end
 
   def destroy
