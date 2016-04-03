@@ -114,14 +114,21 @@ namespace :mail do
         body = body.gsub(/=\n/, '')
         body = body.gsub(/=3D/, '=')
 
+        # some unsubscribe links are hidden in 'click here' links etc
+        # so if the email contains the word unsubscribe, then
+        # strip out the remaining content in an attempt to avoid
+        # unsubscribing the user in error - duncan 3/4/2016
+        unsubscribe_position = (body =~ /unsubscribe/)
+        body = body.slice(0,unsubscribe_position) if unsubscribe_position
+
         doc = Nokogiri::HTML(body)
         doc.encoding = 'utf-8'
         links = doc.css('a')
         urls = links.map {|link| link.attribute('href').to_s}.uniq.sort.delete_if {|href| href.empty?}
-        urls = urls[0..-3] # attempt to ignore the final links (e.g. unsubscribes)
 
         urls.each do |url|
           next if url =~ /unsubscribe/ 
+          next if url.children.text == 'here' # likely these are crappy links (e.g. click <here> or unsubscribe <here>)
 
           puts 'scraping w/ phantomjs'
           url = url.gsub(/^\s+/, '').strip
