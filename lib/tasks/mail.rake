@@ -118,6 +118,7 @@ namespace :mail do
         doc.encoding = 'utf-8'
         links = doc.css('a')
         urls = links.map {|link| link.attribute('href').to_s}.uniq.sort.delete_if {|href| href.empty?}
+        urls = urls[0..-3] # attempt to ignore the final links (e.g. unsubscribes)
 
         urls.each do |url|
           next if url =~ /unsubscribe/ 
