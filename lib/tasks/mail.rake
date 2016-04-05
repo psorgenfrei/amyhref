@@ -128,7 +128,7 @@ namespace :mail do
 
         urls.each do |url|
           next if url =~ /unsubscribe/ 
-          next if url.children.text == 'here' # likely these are crappy links (e.g. click <here> or unsubscribe <here>)
+          next if url == 'here' # likely these are crappy links (e.g. click <here> or unsubscribe <here>)
 
           puts 'scraping w/ phantomjs'
           url = url.gsub(/^\s+/, '').strip
