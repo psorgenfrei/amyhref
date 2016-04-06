@@ -16,7 +16,7 @@ namespace :mail do
 
       begin
         @imap.authenticate('XOAUTH2', user.email, user.tokens.last.fresh_token)
-      rescue Net::IMAP::NoResponseError => e
+      rescue Net::IMAP::NoResponseError, NoMethodError => e
         puts "Exception authenticating for #{user.email}"
         puts e.message.inspect
         next
